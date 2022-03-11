@@ -1,12 +1,12 @@
 {
   "topics": [
     {
-      "title": "Data Audit Trail for Academia",
-      "content": "By tokenizing data assets and using smart contracts to manage access control, each transaction, which includes publishing, sale, exchange, and consumption of data services, is logged automatically and immutable on the distributed ledger. This creates a data audit trail for academia which allows research institutions to monitor the use of their assets and gain attribution for their work."
+      "title": "A Permission-less Web of Science",
+      "content": "The emergence of peer-to-peer data storage and standards for decentralised identifiers (DIDs) makes it possible to permanently establish a public records archive in a common web infrastructure accessible to all, regardless of professional/academic status, nationality, language, or age, while respecting the intrinsic self-sovereignty of data providers."
     },
     {
-      "title": "Different Monetization Options",
-      "content": "Moreover, research institutions can decide whether the access to the data assets is granted for free or if the data assets are monetized to cover the costs of generating and storing the data sets, or for researching and developing algorithms."
+      "title": "An Indestructible Archive for Knowledge",
+      "content": "We are building tools to migrate up to 250TB of neuroscience data unto decentralized file storage, and making this open data directly available to over 20,000 neuroscience researchers around the world. We expect exponential growth of research projects over a period of 5 years beginning in Q2 2022 as we tailor cloud service needs to researchers to scale adoption."
     }
   ]
 }

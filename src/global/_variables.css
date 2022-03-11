@@ -6,6 +6,11 @@
   --brand-magenta: #831453;
   --brand-steel-blue: #3d7a98;
 
+  --opsci-brand-coral: #fec6c6;
+  --opsci-brand-cerulean: #5780c3;
+  --opsci-brand-lilac: #ab91c4;
+  --opsci-brand-cobalt: #6d9ccb;
+
   --brand-grey-darker: #201f1f;
   --brand-grey-dark: #303030;
   --brand-grey: #41474e;
@@ -15,10 +20,10 @@
 
   --brand-gradient: linear-gradient(
     to right,
-    #6d1145 0%,
-    #831453 28%,
-    #831453 72%,
-    #6d1145 100%
+    #5780c3 0%,
+    #6d9ccb 28%,
+    #ab91c4 72%,
+    #6d9ccb 100%
   );
 
   --brand-alert-green: #5fb359;
@@ -26,8 +31,8 @@
   --brand-alert-orange: #b35f36;
   --brand-alert-yellow: #eac146;
 
-  --color-primary: #831453;
-  --color-secondary: #3d7a98;
+  --color-primary: #fec6c6;
+  --color-secondary: #6d9ccb;
 
   /* Only use these vars for most color referencing for easy light/dark mode */
   --font-color-text: var(--brand-black);
@@ -39,14 +44,14 @@
   --border-color: var(--brand-grey-lighter);
   --box-shadow-color: rgba(0, 0, 0, 0.05);
 
-  --font-family-base: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Trebuchet MS', sans-serif;
-  --font-family-heading: 'Open Sans', -apple-system, BlinkMacSystemFont,
+  --font-family-base: Source Sans Pro, -apple-system, BlinkMacSystemFont,
     'Segoe UI', 'Trebuchet MS', sans-serif;
-  --font-family-monospace: 'Overpass Mono', 'Fira Mono', Menlo, Monaco, Consolas,
+  --font-family-heading: Source Sans Pro, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Trebuchet MS', sans-serif;
+  --font-family-monospace: Source Sans Pro, 'Fira Mono', Menlo, Monaco, Consolas,
     'Courier New', monospace;
 
-  --font-size-root: 14px;
+  --font-size-root: 16px;
   --font-size-base: 1rem;
   --font-size-large: 1.2rem;
   --font-size-small: 0.85rem;
@@ -59,7 +64,7 @@
   --font-size-h3: 1.5rem;
   --font-size-h4: 1.3rem;
   --font-size-h5: 1.1rem;
-  --font-weight-base: 300;
+  --font-weight-base: 350;
   --font-weight-bold: 500;
   --font-weight-heavy: 800;
   --line-height: 1.4;

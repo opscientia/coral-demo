@@ -1,5 +1,5 @@
 :root {
-  --brand-purple: #570d37;
+  --brand-purple: #5780c3;
   --brand-violet: #1c47e5;
   --brand-magenta: #831453;
   --brand-steel-blue: #3d7a98;
@@ -13,13 +13,18 @@
   --brand-grey-lighter: #ebebeb;
   --brand-grey-dimmed: #f7f7f7;
 
-  --color-primary: #831453;
+  --opsci-brand-coral: #fec6c6;
+  --opsci-brand-cerulean: #5780c3;
+  --opsci-brand-lilac: #ab91c4;
+  --opsci-brand-cobalt: #6d9ccb;
+
+  --color-primary: #ab91c4;
 
   --brand-gradient: linear-gradient(
     to right,
-    #6d1145 0%,
-    #831453 28%,
-    #831453 72%,
-    #6d1145 100%
+    #5780c3 0%,
+    #6d9ccb 22%,
+    #ab91c4 72%,
+    #6d9ccb 100%
   );
 }

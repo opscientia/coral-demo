@@ -16,7 +16,7 @@ export default function Intro({
       <Markdown className={styles.tagline} text={tagline} />
       <Markdown
         className={styles.description}
-        text="*powered by* Ocean Protocol"
+        text="*powered by* Ocean Protocol, datalad, and Estuary"
       />
       <a
         href="https://oceanprotocol.com/"

@@ -2,6 +2,7 @@ import React, { ReactElement, ReactNode } from 'react'
 import { ToastContainer } from 'react-toastify'
 
 import '@fontsource/open-sans/300.css'
+import '@fontsource/open-sans/300.css'
 import '@fontsource/open-sans/500.css'
 import '@fontsource/open-sans/800.css'
 import '@fontsource/overpass-mono'

@@ -35,7 +35,7 @@ const contentQuery = graphql`
         content
       }
     }
-    headerImage: file(relativePath: { eq: "microscope.png" }) {
+    headerImage: file(relativePath: { eq: "opsci-dash.png" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid
@@ -50,7 +50,7 @@ const contentQuery = graphql`
         }
       }
     }
-    footerImage: file(relativePath: { eq: "micin-aei.png" }) {
+    footerImage: file(relativePath: { eq: "filecoin-foundation.png" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid
