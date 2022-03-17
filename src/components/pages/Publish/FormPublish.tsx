@@ -65,7 +65,7 @@ export default function FormPublish(): ReactElement {
     validateField,
     setFieldValue
   }: FormikContextType<MetadataPublishFormDataset> = useFormikContext()
-
+  console.log('FORMIK CONTEXT', useFormikContext())
   const [computeTypeSelected, setComputeTypeSelected] = useState<boolean>(false)
 
   // reset form validation on every mount
@@ -123,12 +123,55 @@ export default function FormPublish(): ReactElement {
     setStatus('empty')
   }
 
+  // handle drag and drop
+  const [draggingNow, setDraggingNow] = useState(false)
+  const [draggingMsg, setDraggingMsg] = useState("Drop It Like It's hot")
+  const dragOverHandler = (e) => {
+    e.preventDefault()
+  }
+  const dragEnterHandler = (e) => {
+    setDraggingNow(true)
+    if (e.dataTransfer.items.length > 1) {
+      setDraggingMsg('Only upload one file')
+    }
+  }
+  const dragLeaveHandler = (e) => {
+    setDraggingNow(false)
+    setDraggingMsg("Drop It Like It's hot")
+  }
+  const dropHandler = (e) => {
+    e.preventDefault()
+    if (e.dataTransfer.items.length > 1) {
+      return
+    } //should only allow one file
+    console.log(e.dataTransfer.items)
+    console.log(e.dataTransfer.items[0])
+  }
   return (
     <Form
       className={styles.form}
       // do we need this?
       onChange={() => status === 'empty' && setStatus(null)}
     >
+      <div
+        id="dragdrop-zone"
+        style={{ height: 128, width: 256, border: '1px dashed silver' }}
+        onDragEnter={dragEnterHandler}
+        onDragLeave={dragLeaveHandler}
+        onDragOver={dragOverHandler}
+        onDrop={dropHandler}
+      >
+        <p>{draggingNow ? draggingMsg : 'Drag your dataset on over'}</p>
+      </div>
+      <button
+        type="button"
+        onClick={() => {
+          setFieldValue('files', 'abalcjkablk')
+          console.log('asdfasdfas')
+        }}
+      >
+        alkjfdn
+      </button>
       <FormTitle title={content.title} />
 
       {content.data.map(
