@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useField } from 'formik'
 import { toast } from 'react-toastify'
 import FileInfo from './Info'
+import DragAndDrop from './DragAndDrop'
 import CustomInput from '../URLInput/Input'
 import { InputProps } from '../../../atoms/Input'
 import { fileinfo } from '../../../../utils/provider'
@@ -14,8 +15,15 @@ export default function FilesInput(props: InputProps): ReactElement {
   const [field, meta, helpers] = useField(props.name)
   const [isLoading, setIsLoading] = useState(false)
   const [fileUrl, setFileUrl] = useState<string>()
+  const [file, setFile] = useState(null)
   const { chainId } = useWeb3()
   const newCancelToken = useCancelToken()
+
+  const estuaryEndpoints = [
+    'https://shuttle-4.estuary.tech/content/add',
+    'https://shuttle-4.estuary.tech/content/add',
+    'https://api.estuary.tech/content/add'
+  ]
 
   function loadFileInfo() {
     const config = getOceanConfig(chainId || 1)
@@ -44,20 +52,45 @@ export default function FilesInput(props: InputProps): ReactElement {
     loadFileInfo()
   }, [fileUrl])
 
+  function onFileDrop(file: File) {
+    setFile(file)
+    // TODO: get CID (to populate text field).
+    // Code to generate CID: https://github.com/multiformats/js-multiformats#multihash-hashers
+    helpers.setValue('0x0...')
+  }
+
   async function handleButtonClick(e: React.SyntheticEvent, url: string) {
-    // hack so the onBlur-triggered validation does not show,
-    // like when this field is required
-    helpers.setTouched(false)
+    if (file) {
+      // Upload to Estuary
+      const formData = new FormData()
+      formData.append('data', file)
+      fetch('https://shuttle-4.estuary.tech/content/add', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + process.env.REACT_APP_ESTUARY_KEY
+        },
+        body: formData
+      })
+        .then((response) => response.json())
+        .then((jsonResponse) => {
+          console.log(jsonResponse.toString())
+        })
+        .catch((error) => console.log('Error:', error))
+    } else {
+      // hack so the onBlur-triggered validation does not show,
+      // like when this field is required
+      helpers.setTouched(false)
 
-    // File example 'https://oceanprotocol.com/tech-whitepaper.pdf'
-    e.preventDefault()
+      // File example 'https://oceanprotocol.com/tech-whitepaper.pdf'
+      e.preventDefault()
 
-    // In the case when the user re-add the same URL after it was removed (by accident or intentionally)
-    if (fileUrl === url) {
-      loadFileInfo()
+      // In the case when the user re-add the same URL after it was removed (by accident or intentionally)
+      if (fileUrl === url) {
+        loadFileInfo()
+      }
+
+      setFileUrl(url)
     }
-
-    setFileUrl(url)
   }
 
   return (
@@ -65,13 +98,16 @@ export default function FilesInput(props: InputProps): ReactElement {
       {field?.value && field.value[0] && typeof field.value === 'object' ? (
         <FileInfo name={props.name} file={field.value[0]} />
       ) : (
-        <CustomInput
-          submitText="Add File"
-          {...props}
-          {...field}
-          isLoading={isLoading}
-          handleButtonClick={handleButtonClick}
-        />
+        <div>
+          <CustomInput
+            submitText="Add File"
+            {...props}
+            {...field}
+            isLoading={isLoading}
+            handleButtonClick={handleButtonClick}
+          />
+          <DragAndDrop onFileDrop={onFileDrop} />
+        </div>
       )}
     </>
   )
