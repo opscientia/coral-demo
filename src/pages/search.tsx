@@ -1,19 +1,19 @@
 import React, { ReactElement, useState } from 'react'
-import PageSearch from '../components/templates/Search'
-import { PageProps } from 'gatsby'
-import Page from '../components/templates/Page'
-import queryString from 'query-string'
-import { accountTruncate } from '../utils/web3'
-import ethereumAddress from 'ethereum-address'
-import { MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS } from '../utils/aquarius'
+import Search from '../components/Search'
+import Page from '@shared/Page'
+import { accountTruncate } from '@utils/web3'
+import { MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS } from '@utils/aquarius'
+import { useRouter } from 'next/router'
+import web3 from 'web3'
 
-export default function PageGatsbySearch(props: PageProps): ReactElement {
-  const parsed = queryString.parse(props.location.search)
+export default function PageSearch(): ReactElement {
+  const router = useRouter()
+  const parsed = router.query
   const { text, owner, tags, categories } = parsed
   const [totalResults, setTotalResults] = useState<number>()
   const [totalPagesNumber, setTotalPagesNumber] = useState<number>()
 
-  const isETHAddress = ethereumAddress.isAddress(text as string)
+  const isETHAddress = web3.utils.isAddress(text as string)
   const searchValue =
     (isETHAddress ? accountTruncate(text as string) : text) ||
     tags ||
@@ -48,10 +48,9 @@ export default function PageGatsbySearch(props: PageProps): ReactElement {
           ? '**Results displayed are limited to the first 10k, please refine your search.**'
           : undefined
       }
-      uri={props.uri}
+      uri={router.route}
     >
-      <PageSearch
-        location={props.location}
+      <Search
         setTotalResults={setTotalResults}
         setTotalPagesNumber={setTotalPagesNumber}
       />

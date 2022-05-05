@@ -1,0 +1,92 @@
+.button {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  text-transform: uppercase;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: calc(var(--spacer) / 6) calc(var(--spacer) / 3);
+  white-space: nowrap;
+  background: var(--background-content);
+  margin: 0;
+  transition: border 0.2s ease-out;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.button,
+.address {
+  color: var(--font-color-text);
+}
+
+.button:hover,
+.button:focus {
+  transform: none;
+  outline: 0;
+}
+
+.button.initial {
+  color: var(--color-primary);
+}
+
+.button.initial span {
+  display: none;
+}
+
+@media screen and (min-width: 42rem) {
+  .button.initial span {
+    display: inline;
+  }
+}
+
+.address {
+  display: none;
+  text-transform: none;
+  border-right: 1px solid var(--border-color);
+  padding-right: calc(var(--spacer) / 3);
+  padding-left: calc(var(--spacer) / 8);
+}
+
+@media screen and (min-width: 60rem) {
+  .address {
+    display: inline-block;
+  }
+
+  .blockies {
+    margin-right: calc(var(--spacer) / 6);
+  }
+}
+
+.button svg {
+  width: 1em;
+  height: 1em;
+  fill: var(--border-color);
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: calc(var(--spacer) / 3);
+  transition: transform 0.2s ease-out;
+}
+
+[aria-expanded='true'] .button svg {
+  transform: rotate(180deg);
+}
+
+.status {
+  margin-left: calc(var(--spacer) / 4);
+  position: relative;
+  top: 1px;
+}
+
+.caret,
+svg.caret {
+  display: none;
+}
+
+@media screen and (min-width: 42rem) {
+  .caret,
+  svg.caret {
+    display: inline-block;
+  }
+}

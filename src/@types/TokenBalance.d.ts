@@ -1,9 +1,9 @@
-export interface PoolBalance {
-  ocean: string
+interface PoolBalance {
+  baseToken: string
   datatoken: string
 }
 
-export interface UserBalance {
+interface UserBalance {
   eth: string
   ocean: string
 }

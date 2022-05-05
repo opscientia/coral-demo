@@ -1,10 +1,8 @@
-import { AssetSelectionAsset } from '../../molecules/FormFields/AssetSelection'
-
-export interface FormFieldProps {
+interface FormFieldContent {
   label: string
   name: string
   type?: string
-  options?: string[] | AssetSelectionAsset[]
+  options?: string[]
   sortOptions?: boolean
   required?: boolean
   multiple?: boolean
@@ -16,13 +14,10 @@ export interface FormFieldProps {
   disclaimer?: string
   disclaimerValues?: string[]
   advanced?: boolean
-  disclaimer?: string
-  disclaimerValues?: string[]
 }
 
-export interface FormContent {
+interface FormStepContent {
   title: string
   description?: string
-  success: string
-  data: FormFieldProps[]
+  fields: FormFieldContent[]
 }

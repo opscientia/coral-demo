@@ -1,14 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import Page from '../../components/templates/Page'
-import { graphql, PageProps, navigate } from 'gatsby'
-import ProfilePage from '../../components/pages/Profile'
-import { accountTruncate } from '../../utils/web3'
-import { useWeb3 } from '../../providers/Web3'
-import ProfileProvider from '../../providers/Profile'
-import { getEnsAddress, getEnsName } from '../../utils/ens'
-import ethereumAddress from 'ethereum-address'
+import Page from '@shared/Page'
+import ProfilePage from '../../components/Profile'
+import { accountTruncate } from '@utils/web3'
+import { useWeb3 } from '@context/Web3'
+import ProfileProvider from '@context/Profile'
+import { getEnsAddress, getEnsName } from '@utils/ens'
+import { useRouter } from 'next/router'
+import web3 from 'web3'
 
-export default function PageGatsbyProfile(props: PageProps): ReactElement {
+export default function PageProfile(): ReactElement {
+  const router = useRouter()
   const { accountId, accountEns } = useWeb3()
   const [finalAccountId, setFinalAccountId] = useState<string>()
   const [finalAccountEns, setFinalAccountEns] = useState<string>()
@@ -16,19 +17,19 @@ export default function PageGatsbyProfile(props: PageProps): ReactElement {
   // Have accountId in path take over, if not present fall back to web3
   useEffect(() => {
     async function init() {
-      if (!props?.location?.pathname) return
+      if (!router?.asPath) return
 
       // Path is root /profile, have web3 take over
-      if (props.location.pathname === '/profile') {
+      if (router.asPath === '/profile') {
         setFinalAccountEns(accountEns)
         setFinalAccountId(accountId)
         return
       }
 
-      const pathAccount = props.location.pathname.split('/')[2]
+      const pathAccount = router.query.account as string
 
       // Path has ETH addreess
-      if (ethereumAddress.isAddress(pathAccount)) {
+      if (web3.utils.isAddress(pathAccount)) {
         const finalAccountId = pathAccount || accountId
         setFinalAccountId(finalAccountId)
 
@@ -43,38 +44,26 @@ export default function PageGatsbyProfile(props: PageProps): ReactElement {
       }
     }
     init()
-  }, [props.location.pathname, accountId, accountEns])
+  }, [router, accountId, accountEns])
 
   // Replace pathname with ENS name if present
   useEffect(() => {
-    if (!finalAccountEns || props.location.pathname === '/profile') return
+    if (!finalAccountEns || router.asPath === '/profile') return
 
     const newProfilePath = `/profile/${finalAccountEns}`
     // make sure we only replace path once
-    if (newProfilePath !== props.location.pathname)
-      navigate(newProfilePath, { replace: true })
-  }, [props.location, finalAccountEns, accountId])
+    if (newProfilePath !== router.asPath) router.replace(newProfilePath)
+  }, [router, finalAccountEns, accountId])
 
   return (
-    <Page uri={props.uri} title={accountTruncate(finalAccountId)} noPageHeader>
+    <Page
+      uri={router.route}
+      title={accountTruncate(finalAccountId)}
+      noPageHeader
+    >
       <ProfileProvider accountId={finalAccountId} accountEns={finalAccountEns}>
         <ProfilePage accountId={finalAccountId} />
       </ProfileProvider>
     </Page>
   )
 }
-
-export const contentQuery = graphql`
-  query ProfilePageQuery {
-    content: allFile(filter: { relativePath: { eq: "pages/profile.json" } }) {
-      edges {
-        node {
-          childPagesJson {
-            title
-            description
-          }
-        }
-      }
-    }
-  }
-`

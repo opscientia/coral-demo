@@ -1,30 +1,46 @@
-const { getDefaultChainIds, getSupportedChainIds } = require('./chains.config')
-
 module.exports = {
   // URI of single metadata cache instance for all networks.
   // While ocean.js includes this value for each network as part of its ConfigHelper,
   // it is assumed to be the same for all networks.
-  // In components can be accessed with the useSiteMetadata hook:
-  // const { appConfig } = useSiteMetadata()
+  // In components can be accessed with the useMarketMetadata hook:
+  // const { appConfig } = useMarketMetadata()
   // return appConfig.metadataCacheUri
   metadataCacheUri:
-    process.env.METADATACACHE_URI || 'https://aquarius.delta-dao.com',
+    process.env.NEXT_PUBLIC_METADATACACHE_URI ||
+    'https://v4.aquarius.oceanprotocol.com',
 
   // List of chainIds which metadata cache queries will return by default.
   // This preselects the Chains user preferences.
-  chainIds: getDefaultChainIds(),
+  chainIds: [3, 4, 80001, 1287],
 
   // List of all supported chainIds. Used to populate the Chains user preferences list.
-  chainIdsSupported: getSupportedChainIds(),
+  chainIdsSupported: [3, 4, 80001, 1287],
 
-  rbacUrl: process.env.GATSBY_RBAC_URL,
-
-  infuraProjectId: process.env.GATSBY_INFURA_PROJECT_ID || 'xxx',
+  infuraProjectId: process.env.NEXT_PUBLIC_INFURA_PROJECT_ID || 'xxx',
 
   // The ETH address the marketplace fee will be sent to.
   marketFeeAddress:
-    process.env.GATSBY_MARKET_FEE_ADDRESS ||
+    process.env.NEXT_PUBLIC_MARKET_FEE_ADDRESS ||
     '0x9984b2453eC7D99a73A5B3a46Da81f197B753C8d',
+  // publisher market fee that is taken upon ordering an asset, it is an absolute value, it is declared on erc20 creation
+  publisherMarketOrderFee:
+    process.env.NEXT_PUBLIC_PUBLISHER_MARKET_ORDER_FEE || '0',
+  // fee recieved by the publisher market when a dt is swaped from a pool, percent
+  publisherMarketPoolSwapFee:
+    process.env.NEXT_PUBLIC_PUBLISHER_MARKET_POOL_SWAP_FEE || '0',
+  // fee recieved by the publisher market when a dt is bought from a fixed rate exchange, percent
+  publisherMarketFixedSwapFee:
+    process.env.NEXT_PUBLIC_PUBLISHER_MARKET_FIXED_SWAP_FEE || '0',
+
+  // consume market fee that is taken upon ordering an asset, it is an absolute value, it is specified on order
+  consumeMarketOrderFee:
+    process.env.NEXT_PUBLIC_CONSUME_MARKET_ORDER_FEE || '0',
+  // fee recieved by the consume market when a dt is swaped from a pool, percent
+  consumeMarketPoolSwapFee:
+    process.env.NEXT_PUBLIC_CONSUME_MARKET_POOL_SWAP_FEE || '0',
+  // fee recieved by the consume market when a dt is bought from a fixed rate exchange, percent
+  consumeMarketFixedSwapFee:
+    process.env.NEXT_PUBLIC_CONSUME_MARKET_FIXED_SWAP_FEE || '0',
 
   // Used for conversion display, can be whatever coingecko API supports
   // see: https://api.coingecko.com/api/v3/simple/supported_vs_currencies
@@ -52,19 +68,13 @@ module.exports = {
   },
 
   // Wallets
-  portisId: process.env.GATSBY_PORTIS_ID || 'xxx',
+  portisId: process.env.NEXT_PUBLIC_PORTIS_ID || 'xxx',
 
   // Used to show or hide the fixed, dynamic or free price options
   // tab to publishers during the price creation.
-  allowFixedPricing: process.env.GATSBY_ALLOW_FIXED_PRICING || 'true',
-  allowDynamicPricing: process.env.GATSBY_ALLOW_DYNAMIC_PRICING || 'false',
-  allowFreePricing: process.env.GATSBY_ALLOW_FREE_PRICING || 'false',
-
-  // Used to show or hide advanced settings button in asset details page
-  allowAdvancedSettings: process.env.GATSBY_ALLOW_ADVANCED_SETTINGS || 'false',
-  allowAdvancedPublishSettings:
-    process.env.GATSBY_ALLOW_ADVANCED_PUBLISH_SETTINGS || 'false',
-  credentialType: process.env.GATSBY_CREDENTIAL_TYPE || 'address',
+  allowFixedPricing: process.env.NEXT_PUBLIC_ALLOW_FIXED_PRICING || 'true',
+  allowDynamicPricing: process.env.NEXT_PUBLIC_ALLOW_DYNAMIC_PRICING || 'true',
+  allowFreePricing: process.env.NEXT_PUBLIC_ALLOW_FREE_PRICING || 'true',
 
   // Set the default privacy policy to initially display
   // this should be the slug of your default policy markdown file
@@ -76,7 +86,5 @@ module.exports = {
   // is used to create and show a privacy preference center / cookie banner
   // To learn more about how to configure and use this, please refer to the readme
   privacyPreferenceCenter:
-    process.env.GATSBY_PRIVACY_PREFERENCE_CENTER || 'true',
-
-  portalDDOTag: process.env.GATSBY_PORTAL_DDO_TAG || 'udlscienceportal'
+    process.env.NEXT_PUBLIC_PRIVACY_PREFERENCE_CENTER || 'false'
 }
