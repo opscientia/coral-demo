@@ -3,6 +3,7 @@ import slugify from 'slugify'
 import styles from './InputElement.module.css'
 import { InputProps } from '.'
 import FilesInput from '../FormFields/FilesInput'
+import FilesDragAndDrop from '../FormFields/FilesDragAndDrop'
 import CustomProvider from '../FormFields/Provider'
 import BoxSelection, { BoxSelectionOption } from '../FormFields/BoxSelection'
 import Datatoken from '../FormFields/Datatoken'
@@ -130,6 +131,8 @@ export default function InputElement({
       )
     case 'files':
       return <FilesInput name={name} {...field} {...props} />
+    case 'filesDragAndDrop':
+      return <FilesDragAndDrop name={name} {...field} {...props} />
     case 'providerUrl':
       return <CustomProvider name={name} {...field} {...props} />
     case 'nft':
