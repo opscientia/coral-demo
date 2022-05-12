@@ -14,18 +14,9 @@ import Dashboard from './Dashboard'
 
 const formName = 'data-locker-form'
 
-// const query = graphql`
-//   query {
-//     data-locker-pins {
-//       count
-//       results
-//     }
-//   }
-// `
-
 export default function LockerPage(): ReactElement {
   const { debug } = useUserPreferences()
-  const { accountId } = useWeb3()
+  const { web3, accountId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   const [success, setSuccess] = useState<string>()
   const [error, setError] = useState<string>()
@@ -40,19 +31,17 @@ export default function LockerPage(): ReactElement {
       {}
   )
 
-  async function uploadFile(_file: File) {
+  async function uploadFile(_file: File, signature: string, address: string) {
     const formData = new FormData()
     formData.append('data', _file)
-    formData.append('address', accountId)
+    formData.append('address', address)
+    formData.append('signature', signature)
     let success = false
     try {
       const resp = await fetch(
         `${process.env.NEXT_PUBLIC_RBAC_API_URL}/uploadToEstuary`,
         {
           method: 'POST',
-          headers: {
-            Authorization: `Basic ${process.env.NEXT_PUBLIC_RBAC_AUTH_TOKEN}`
-          },
           body: formData
         }
       )
@@ -70,8 +59,13 @@ export default function LockerPage(): ReactElement {
     resetForm: (nextState?: Partial<FormikState<Partial<LockerForm>>>) => void
   ): Promise<void> {
     try {
+      // Sign file
+      const fileAsString = await values.file.text()
+      const fileHash = web3.utils.sha3(fileAsString)
+      const signature = await web3.eth.sign(fileHash, accountId)
+
       console.log('Uploading file...')
-      const success = await uploadFile(values.file)
+      const success = await uploadFile(values.file, signature, accountId)
       console.log(`File uploaded successfully: ${success}`)
 
       resetForm({
