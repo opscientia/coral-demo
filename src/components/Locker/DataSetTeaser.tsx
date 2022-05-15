@@ -1,6 +1,7 @@
 import React from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import removeMarkdown from 'remove-markdown'
+import Button from '@shared/atoms/Button'
 import styles from '@shared/AssetTeaser/AssetTeaser.module.css'
 
 // Metadata we need: hash, deal ID, filename, [maybe?: provider]
@@ -11,6 +12,7 @@ declare type DataSetTeaserProps = {
   cid: string
   requestId: number
   discipline: string
+  onClickDelete: () => Promise<void>
 }
 
 const DataSetTeaser: React.FC<DataSetTeaserProps> = ({
@@ -18,7 +20,8 @@ const DataSetTeaser: React.FC<DataSetTeaserProps> = ({
   description,
   cid,
   requestId,
-  discipline
+  discipline,
+  onClickDelete
 }: DataSetTeaserProps) => {
   // const { attributes } = ddo.findServiceByType('metadata')
   // const { name, type } = attributes.main
@@ -55,10 +58,16 @@ const DataSetTeaser: React.FC<DataSetTeaserProps> = ({
 
         <footer className={styles.foot}>
           <p>requestId: {requestId}</p>
-          {/* <Price price={price} small />
-        <NetworkName networkId={ddo.chainId} className={styles.network} /> */}
+          <Button
+            name={requestId.toString()}
+            type="submit"
+            onClick={onClickDelete}
+            className={styles.network}
+            style="ghost"
+          >
+            Delete
+          </Button>
         </footer>
-        {/* </Link> */}
       </div>
     </article>
   )

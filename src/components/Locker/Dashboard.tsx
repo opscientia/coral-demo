@@ -44,7 +44,7 @@ export default function Dashboard(): ReactElement {
   }
 
   async function handleClick(event) {
-    const deleteFile = async () => {
+    const deleteFile = async (onClose: () => void) => {
       // Sign url
       const strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${event.target.name}`
       const hashedStr = web3Context.web3.utils.sha3(strToSign)
@@ -63,15 +63,19 @@ export default function Dashboard(): ReactElement {
         .then((resp) => resp.json())
         .then((data) => {
           deletePin(event.target.name)
+          onClose()
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err)
+          onClose()
+        })
     }
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <div>
             <p>Delete this file?</p>
-            <Button style="primary" onClick={deleteFile}>
+            <Button style="primary" onClick={() => deleteFile(onClose)}>
               Yes
             </Button>
             <Button style="ghost" onClick={onClose}>
@@ -95,14 +99,15 @@ export default function Dashboard(): ReactElement {
                 cid={file.cid}
                 requestId={file.requestid}
                 discipline=""
+                onClickDelete={handleClick}
               />
-              <button
+              {/* <button
                 name={file.requestid.toString()}
                 type="submit"
                 onClick={handleClick}
               >
                 Delete
-              </button>
+              </button> */}
             </li>
           ))
         ) : (
