@@ -1,6 +1,9 @@
 import React, { ReactElement, useState, useEffect } from 'react'
+import Button from '@shared/atoms/Button'
 import DataSetTeaser from './DataSetTeaser'
 import { useWeb3 } from '@context/Web3'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 interface FileMetadata {
   address: string
@@ -41,8 +44,7 @@ export default function Dashboard(): ReactElement {
   }
 
   async function handleClick(event) {
-    const confirmation = prompt(`Do you want to delete ${event.target.name}?`)
-    if (confirmation.toLowerCase() === 'yes') {
+    const deleteFile = async () => {
       // Sign url
       const strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${event.target.name}`
       const hashedStr = web3Context.web3.utils.sha3(strToSign)
@@ -64,6 +66,21 @@ export default function Dashboard(): ReactElement {
         })
         .catch((err) => console.log(err))
     }
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div>
+            <p>Delete this file?</p>
+            <Button style="primary" onClick={deleteFile}>
+              Yes
+            </Button>
+            <Button style="ghost" onClick={onClose}>
+              No
+            </Button>
+          </div>
+        )
+      }
+    })
   }
 
   return (
