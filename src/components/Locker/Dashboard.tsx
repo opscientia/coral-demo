@@ -43,19 +43,24 @@ export default function Dashboard(): ReactElement {
     setFilesMetadata(newFilesMetadata)
   }
 
-  function handleClick(event) {
+  async function handleClick(event) {
     const confirmation = prompt(`Do you want to delete ${event.target.name}?`)
     if (confirmation.toLowerCase() === 'yes') {
-      fetch(
-        process.env.NEXT_PUBLIC_RBAC_API_URL +
-          `/fileMetadata?address=${web3Context.accountId}&requestid=${event.target.name}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: 'Basic ' + process.env.NEXT_PUBLIC_RBAC_AUTH_TOKEN
-          }
-        }
+      // Sign url
+      const strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${event.target.name}`
+      const hashedStr = web3Context.web3.utils.sha3(strToSign)
+      const signature = await web3Context.web3.eth.sign(
+        hashedStr,
+        web3Context.accountId
       )
+      const urlWithSig =
+        process.env.NEXT_PUBLIC_RBAC_API_URL +
+        strToSign +
+        `&signature=${signature}`
+
+      fetch(urlWithSig, {
+        method: 'DELETE'
+      })
         .then((resp) => resp.json())
         .then((data) => {
           deletePin(event.target.name)
