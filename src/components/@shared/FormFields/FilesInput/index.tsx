@@ -29,10 +29,7 @@ export default function FilesInput(props: InputProps): ReactElement {
       process.env.NEXT_PUBLIC_RBAC_API_URL +
         `/fileMetadata?address=${web3Context.accountId}`,
       {
-        method: 'GET',
-        headers: {
-          Authorization: 'Basic ' + process.env.NEXT_PUBLIC_RBAC_AUTH_TOKEN
-        }
+        method: 'GET'
       }
     )
       .then((resp) => resp.json())
