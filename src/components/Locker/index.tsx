@@ -18,6 +18,7 @@ export default function LockerPage(): ReactElement {
   const { debug } = useUserPreferences()
   const { web3, accountId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
+  const [newFileUploaded, setNewFileUploaded] = useState(false)
   const [success, setSuccess] = useState<string>()
   const [error, setError] = useState<string>()
   const [title, setTitle] = useState<string>()
@@ -68,6 +69,8 @@ export default function LockerPage(): ReactElement {
       const success = await uploadFile(values.file, signature, accountId)
       console.log(`File uploaded successfully: ${success}`)
 
+      setNewFileUploaded(!newFileUploaded)
+
       resetForm({
         values: { file: null } as LockerForm,
         status: 'empty'
@@ -100,7 +103,7 @@ export default function LockerPage(): ReactElement {
           )
         }}
       </Formik>
-      <Dashboard />
+      <Dashboard newFileUploaded={newFileUploaded} />
     </>
   )
 }

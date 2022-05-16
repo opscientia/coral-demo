@@ -2,8 +2,12 @@ import React, { ReactElement, useState, useEffect } from 'react'
 import Button from '@shared/atoms/Button'
 import DataSetTeaser from './DataSetTeaser'
 import { useWeb3 } from '@context/Web3'
+import classNames from 'classnames/bind'
+import styles from './Dashboard.module.css'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+
+const cx = classNames.bind(styles)
 
 interface FileMetadata {
   address: string
@@ -12,11 +16,11 @@ interface FileMetadata {
   requestid: number
 }
 
-export default function Dashboard(): ReactElement {
+export default function Dashboard({ newFileUploaded }): ReactElement {
   // const data = useStaticQuery(query)
   const web3Context = useWeb3()
   const [filesMetadata, setFilesMetadata] = useState<FileMetadata[]>()
-  const [reloadFiles, setReloadFiles] = useState(false)
+  const [reloadFiles, setReloadFiles] = useState(false) // Files are refetched every time this changes
 
   function getAndSetFiles() {
     fetch(
@@ -34,7 +38,7 @@ export default function Dashboard(): ReactElement {
 
   useEffect(() => {
     getAndSetFiles()
-  }, [web3Context, reloadFiles])
+  }, [web3Context, reloadFiles, newFileUploaded])
 
   function deletePin(requestId: number) {
     const filesMetadataTemp = filesMetadata.slice()
@@ -75,6 +79,8 @@ export default function Dashboard(): ReactElement {
       onFinish()
     }
     confirmAlert({
+      closeOnEscape: false,
+      closeOnClickOutside: false,
       customUI: ({ onClose }) => {
         return (
           <div>
@@ -97,28 +103,29 @@ export default function Dashboard(): ReactElement {
     })
   }
 
+  const styleClasses = cx({
+    fileList: true
+  })
+
   return (
-    <>
-      <ul>
-        {filesMetadata && filesMetadata.length > 0 ? (
-          filesMetadata.map((file) => (
-            <li key={file.requestid} style={{ marginBottom: '10px' }}>
-              <DataSetTeaser
-                filename={file.filename}
-                description=""
-                cid={file.cid}
-                requestId={file.requestid}
-                discipline=""
-                onClickDelete={handleClick}
-              />
-            </li>
-          ))
-        ) : (
-          <div>
-            <p>Uploaded data sets appear here</p>
-          </div>
-        )}
-      </ul>
-    </>
+    <div className={styleClasses}>
+      {filesMetadata && filesMetadata.length > 0 ? (
+        filesMetadata.map((file) => (
+          <DataSetTeaser
+            key={file.requestid}
+            filename={file.filename}
+            description=""
+            cid={file.cid}
+            requestId={file.requestid}
+            discipline=""
+            onClickDelete={handleClick}
+          />
+        ))
+      ) : (
+        <div>
+          <p>Uploaded data sets appear here</p>
+        </div>
+      )}
+    </div>
   )
 }

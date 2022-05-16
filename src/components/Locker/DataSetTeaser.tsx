@@ -24,12 +24,6 @@ const DataSetTeaser: React.FC<DataSetTeaserProps> = ({
   discipline,
   onClickDelete
 }: DataSetTeaserProps) => {
-  // const { attributes } = ddo.findServiceByType('metadata')
-  // const { name, type } = attributes.main
-  // const { dataTokenInfo } = ddo
-  // const isCompute = Boolean(ddo?.findServiceByType('compute'))
-  // const accessType = isCompute ? 'compute' : 'access'
-  // const { owner } = ddo.publicKey[0]
   const [isDeleting, setIsDeleting] = useState(false)
 
   return (
@@ -43,16 +37,7 @@ const DataSetTeaser: React.FC<DataSetTeaserProps> = ({
             <Dotdotdot clamp={3}>
               <h1 className={styles.title}>{filename}</h1>
             </Dotdotdot>
-            {/* {!noPublisher && (
-          <Publisher account={owner} minimal className={styles.publisher} />
-        )} */}
           </header>
-
-          {/* <AssetType
-        type={type}
-        accessType={accessType}
-        className={styles.typeDetails}
-      /> */}
 
           <div className={styles.content}>
             <Dotdotdot tagName="p" clamp={3}>
@@ -61,7 +46,7 @@ const DataSetTeaser: React.FC<DataSetTeaserProps> = ({
           </div>
 
           <footer className={styles.foot}>
-            <p>requestId: {requestId}</p>
+            {/* <p>requestId: {requestId}</p> */}
             <Button
               name={requestId.toString()}
               type="submit"
