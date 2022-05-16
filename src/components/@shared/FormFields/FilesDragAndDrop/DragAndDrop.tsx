@@ -41,13 +41,14 @@ export default function DragAndDrop(props) {
   const files = acceptedFiles.map((file) => <p key={file.path}>{file.path}</p>)
 
   return (
-    <div style={myComponentStyle}>
+    <div>
       <section className="container">
-        <div {...getRootProps({ className: 'dropzone' })}>
+        <div
+          style={myComponentStyle}
+          {...getRootProps({ className: 'dropzone' })}
+        >
           <input {...getInputProps()} />
           {status === 'empty' ? <p>Drop file here</p> : files}
-          {/* {files.length === 0 && <p>Drop file here</p>}
-          {files.length > 0 && files} */}
         </div>
       </section>
     </div>
