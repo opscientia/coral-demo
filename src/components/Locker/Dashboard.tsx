@@ -16,6 +16,7 @@ export default function Dashboard(): ReactElement {
   // const data = useStaticQuery(query)
   const web3Context = useWeb3()
   const [filesMetadata, setFilesMetadata] = useState<FileMetadata[]>()
+  const [reloadFiles, setReloadFiles] = useState(false)
 
   function getAndSetFiles() {
     fetch(
@@ -33,7 +34,7 @@ export default function Dashboard(): ReactElement {
 
   useEffect(() => {
     getAndSetFiles()
-  }, [web3Context])
+  }, [web3Context, reloadFiles])
 
   function deletePin(requestId: number) {
     const filesMetadataTemp = filesMetadata.slice()
@@ -43,7 +44,8 @@ export default function Dashboard(): ReactElement {
     setFilesMetadata(newFilesMetadata)
   }
 
-  async function handleClick(event) {
+  // onFinish == callback that can be used to set variables in child buttons
+  async function handleClick(event, onFinish: () => void) {
     const deleteFile = async (onClose: () => void) => {
       // Sign url
       const strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${event.target.name}`
@@ -57,18 +59,20 @@ export default function Dashboard(): ReactElement {
         strToSign +
         `&signature=${signature}`
 
-      fetch(urlWithSig, {
-        method: 'DELETE'
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          deletePin(event.target.name)
-          onClose()
+      onClose()
+
+      try {
+        const resp = await fetch(urlWithSig, {
+          method: 'DELETE'
         })
-        .catch((err) => {
-          console.log(err)
-          onClose()
-        })
+        const data = await resp.json()
+        deletePin(event.target.name)
+        setReloadFiles(!reloadFiles)
+      } catch (err) {
+        console.log(err)
+        setReloadFiles(!reloadFiles)
+      }
+      onFinish()
     }
     confirmAlert({
       customUI: ({ onClose }) => {
@@ -78,7 +82,13 @@ export default function Dashboard(): ReactElement {
             <Button style="primary" onClick={() => deleteFile(onClose)}>
               Yes
             </Button>
-            <Button style="ghost" onClick={onClose}>
+            <Button
+              style="ghost"
+              onClick={() => {
+                onClose()
+                onFinish()
+              }}
+            >
               No
             </Button>
           </div>
@@ -101,13 +111,6 @@ export default function Dashboard(): ReactElement {
                 discipline=""
                 onClickDelete={handleClick}
               />
-              {/* <button
-                name={file.requestid.toString()}
-                type="submit"
-                onClick={handleClick}
-              >
-                Delete
-              </button> */}
             </li>
           ))
         ) : (
