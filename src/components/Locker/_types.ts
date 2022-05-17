@@ -1,6 +1,6 @@
 export interface LockerForm {
   // ---- required fields ----
-  file: File
+  files: File[]
   // ---- optional fields ----
   // tags?: string
 }

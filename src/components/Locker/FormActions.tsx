@@ -7,6 +7,8 @@ import { LockerForm } from './_types'
 
 export default function Actions(): ReactElement {
   const {
+    status,
+    setStatus,
     values,
     errors,
     isValid,
@@ -14,14 +16,27 @@ export default function Actions(): ReactElement {
     setFieldValue
   }: FormikContextType<LockerForm> = useFormikContext()
 
+  // const [field, meta, helpers] = useField(props.name)
+
+  function handleClear(event) {
+    event.preventDefault()
+    setFieldValue('files', null)
+    setStatus('empty')
+  }
+
   return (
     <footer className={styles.actions}>
       {isSubmitting ? (
         <Loader message="Uploading" />
       ) : (
-        <Button type="submit" style="primary">
-          Upload
-        </Button>
+        <>
+          <Button type="submit" style="primary">
+            Upload
+          </Button>
+          <Button onClick={handleClear} style="ghost">
+            Clear
+          </Button>
+        </>
       )}
     </footer>
   )

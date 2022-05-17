@@ -6,6 +6,6 @@ import { LockerForm } from './_types'
 export const validationSchema: Yup.SchemaOf<LockerForm> = Yup.object()
   .shape({
     // ---- required fields ----
-    file: Yup.mixed<File>().required('Required')
+    files: Yup.mixed<File[]>().required('Required')
   })
   .defined()

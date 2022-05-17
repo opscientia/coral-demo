@@ -11,9 +11,9 @@ const content = {
   title: 'Add a Data Set to Your Data Locker',
   data: [
     {
-      name: 'file',
-      label: 'File',
-      help: 'Drop a file here to upload to your data locker.',
+      name: 'files',
+      label: 'File(s)',
+      help: 'Drop file(s) here to upload to your data locker.',
       type: 'filesDragAndDrop',
       required: true
     }

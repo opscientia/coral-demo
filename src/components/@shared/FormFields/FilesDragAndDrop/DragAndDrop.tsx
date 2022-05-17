@@ -27,7 +27,7 @@ export default function DragAndDrop(props) {
 
   const onDrop = useCallback(
     (acceptedFiles) => {
-      props.onFileDrop(acceptedFiles[0])
+      props.onFileDrop(acceptedFiles)
       setStatus(null)
     },
     [props]
@@ -35,7 +35,7 @@ export default function DragAndDrop(props) {
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     noClick: true,
-    maxFiles: 1,
+    // maxFiles: 1,
     onDrop: onDrop
   })
   const files = acceptedFiles.map((file) => <p key={file.path}>{file.path}</p>)
@@ -48,7 +48,7 @@ export default function DragAndDrop(props) {
           {...getRootProps({ className: 'dropzone' })}
         >
           <input {...getInputProps()} />
-          {status === 'empty' ? <p>Drop file here</p> : files}
+          {status === 'empty' ? <p>Drop file(s) here</p> : files}
         </div>
       </section>
     </div>

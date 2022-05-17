@@ -60,19 +60,23 @@ export default function LockerPage(): ReactElement {
     resetForm: (nextState?: Partial<FormikState<Partial<LockerForm>>>) => void
   ): Promise<void> {
     try {
-      // Sign file
-      const fileAsString = await values.file.text()
-      const fileHash = web3.utils.sha3(fileAsString)
-      const signature = await web3.eth.sign(fileHash, accountId)
+      console.log('entered handleSubmit')
+      for (let i = 0; i < values.files.length; i++) {
+        console.log('entered handleSubmit for loop')
+        // TODO: Is there a better way to authenticate than requiring the user to sign every file?
+        // Sign file
+        const fileAsString = await values.files[i].text()
+        const fileHash = web3.utils.sha3(fileAsString)
+        const signature = await web3.eth.sign(fileHash, accountId)
 
-      console.log('Uploading file...')
-      const success = await uploadFile(values.file, signature, accountId)
-      console.log(`File uploaded successfully: ${success}`)
-
-      setNewFileUploaded(!newFileUploaded)
+        console.log(`Uploading file ${i}...`)
+        const success = await uploadFile(values.files[i], signature, accountId)
+        console.log(`File uploaded successfully: ${success}`)
+        setNewFileUploaded(!newFileUploaded)
+      }
 
       resetForm({
-        values: { file: null } as LockerForm,
+        values: { files: null } as LockerForm,
         status: 'empty'
       })
       // move user's focus to top of screen
