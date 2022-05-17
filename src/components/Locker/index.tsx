@@ -10,7 +10,8 @@ import { Logger, Metadata } from '@oceanprotocol/lib'
 import Debug from './Debug'
 import { useAccountPurgatory } from '@hooks/useAccountPurgatory'
 import { useWeb3 } from '@context/Web3'
-import Dashboard from './Dashboard'
+// import Dashboard from './Dashboard'
+import Dashboard from './DashboardV2'
 
 const formName = 'data-locker-form'
 
@@ -35,6 +36,7 @@ export default function LockerPage(): ReactElement {
   async function uploadFile(_file: File, signature: string, address: string) {
     const formData = new FormData()
     formData.append('data', _file)
+    formData.append('path', _file.path)
     formData.append('address', address)
     formData.append('signature', signature)
     let success = false
