@@ -57,7 +57,11 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
   // Get all unique folders
   const folders: { [folderPath: string]: ChonkyFileData } = {} // folderPath = e.g., 'xyz/' or 'xyz/abc/'
   for (const file of _files) {
-    const path = file.path.substring(0, file.path.lastIndexOf('/')) + '/'
+    let path = file.path.substring(0, file.path.lastIndexOf('/')) + '/'
+    if (path.indexOf('/') === 0) {
+      // Remove leading '/'
+      path = path.substring(1)
+    }
     if (!folders[path]) {
       folders[path] = {
         id: path,
@@ -76,7 +80,7 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
 
     // Set parentId for every nested folder
     if (folderPath.replace('/', '').includes('/')) {
-      const parentId = folderPath.split('/').splice(0, -2).join('/')
+      const parentId = folderPath.split('/').splice(0, -1).join('/')
       folders[folderPath].parentId = parentId
     } // Set parentId for every parentless folder to root
     else {
@@ -89,11 +93,12 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
 // Set parent ids of folder files before calling this function
 function setParentIds(_files: ChonkyFileData[]): ChonkyFileData[] {
   for (const file of _files) {
-    if (file.parentId) {
+    if (file.isDir) {
       continue
     }
     if (file.path?.includes('/')) {
-      file.parentId = file.path.split('/').splice(0, -1).join('/')
+      const lastIndex = file.path.lastIndexOf('/') + 1
+      file.parentId = file.path.substring(0, lastIndex)
     } else {
       file.parentId = 'root/'
     }
@@ -103,18 +108,18 @@ function setParentIds(_files: ChonkyFileData[]): ChonkyFileData[] {
 
 // Add 'root' file folder to _files array, and set root.childrenIds to correct array
 function addRoot(_files: ChonkyFileData[]): ChonkyFileData[] {
-  const rootChildrenIds = []
+  const childrenIds = []
   for (const file of _files) {
-    if (file.parendId === 'root/') {
-      rootChildrenIds.push(file.id)
+    if (file.parentId === 'root/') {
+      childrenIds.push(file.id)
     }
   }
   const root = {
     name: 'root/',
     id: 'root/',
     isDir: true,
-    childrenIds: rootChildrenIds,
-    chlidrenCount: rootChildrenIds.length
+    childrenIds: childrenIds,
+    childrenCount: childrenIds.length
   }
   _files.push(root)
   return _files
@@ -130,7 +135,7 @@ function getFileMap(_files: ChonkyFileData[]): FileMap {
 
 export default function Dashboard({ newFileUploaded }): ReactElement {
   const web3Context = useWeb3()
-  const [currentFolderId, setCurrentFolderId] = useState<string>('root/') // useState('home')
+  const [currentFolderId, setCurrentFolderId] = useState<string>('root/')
   const [files, setFiles] = useState<ChonkyFileData[]>()
   const [filesInCurrentDir, setFilesInCurrentDir] = useState<ChonkyFileData[]>()
   const [fileMap, setFileMap] = useState<FileMap>()
@@ -283,9 +288,6 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
     // ChonkyActions.DownloadFiles,
     ChonkyActions.DeleteFiles
   ]
-
-  console.log(files)
-  console.log(filesInCurrentDir)
 
   return (
     <div className={styleClasses}>
