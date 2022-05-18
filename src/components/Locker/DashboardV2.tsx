@@ -292,7 +292,7 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
       {files && files.length > 0 ? (
         <div style={{ height: 400 }}>
           <FullFileBrowser
-            files={files}
+            files={filesInCurrentDirectory}
             folderChain={folderChain}
             onFileAction={handleFileAction}
             fileActions={myFileActions}
