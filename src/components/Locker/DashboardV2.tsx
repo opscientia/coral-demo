@@ -57,11 +57,14 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
   // Get all unique folders
   const folders: { [folderPath: string]: ChonkyFileData } = {} // folderPath = e.g., 'xyz/' or 'xyz/abc/'
   for (const file of _files) {
+    if (!file.path.includes('/')) continue
+
     let path = file.path.substring(0, file.path.lastIndexOf('/')) + '/'
-    if (path.indexOf('/') === 0) {
-      // Remove leading '/'
-      path = path.substring(1)
-    }
+
+    if (path.indexOf('/') === 0) path = path.substring(1) // Remove leading '/'
+    console.log(`path: ${path}`)
+    console.log(`for file.name: ${file.name}`)
+    console.log(`file.path.length: ${file.path.length}`)
     if (!folders[path]) {
       folders[path] = {
         id: path,
@@ -72,9 +75,9 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
   }
   for (const folderPath of Object.keys(folders)) {
     // Assign every file to a folder
-    const childrenIds = _files.map((file) => {
-      if (file.path.includes(folderPath)) return file.id
-    })
+    const childrenIds = _files
+      .filter((file) => file.path.includes(folderPath))
+      .map((file) => file.id)
     folders[folderPath].childrenIds = childrenIds
     folders[folderPath].childrenCount = childrenIds.length
 
@@ -98,7 +101,10 @@ function setParentIds(_files: ChonkyFileData[]): ChonkyFileData[] {
     }
     if (file.path?.includes('/')) {
       const lastIndex = file.path.lastIndexOf('/') + 1
-      file.parentId = file.path.substring(0, lastIndex)
+      file.parentId =
+        file.path.indexOf('/') === 0
+          ? file.path.substring(1, lastIndex)
+          : file.path.substring(0, lastIndex)
     } else {
       file.parentId = 'root/'
     }
@@ -181,7 +187,7 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
   useEffect(() => {
     if (files && fileMap) {
       // Update filesInCurrentDir
-      const currentFolder = fileMap[currentFolderId]
+      const currentFolder = fileMap[currentFolderId] || 'root/'
       if (currentFolder.childrenCount > 0) {
         const filesTemp = currentFolder.childrenIds.map(
           (fileId: string) => fileMap[fileId] ?? null
@@ -288,6 +294,8 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
     // ChonkyActions.DownloadFiles,
     ChonkyActions.DeleteFiles
   ]
+
+  console.log(files)
 
   return (
     <div className={styleClasses}>
