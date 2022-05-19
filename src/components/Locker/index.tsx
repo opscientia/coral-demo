@@ -10,8 +10,7 @@ import { Logger, Metadata } from '@oceanprotocol/lib'
 import Debug from './Debug'
 import { useAccountPurgatory } from '@hooks/useAccountPurgatory'
 import { useWeb3 } from '@context/Web3'
-// import Dashboard from './Dashboard'
-import Dashboard from './DashboardV2'
+import Dashboard from './Dashboard'
 
 const formName = 'data-locker-form'
 
