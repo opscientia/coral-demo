@@ -91,6 +91,13 @@ export default function LockerPage(): ReactElement {
 
   return isInPurgatory && purgatoryData ? null : (
     <>
+      <h2>Data Locker</h2>
+      <p>
+        NOTICE: All data uploaded here will be publicly available through the{' '}
+        <a href="https://ipfs.io/" target="_blank" rel="noreferrer">
+          Interplanetary File System (IPFS).
+        </a>
+      </p>
       <Formik
         initialValues={initialFormValues}
         initialStatus="empty"
