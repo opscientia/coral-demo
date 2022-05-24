@@ -32,13 +32,18 @@ export default function LockerPage(): ReactElement {
       {}
   )
 
-  async function uploadFiles(_files: File[], address: string) {
+  async function uploadFiles(
+    _files: File[],
+    address: string,
+    signature: string
+  ) {
     const formData = new FormData()
     for (const _file of _files) {
       formData.append('data', _file)
       formData.append(_file.name, _file.path) // NOTE: Two files with the same name in different directories will not be distinguished with this approach
     }
     formData.append('address', address)
+    formData.append('signature', signature)
     let success = false
     try {
       const resp = await fetch(
@@ -63,22 +68,14 @@ export default function LockerPage(): ReactElement {
   ): Promise<void> {
     try {
       console.log('entered handleSubmit')
-      // for (let i = 0; i < values.files.length; i++) {
-      //   console.log('entered handleSubmit for loop')
-      //   // TODO: Is there a better way to authenticate than requiring the user to sign every file?
-      //   // Sign file
-      //   const fileAsString = await values.files[i].text()
-      //   const fileHash = web3.utils.sha3(fileAsString)
-      //   const signature = await web3.eth.sign(fileHash, accountId)
-
-      //   console.log(`Uploading file ${i}...`)
-      //   const success = await uploadFile(values.files[i], signature, accountId)
-      //   console.log(`File uploaded successfully: ${success}`)
-      //   setNewFileUploaded(!newFileUploaded)
-      // }
+      // TODO: Implement an authentication flow better than just requiring the user to sign first file
+      // Sign first file
+      const fileAsString = await values.files[0].text()
+      const fileHash = web3.utils.sha3(fileAsString)
+      const signature = await web3.eth.sign(fileHash, accountId)
 
       console.log(`Uploading files...`)
-      const success = await uploadFiles(values.files, accountId)
+      const success = await uploadFiles(values.files, accountId, signature)
       console.log(`File uploaded successfully: ${success}`)
       setNewFileUploaded(!newFileUploaded)
 
