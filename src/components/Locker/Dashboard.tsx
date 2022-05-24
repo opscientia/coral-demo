@@ -38,7 +38,7 @@ interface FileMap {
   [id: string]: ChonkyFileData
 }
 
-/** Example folder file:
+/** Example Chonky folder file:
   "543d473f1c38" : {
     "childrenCount" : 2,
     "childrenIds" : [
@@ -57,14 +57,11 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
   // Get all unique folders
   const folders: { [folderPath: string]: ChonkyFileData } = {} // folderPath = e.g., 'xyz/' or 'xyz/abc/'
   for (const file of _files) {
-    if (!file.path.includes('/')) continue
+    if (!file.path || !file.path.includes('/')) continue
 
     let path = file.path.substring(0, file.path.lastIndexOf('/')) + '/'
 
     if (path.indexOf('/') === 0) path = path.substring(1) // Remove leading '/'
-    console.log(`path: ${path}`)
-    console.log(`for file.name: ${file.name}`)
-    console.log(`file.path.length: ${file.path.length}`)
     if (!folders[path]) {
       folders[path] = {
         id: path,
@@ -294,8 +291,6 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
     // ChonkyActions.DownloadFiles,
     ChonkyActions.DeleteFiles
   ]
-
-  console.log(files)
 
   return (
     <div className={styleClasses}>
