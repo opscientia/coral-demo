@@ -53,7 +53,7 @@ interface FileMap {
   },
  */
 // Get ChonkyFileData object for every folder
-function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
+function addFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
   // Get all unique folders
   const folders: { [folderPath: string]: ChonkyFileData } = {} // folderPath = e.g., 'xyz/' or 'xyz/abc/'
   for (const file of _files) {
@@ -62,32 +62,44 @@ function getFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
     let path = file.path.substring(0, file.path.lastIndexOf('/')) + '/'
 
     if (path.indexOf('/') === 0) path = path.substring(1) // Remove leading '/'
-    if (!folders[path]) {
-      folders[path] = {
-        id: path,
-        name: path,
-        isDir: true
+
+    while (path) {
+      if (!folders[path]) {
+        folders[path] = {
+          id: path,
+          name: path.substring(0, path.length - 1),
+          path: path,
+          isDir: true
+        }
+      }
+      const oldPath = path
+      path = path
+        .split('/')
+        .filter((pathTemp) => pathTemp)
+        .slice(0, -1)
+        .join('/')
+      if (path) {
+        path += '/'
+        folders[oldPath].parentId = path
       }
     }
   }
-  for (const folderPath of Object.keys(folders)) {
+  _files.push(...Object.values(folders))
+  for (const file of _files) {
+    if (!file.isDir) continue
     // Assign every file to a folder
     const childrenIds = _files
-      .filter((file) => file.path.includes(folderPath))
+      .filter((file) => file.path === file.path.replace(file.name, ''))
       .map((file) => file.id)
-    folders[folderPath].childrenIds = childrenIds
-    folders[folderPath].childrenCount = childrenIds.length
+    file.childrenIds = childrenIds
+    file.childrenCount = childrenIds.length
 
     // Set parentId for every nested folder
-    if (folderPath.replace('/', '').includes('/')) {
-      const parentId = folderPath.split('/').splice(0, -1).join('/')
-      folders[folderPath].parentId = parentId
-    } // Set parentId for every parentless folder to root
-    else {
-      folders[folderPath].parentId = 'root/'
+    if (!file.path.replace('/', '').includes('/')) {
+      file.parentId = 'root/'
     }
   }
-  return Object.values(folders)
+  return _files
 }
 
 // Set parent ids of folder files before calling this function
@@ -109,6 +121,17 @@ function setParentIds(_files: ChonkyFileData[]): ChonkyFileData[] {
   return _files
 }
 
+function setChildIds(_files: ChonkyFileData[]): ChonkyFileData[] {
+  for (const file of _files) {
+    const childrenIds = _files
+      .filter(({ parentId }) => parentId === file.id)
+      .map(({ id }) => id)
+    file.childrenIds = childrenIds
+    file.childrenCount = childrenIds.length
+  }
+  return _files
+}
+
 // Add 'root' file folder to _files array, and set root.childrenIds to correct array
 function addRoot(_files: ChonkyFileData[]): ChonkyFileData[] {
   const childrenIds = []
@@ -118,8 +141,8 @@ function addRoot(_files: ChonkyFileData[]): ChonkyFileData[] {
     }
   }
   const root = {
-    name: 'root/',
     id: 'root/',
+    name: 'root',
     isDir: true,
     childrenIds: childrenIds,
     childrenCount: childrenIds.length
@@ -158,13 +181,13 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
       .then((files: FileMetadata[]) => {
         let newFiles: ChonkyFileData[] = files.map((file) => ({
           name: file.filename,
-          id: file.cid,
+          id: file.filename,
           requestid: file.requestid,
           path: file.path
         }))
-        const folders = getFolders(newFiles)
-        newFiles.push(...folders)
+        newFiles = addFolders(newFiles)
         newFiles = setParentIds(newFiles)
+        newFiles = setChildIds(newFiles)
         newFiles = addRoot(newFiles)
         setFiles(newFiles)
       })
