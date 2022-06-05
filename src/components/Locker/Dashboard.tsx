@@ -69,7 +69,9 @@ function addFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
           id: path,
           name: path.substring(0, path.length - 1),
           path: path,
-          isDir: true
+          isDir: true,
+          isDatasetRoot: false,
+          requestid: file.requestid
         }
       }
       const oldPath = path
@@ -94,9 +96,10 @@ function addFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
     file.childrenIds = childrenIds
     file.childrenCount = childrenIds.length
 
-    // Set parentId for every nested folder
+    // Set parentId to root/ for every dataset root directory
     if (!file.path.replace('/', '').includes('/')) {
       file.parentId = 'root/'
+      file.isDatasetRoot = true // used when deleting entire dataset
     }
   }
   return _files
@@ -114,9 +117,11 @@ function setParentIds(_files: ChonkyFileData[]): ChonkyFileData[] {
         file.path.indexOf('/') === 0
           ? file.path.substring(1, lastIndex)
           : file.path.substring(0, lastIndex)
-    } else {
-      file.parentId = 'root/'
     }
+    // else {
+    //   file.parentId = 'root/'
+    //   file.isDatasetRoot = true // used when deleting entire dataset
+    // }
   }
   return _files
 }
@@ -181,9 +186,10 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
       .then((files: FileMetadata[]) => {
         let newFiles: ChonkyFileData[] = files.map((file) => ({
           name: file.filename,
-          id: file.filename,
+          id: file.path,
           requestid: file.requestid,
-          path: file.path
+          path: file.path,
+          isDatasetRoot: false
         }))
         newFiles = addFolders(newFiles)
         newFiles = setParentIds(newFiles)
@@ -239,58 +245,102 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
   }
 
   async function handleClickDelete(_files: ChonkyFileData[]) {
-    const deleteFile = async (_file: ChonkyFileData, onClose: () => void) => {
-      // Sign url
-      const strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${_file.requestid}`
-      const hashedStr = web3Context.web3.utils.sha3(strToSign)
-      const signature = await web3Context.web3.eth.sign(
-        hashedStr,
-        web3Context.accountId
-      )
-      const urlWithSig =
-        process.env.NEXT_PUBLIC_RBAC_API_URL +
-        strToSign +
-        `&signature=${signature}`
+    const deleteFiles = async (
+      _files: ChonkyFileData[],
+      onClose: () => void
+    ) => {
+      const rootDirs = _files.filter((_file) => _file.isDatasetRoot)
+      const filesToDeleteInRootDirs = _files.filter((_file) => {
+        for (const dir of rootDirs) {
+          if (_file.id.includes(dir.id)) return true
+        }
+        return false
+      })
+      const onlyDeletingRootDirs =
+        filesToDeleteInRootDirs.length === _files.length
+      if (onlyDeletingRootDirs) {
+        _files = _files.filter((_file) => _file.isDatasetRoot)
+      }
+      for (const _file of _files) {
+        // Sign url. If URL does not include path to file, the whole dataset will be deleted
+        let strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${_file.requestid}`
+        if (!_file.isDatasetRoot) strToSign += `&path=${_file.path}`
+        const hashedStr = web3Context.web3.utils.sha3(strToSign)
+        const signature = await web3Context.web3.eth.sign(
+          hashedStr,
+          web3Context.accountId
+        )
+        const urlWithSig =
+          process.env.NEXT_PUBLIC_RBAC_API_URL +
+          strToSign +
+          `&signature=${signature}`
 
-      onClose()
+        onClose()
 
-      try {
-        const resp = await fetch(urlWithSig, {
-          method: 'DELETE'
-        })
-        const data = await resp.json()
-        removeFileFromDisplay(_file.requestid)
-        setReloadFiles(!reloadFiles)
-      } catch (err) {
-        console.log(err)
-        setReloadFiles(!reloadFiles)
+        try {
+          const resp = await fetch(urlWithSig, {
+            method: 'DELETE'
+          })
+          const data = await resp.json()
+          removeFileFromDisplay(_file.requestid)
+          setReloadFiles(!reloadFiles)
+        } catch (err) {
+          console.log(err)
+          setReloadFiles(!reloadFiles)
+        }
       }
     }
-    const confirmDelete = (_file: ChonkyFileData) => {
+    // const confirmDelete = (_file: ChonkyFileData, isDatasetRoot: boolean) => {
+    const confirmDelete = (_files: ChonkyFileData[]) => {
       confirmAlert({
         closeOnEscape: false,
         closeOnClickOutside: false,
         customUI: ({ onClose }) => {
           return (
             <div>
-              <p>Delete {_file.name}?</p>
+              <p>Delete the following files?</p>
               <Button
                 style="primary"
-                onClick={() => deleteFile(_file, onClose)}
+                onClick={() => deleteFiles(_files, onClose)}
               >
                 Yes
               </Button>
               <Button style="ghost" onClick={onClose}>
                 No
               </Button>
+              <p />
+              {_files.map((_file) => (
+                <div key={_file.id}>
+                  <p>{_file.path}</p>
+                </div>
+              ))}
             </div>
           )
         }
       })
     }
-    for (const f of _files) {
-      confirmDelete(f)
+    const addChildren = (_files: ChonkyFileData[]) => {
+      const dirs = _files.filter((_file) => _file.isDir)
+      while (dirs.length > 0) {
+        for (const childId of dirs[0].childrenIds) {
+          const child = fileMap[childId]
+          if (child.isDir) {
+            dirs.push(child)
+          } else {
+            _files.push(child)
+          }
+        }
+        dirs.shift()
+      }
+      return _files
     }
+    // pseudocode:
+    // if file is not dir, then submit delete request (with path) for it
+    // if file is dir (but not root dir), then submit separate delete request for every child file
+    // if file is root dir of dataset, then submit delete request containing requestid but not path
+    _files = addChildren(_files)
+    _files = _files.filter((_file) => !_file.isDir || _file.isDatasetRoot) // Remove dirs, except root dir
+    confirmDelete(_files)
   }
 
   const styleClasses = cx({
