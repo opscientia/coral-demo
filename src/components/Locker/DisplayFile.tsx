@@ -44,11 +44,17 @@ export default function DisplayFile({
         title={fileData.name}
         isOpen={isDialogOpen}
         onToggleModal={() => setIsDialogOpen(false)}
+        style={{ content: { background: 'white' } }}
       >
         {desc &&
           Object.keys(desc).map((key, index) => (
             <div key={index}>
-              <MetaItem title={key} content={<code>{desc[key]}</code>} />
+              <MetaItem
+                title={key}
+                content={
+                  <code style={{ marginBottom: '1.1em' }}>{desc[key]}</code>
+                }
+              />
             </div>
           ))}
       </Modal>
