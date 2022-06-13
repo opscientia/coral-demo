@@ -2,6 +2,7 @@ import React, { ReactElement, useState, useEffect, useMemo } from 'react'
 import Button from '@shared/atoms/Button'
 import DataSetTeaser from './DataSetTeaser'
 import { useWeb3 } from '@context/Web3'
+import DisplayFile from './DisplayFile'
 import classNames from 'classnames/bind'
 import styles from './Dashboard.module.css'
 import { confirmAlert } from 'react-confirm-alert'
@@ -173,6 +174,8 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
   // const folderChain = useFolderChain(currentFolderId)
   const [folderChain, setFolderChain] = useState<ChonkyFileData[]>()
   const [reloadFiles, setReloadFiles] = useState(false) // Files are refetched every time this changes
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [fileToDisplay, setFileToDisplay] = useState<ChonkyFileData>()
 
   function getAndSetFiles() {
     fetch(
@@ -357,6 +360,10 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
       if (fileToOpen && FileHelper.isDirectory(fileToOpen)) {
         setCurrentFolderId(fileToOpen.id)
       }
+      if (fileToOpen.name.includes('dataset_description.json')) {
+        setFileToDisplay(fileToOpen)
+        setIsDialogOpen(true)
+      }
     }
   }
 
@@ -366,7 +373,14 @@ export default function Dashboard({ newFileUploaded }): ReactElement {
   ]
 
   return (
-    <div className={styleClasses}>
+    <div>
+      {fileToDisplay && isDialogOpen && (
+        <DisplayFile
+          fileData={fileToDisplay}
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+        />
+      )}
       {files && files.length > 0 ? (
         <div style={{ height: 400 }}>
           <FullFileBrowser
