@@ -47,7 +47,7 @@ export default function LockerPage(): ReactElement {
     let success = false
     try {
       const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_RBAC_API_URL}/uploadToEstuary`,
+        `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
         {
           method: 'POST',
           body: formData

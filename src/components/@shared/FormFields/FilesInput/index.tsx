@@ -26,7 +26,7 @@ export default function FilesInput(props: InputProps): ReactElement {
 
   function getAndSetFiles() {
     fetch(
-      process.env.NEXT_PUBLIC_RBAC_API_URL +
+      process.env.NEXT_PUBLIC_PROXY_API_URL +
         `/fileMetadata?address=${web3Context.accountId}`,
       {
         method: 'GET'

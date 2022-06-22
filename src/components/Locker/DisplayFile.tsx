@@ -25,7 +25,7 @@ export default function DisplayFile({
   useEffect(() => {
     async function getDatasetDescription() {
       const resp = await fetch(
-        process.env.NEXT_PUBLIC_RBAC_API_URL +
+        process.env.NEXT_PUBLIC_PROXY_API_URL +
           '/getDatasetDescription' +
           `?requestid=${fileData.requestid}`
       )
