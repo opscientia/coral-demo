@@ -14,9 +14,8 @@ public/storybook
 .vercel
 repo-metadata.json
 networks-metadata.json
-src/@types/apollo
 graphql.schema.json
 src/@types/graph.types.ts
-src/@types/subgraph
-src/@types/apollo/
+# src/@types/subgraph
+# src/@types/apollo/
 tsconfig.tsbuildinfo
