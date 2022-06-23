@@ -6,7 +6,6 @@ import FormTitle from './FormTitle'
 import FormActions from './FormActions'
 import styles from './FormLocker.module.css'
 
-// Hard-coded FormContent instead of using graphql.
 const content = {
   title: 'Add a Data Set to Your Data Locker',
   data: [

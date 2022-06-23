@@ -4,7 +4,6 @@ import Tooltip from '@shared/atoms/Tooltip'
 import { useWeb3 } from '@context/Web3'
 import styles from './FormTitle.module.css'
 
-// Hard-coded content instead of using graphql.
 const content = {
   title: 'Locker',
   description: 'Store data here before publishing.',
