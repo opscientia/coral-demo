@@ -159,7 +159,7 @@ export default function HomePage(): ReactElement {
       </div>
 
       <SectionQueryResult
-        title="Browse our highest liquidity data services"
+        title="Browse highest liquidity data services"
         query={queryAndDids?.[0]}
         queryData={queryAndDids?.[1]}
         action={
