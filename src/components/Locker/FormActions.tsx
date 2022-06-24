@@ -18,7 +18,7 @@ export default function Actions(): ReactElement {
 
   // const [field, meta, helpers] = useField(props.name)
 
-  function handleClear(event) {
+  function handleClear(event: React.FormEvent<Element>) {
     event.preventDefault()
     setFieldValue('files', null)
     setStatus('empty')

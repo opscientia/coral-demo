@@ -1,32 +1,31 @@
 import React, { useCallback } from 'react'
 import { useField, FormikContextType, useFormikContext } from 'formik'
-import { useDropzone } from 'react-dropzone'
+import { useDropzone, FileWithPath } from 'react-dropzone'
 import { LockerForm } from 'src/components/Locker/_types'
 
-export default function DragAndDrop(props) {
-  const {
-    status,
-    setStatus,
-    isValid,
-    values,
-    setErrors,
-    setTouched,
-    resetForm,
-    validateField,
-    setFieldValue
-  }: FormikContextType<LockerForm> = useFormikContext()
-  const [field, meta, helpers] = useField(props.name)
+interface DragAndDropProps {
+  onFileDrop: (files: FileWithPath[]) => void
+}
+
+export default function DragAndDrop(props: DragAndDropProps) {
+  const { status, setStatus }: FormikContextType<LockerForm> =
+    useFormikContext()
 
   const myComponentStyle = {
-    textAlign: 'center',
+    textAlign: 'center' as const,
     color: 'blue',
     backgroundColor: 'white',
     padding: '1.0em',
     border: '1px dashed silver'
   }
+  // const styles = StyleSheet.create({
+  //   text: {
+  //     textAlign: 'center' as const
+  //   }
+  // })
 
   const onDrop = useCallback(
-    (acceptedFiles) => {
+    (acceptedFiles: FileWithPath[]) => {
       props.onFileDrop(acceptedFiles)
       setStatus(null)
     },
@@ -36,9 +35,11 @@ export default function DragAndDrop(props) {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     noClick: true,
     // maxFiles: 1,
-    onDrop: onDrop
+    onDrop
   })
-  const files = acceptedFiles.map((file) => <p key={file.path}>{file.path}</p>)
+  const files = acceptedFiles.map((file: FileWithPath) => (
+    <p key={file.path}>{file.path}</p>
+  ))
 
   return (
     <div>

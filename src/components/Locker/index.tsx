@@ -11,6 +11,7 @@ import Debug from './Debug'
 import { useAccountPurgatory } from '@hooks/useAccountPurgatory'
 import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
+import { FileWithPath } from 'react-dropzone'
 
 const formName = 'data-locker-form'
 
@@ -33,7 +34,7 @@ export default function LockerPage(): ReactElement {
   )
 
   async function uploadFiles(
-    _files: File[],
+    _files: FileWithPath[],
     address: string,
     signature: string
   ) {

@@ -69,7 +69,7 @@ function addFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
         folders[path] = {
           id: path,
           name: path.substring(0, path.length - 1),
-          path: path,
+          path,
           isDir: true,
           isDatasetRoot: false,
           requestid: file.requestid
@@ -150,7 +150,7 @@ function addRoot(_files: ChonkyFileData[]): ChonkyFileData[] {
     id: 'root/',
     name: 'root',
     isDir: true,
-    childrenIds: childrenIds,
+    childrenIds,
     childrenCount: childrenIds.length
   }
   _files.push(root)
@@ -165,7 +165,11 @@ function getFileMap(_files: ChonkyFileData[]): FileMap {
   return fileMap
 }
 
-export default function Dashboard({ newFileUploaded }): ReactElement {
+export default function Dashboard({
+  newFileUploaded
+}: {
+  newFileUploaded: boolean
+}): ReactElement {
   const web3Context = useWeb3()
   const [currentFolderId, setCurrentFolderId] = useState<string>('root/')
   const [files, setFiles] = useState<ChonkyFileData[]>()

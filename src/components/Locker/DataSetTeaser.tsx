@@ -13,7 +13,10 @@ declare type DataSetTeaserProps = {
   cid: string
   requestId: number
   discipline: string
-  onClickDelete: (event, onFinish: () => void) => Promise<void>
+  onClickDelete: (
+    event: React.FormEvent<Element>,
+    onFinish: () => void
+  ) => Promise<void>
 }
 
 const DataSetTeaser: React.FC<DataSetTeaserProps> = ({

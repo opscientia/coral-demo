@@ -30,9 +30,9 @@ export default function App({
 
   return (
     <div className={styles.app}>
-      {siteContent?.announcement !== '' && (
+      {siteContent?.announcement?.main !== '' && (
         <AnnouncementBanner
-          text={siteContent?.announcement}
+          text={siteContent?.announcement?.main}
           action={{
             name: 'Explore OceanONDA V4.',
             style: 'link',

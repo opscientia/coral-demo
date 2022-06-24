@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from 'react'
-import { File as FileMetadata } from '@oceanprotocol/lib'
+import { FileInfo } from '@oceanprotocol/lib'
 import { prettySize } from '@shared/FormFields/FilesInput/utils'
 import cleanupContentType from '@utils/cleanupContentType'
 import styles from './Info.module.css'
@@ -10,7 +10,7 @@ export default function FileInfo({
   file
 }: {
   name: string
-  file: FileMetadata
+  file: FileInfo
 }): ReactElement {
   const { validateField } = useFormikContext()
   const [field, meta, helpers] = useField(name)

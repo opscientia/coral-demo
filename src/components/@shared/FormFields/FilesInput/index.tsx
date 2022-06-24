@@ -75,7 +75,7 @@ export default function FilesInput(props: InputProps): ReactElement {
     helpers.setTouched(false)
   }
 
-  function handleSelect(event) {
+  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     // TODO: Make url use gateway? Check Ocean's standards for ipfs hashes as urls.
     helpers.setValue([{ url: event.target.value }])
   }
