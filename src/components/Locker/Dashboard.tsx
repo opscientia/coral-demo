@@ -182,12 +182,6 @@ export default function Dashboard({
   const [fileToDisplay, setFileToDisplay] = useState<ChonkyFileData>()
 
   function getAndSetFiles() {
-    console.log(
-      `fetching: ${
-        process.env.NEXT_PUBLIC_PROXY_API_URL +
-        `/fileMetadata?address=${web3Context.accountId}`
-      }`
-    )
     fetch(
       process.env.NEXT_PUBLIC_PROXY_API_URL +
         `/fileMetadata?address=${web3Context.accountId}`,
@@ -195,10 +189,7 @@ export default function Dashboard({
         method: 'GET'
       }
     )
-      .then((resp) => {
-        console.log('fetched files')
-        return resp.json()
-      })
+      .then((resp) => resp.json())
       .then((files: FileMetadata[]) => {
         let newFiles: ChonkyFileData[] = files.map((file) => ({
           name: file.filename,
