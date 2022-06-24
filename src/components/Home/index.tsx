@@ -132,7 +132,7 @@ export default function HomePage(): ReactElement {
     })
 
     const baseParams = {
-      chainIds: chainIds,
+      chainIds,
       esPaginationOptions: {
         size: 9
       },
@@ -157,21 +157,21 @@ export default function HomePage(): ReactElement {
           ))}
         </div>
       </div>
-      {/* <Permission eventType="browse">
-        <>
-          {queryLatest && (
-            <SectionQueryResult
-              title="browse our data services"
-              query={queryLatest}
-              action={
-                <Button style="text" to="/search?sort=created&sortOrder=desc">
-                  All data sets and algorithms →
-                </Button>
-              }
-            />
-          )}
-        </>
-      </Permission> */}
+
+      <SectionQueryResult
+        title="Browse our highest liquidity data services"
+        query={queryAndDids?.[0]}
+        queryData={queryAndDids?.[1]}
+        action={
+          <Button
+            style="text"
+            to="/search?sort=metadata.created&sortOrder=desc"
+          >
+            All data sets and algorithms →
+          </Button>
+        }
+      />
+
       <Footer content={footerContent.content} image={footerImage} />
     </>
 
@@ -181,24 +181,6 @@ export default function HomePage(): ReactElement {
     //     <Bookmarks />
     //   </section>
 
-    //   <SectionQueryResult
-    //     title="Highest Liquidity"
-    //     query={queryAndDids?.[0]}
-    //     queryData={queryAndDids?.[1]}
-    //   />
-
-    //   <SectionQueryResult
-    //     title="Recently Published"
-    //     query={queryLatest}
-    //     action={
-    //       <Button
-    //         style="text"
-    //         to="/search?sort=metadata.created&sortOrder=desc"
-    //       >
-    //         All data sets and algorithms →
-    //       </Button>
-    //     }
-    //   />
     // </>
   )
 }
