@@ -1,6 +1,8 @@
 import React, { ReactElement } from 'react'
-import LogoAssetFull from '@oceanprotocol/art/logo/logo.svg'
-import LogoAsset from '@images/logo.svg'
+// import LogoAssetFull from '@oceanprotocol/art/logo/logo.svg'
+import LogoAssetFull from '@images/coral.svg'
+// import LogoAsset from '@images/logo.svg'
+import LogoAsset from '@images/logo-coral.svg'
 import styles from './index.module.css'
 
 export interface LogoProps {
