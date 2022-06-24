@@ -14,21 +14,6 @@ import styles from './index.module.css'
 import { useIsMounted } from '@hooks/useIsMounted'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { SortTermOptions } from '../../@types/aquarius/SearchQuery'
-import Markdown from '@shared/Markdown'
-import Header from './Header'
-import Intro from './Intro'
-import Footer from './Footer'
-import headerContent from '../../../content/pages/home/header.json'
-import headerImage from '../../@images/opsci-dash.png'
-import introContent from '../../../content/pages/home/intro.json'
-import topicsContent from '../../../content/pages/home/topics.json'
-import footerContent from '../../../content/pages/home/footer.json'
-import footerImage from '../../@images/filecoin-foundation.png'
-
-interface TTopic {
-  title: string
-  content: string
-}
 
 async function getQueryHighest(
   chainIds: number[]
@@ -132,7 +117,7 @@ export default function HomePage(): ReactElement {
     })
 
     const baseParams = {
-      chainIds: chainIds,
+      chainIds,
       esPaginationOptions: {
         size: 9
       },
@@ -145,60 +130,29 @@ export default function HomePage(): ReactElement {
 
   return (
     <>
-      <Intro {...introContent} />
-      <Header {...headerContent} image={headerImage} />
-      <div className={styles.topicsWrapper}>
-        <div className={styles.topics}>
-          {(topicsContent.topics as TTopic[]).map((topic, i) => (
-            <div key={i} className={styles.content}>
-              <h1>{topic.title}</h1>
-              <Markdown text={topic.content} />
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* <Permission eventType="browse">
-        <>
-          {queryLatest && (
-            <SectionQueryResult
-              title="browse our data services"
-              query={queryLatest}
-              action={
-                <Button style="text" to="/search?sort=created&sortOrder=desc">
-                  All data sets and algorithms →
-                </Button>
-              }
-            />
-          )}
-        </>
-      </Permission> */}
-      <Footer content={footerContent.content} image={footerImage} />
+      <section className={styles.section}>
+        <h3>Bookmarks</h3>
+        <Bookmarks />
+      </section>
+
+      <SectionQueryResult
+        title="Highest Liquidity"
+        query={queryAndDids?.[0]}
+        queryData={queryAndDids?.[1]}
+      />
+
+      <SectionQueryResult
+        title="Recently Published"
+        query={queryLatest}
+        action={
+          <Button
+            style="text"
+            to="/search?sort=metadata.created&sortOrder=desc"
+          >
+            All data sets and algorithms →
+          </Button>
+        }
+      />
     </>
-
-    // <>
-    //   <section className={styles.section}>
-    //     <h3>Bookmarks</h3>
-    //     <Bookmarks />
-    //   </section>
-
-    //   <SectionQueryResult
-    //     title="Highest Liquidity"
-    //     query={queryAndDids?.[0]}
-    //     queryData={queryAndDids?.[1]}
-    //   />
-
-    //   <SectionQueryResult
-    //     title="Recently Published"
-    //     query={queryLatest}
-    //     action={
-    //       <Button
-    //         style="text"
-    //         to="/search?sort=metadata.created&sortOrder=desc"
-    //       >
-    //         All data sets and algorithms →
-    //       </Button>
-    //     }
-    //   />
-    // </>
   )
 }

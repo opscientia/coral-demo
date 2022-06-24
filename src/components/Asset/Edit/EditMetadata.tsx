@@ -23,6 +23,8 @@ import { getOceanConfig } from '@utils/ocean'
 import EditFeedback from './EditFeedback'
 import { useAsset } from '@context/Asset'
 import { setNftMetadata } from '@utils/nft'
+import { sanitizeUrl } from '@utils/url'
+import { getEncryptedFiles } from '@utils/provider'
 
 export default function Edit({
   asset
@@ -63,10 +65,9 @@ export default function Edit({
     resetForm: () => void
   ) {
     try {
+      let updatedFiles = asset.services[0].files
       const linksTransformed = values.links?.length &&
-        values.links[0].valid && [
-          values.links[0].url.replace('javascript:', '')
-        ]
+        values.links[0].valid && [sanitizeUrl(values.links[0].url)]
       const updatedMetadata: Metadata = {
         ...asset.metadata,
         name: values.name,
@@ -79,17 +80,43 @@ export default function Edit({
         values.price !== asset.accessDetails.price &&
         (await updateFixedPrice(values.price))
 
+      if (values.files[0]?.url) {
+        const file = {
+          nftAddress: asset.nftAddress,
+          datatokenAddress: asset.services[0].datatokenAddress,
+          files: [
+            {
+              type: 'url',
+              index: 0,
+              url: values.files[0].url,
+              method: 'GET'
+            }
+          ]
+        }
+        const filesEncrypted = await getEncryptedFiles(
+          file,
+          asset.services[0].serviceEndpoint
+        )
+        updatedFiles = filesEncrypted
+      }
       const updatedService: Service = {
         ...asset.services[0],
-        timeout: mapTimeoutStringToSeconds(values.timeout)
+        timeout: mapTimeoutStringToSeconds(values.timeout),
+        files: updatedFiles
       }
 
+      // TODO: remove version update at a later time
       const updatedAsset: Asset = {
-        ...asset,
+        ...(asset as Asset),
+        version: '4.1.0',
         metadata: updatedMetadata,
         services: [updatedService]
       }
 
+      // delete custom helper properties injected in the market so we don't write them on chain
+      delete (updatedAsset as AssetExtended).accessDetails
+      delete (updatedAsset as AssetExtended).datatokens
+      delete (updatedAsset as AssetExtended).stats
       const setMetadataTx = await setNftMetadata(
         updatedAsset,
         accountId,

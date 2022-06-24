@@ -18,7 +18,6 @@ export interface AppConfig {
   consumeMarketPoolSwapFee: string
   consumeMarketFixedSwapFee: string
   currencies: string[]
-  portisId: string
   allowFixedPricing: string
   allowDynamicPricing: string
   allowFreePricing: string
@@ -29,6 +28,8 @@ export interface AppConfig {
     classNameLight: string
     storageKey: string
   }
+  v3MetadataCacheUri: string
+  v3MarketUri: string
 }
 export interface SiteContent {
   siteTitle: string
@@ -43,6 +44,7 @@ export interface SiteContent {
   warning: {
     main: string
     polygonPublish: string
+    ctd: string
   }
   announcement: {
     main: string

@@ -31,6 +31,7 @@ import {
   publisherMarketPoolSwapFee,
   publisherMarketFixedSwapFee
 } from '../../../app.config'
+import { sanitizeUrl } from '@utils/url'
 
 export function getFieldContent(
   fieldName: string,
@@ -95,9 +96,9 @@ export async function transformPublishFormToDdo(
 
   // Transform from files[0].url to string[] assuming only 1 file
   const filesTransformed = files?.length &&
-    files[0].valid && [files[0].url.replace('javascript:', '')]
+    files[0].valid && [sanitizeUrl(files[0].url)]
   const linksTransformed = links?.length &&
-    links[0].valid && [links[0].url.replace('javascript:', '')]
+    links[0].valid && [sanitizeUrl(links[0].url)]
 
   const newMetadata: Metadata = {
     created: currentTime,
@@ -142,13 +143,18 @@ export async function transformPublishFormToDdo(
   }
 
   // this is the default format hardcoded
-  const file = [
-    {
-      type: 'url',
-      url: files[0].url,
-      method: 'GET'
-    }
-  ]
+  const file = {
+    nftAddress,
+    datatokenAddress,
+    files: [
+      {
+        type: 'url',
+        index: 0,
+        url: files[0].url,
+        method: 'GET'
+      }
+    ]
+  }
   const filesEncrypted =
     !isPreview &&
     files?.length &&
@@ -171,7 +177,7 @@ export async function transformPublishFormToDdo(
     '@context': ['https://w3id.org/did/v1'],
     id: did,
     nftAddress,
-    version: '4.0.0',
+    version: '4.1.0',
     chainId,
     metadata: newMetadata,
     services: [newService],

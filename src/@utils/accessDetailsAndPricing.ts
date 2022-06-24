@@ -16,7 +16,7 @@ import { AccessDetails, OrderPriceAndFees } from 'src/@types/Price'
 import Decimal from 'decimal.js'
 import { consumeMarketOrderFee } from '../../app.config'
 
-const TokensPriceQuery = gql`
+const tokensPriceQuery = gql`
   query TokensPriceQuery($datatokenIds: [ID!], $account: String) {
     tokens(where: { id_in: $datatokenIds }) {
       id
@@ -81,7 +81,7 @@ const TokensPriceQuery = gql`
     }
   }
 `
-const TokenPriceQuery = gql`
+const tokenPriceQuery = gql`
   query TokenPriceQuery($datatokenId: ID!, $account: String) {
     token(id: $datatokenId) {
       id
@@ -152,14 +152,11 @@ function getAccessDetailsFromTokenPrice(
   timeout?: number
 ): AccessDetails {
   const accessDetails = {} as AccessDetails
-  if (
-    tokenPrice &&
-    timeout &&
-    tokenPrice.orders &&
-    tokenPrice.orders.length > 0
-  ) {
+  if (tokenPrice && tokenPrice.orders && tokenPrice.orders.length > 0) {
     const order = tokenPrice.orders[0]
-    accessDetails.isOwned = Date.now() / 1000 - order.createdTimestamp < timeout
+    // asset is owned if there is an order and asset has timeout 0 (forever) or if the condition is valid
+    accessDetails.isOwned =
+      timeout === 0 || Date.now() / 1000 - order.createdTimestamp < timeout
     accessDetails.validOrderTx = order.tx
   }
 
@@ -298,11 +295,10 @@ export async function getOrderPriceAndFees(
 }
 
 /**
- * @param {number} chain
+ * @param {number} chainId
  * @param {string} datatokenAddress
  * @param {number} timeout timout of the service, this is needed to return order details
  * @param {string} account account that wants to buy, is needed to return order details
- * @param {bool} includeOrderPriceAndFees if false price will be spot price (pool) and rate (fre), if true you will get the order price including fees !! fees not yet done
  * @returns {Promise<AccessDetails>}
  */
 export async function getAccessDetails(
@@ -317,7 +313,7 @@ export async function getAccessDetails(
       TokenPriceQuery,
       { datatokenId: string; account: string }
     > = await fetchData(
-      TokenPriceQuery,
+      tokenPriceQuery,
       {
         datatokenId: datatokenAddress.toLowerCase(),
         account: account?.toLowerCase()
@@ -360,7 +356,7 @@ export async function getAccessDetailsForAssets(
         TokensPriceQuery,
         { datatokenIds: [string]; account: string }
       > = await fetchData(
-        TokensPriceQuery,
+        tokensPriceQuery,
         {
           datatokenIds: chainAssetLists[chainKey],
           account: account?.toLowerCase()

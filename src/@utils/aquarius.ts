@@ -2,7 +2,7 @@ import { Asset, LoggerInstance } from '@oceanprotocol/lib'
 import { AssetSelectionAsset } from '@shared/FormFields/AssetSelection'
 import axios, { CancelToken, AxiosResponse } from 'axios'
 import { OrdersData_orders as OrdersData } from '../@types/subgraph/OrdersData'
-import { metadataCacheUri } from '../../app.config'
+import { metadataCacheUri, v3MetadataCacheUri } from '../../app.config'
 import {
   SortDirectionOptions,
   SortTermOptions
@@ -127,6 +127,28 @@ export async function retrieveAsset(
   }
 }
 
+export async function checkV3Asset(
+  did: string,
+  cancelToken: CancelToken
+): Promise<boolean> {
+  try {
+    const response: AxiosResponse<Asset> = await axios.get(
+      `${v3MetadataCacheUri}/api/v1/aquarius/assets/ddo/${did}`,
+      { cancelToken }
+    )
+    if (!response || response.status !== 200 || !response.data) return false
+
+    return true
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      LoggerInstance.log(error.message)
+    } else {
+      LoggerInstance.error(error.message)
+    }
+    return false
+  }
+}
+
 export async function getAssetsNames(
   didList: string[],
   cancelToken: CancelToken
@@ -157,7 +179,7 @@ export async function getAssetsFromDidList(
     if (!(didList.length > 0)) return
 
     const baseParams = {
-      chainIds: chainIds,
+      chainIds,
       filters: [getFilterTerm('_id', didList)],
       ignorePurgatory: true
     } as BaseQueryParams
@@ -179,7 +201,7 @@ export async function getAssetsFromDtList(
     if (!(dtList.length > 0)) return
 
     const baseParams = {
-      chainIds: chainIds,
+      chainIds,
       filters: [getFilterTerm('services.datatokenAddress', dtList)],
       ignorePurgatory: true
     } as BaseQueryParams

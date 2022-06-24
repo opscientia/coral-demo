@@ -62,8 +62,6 @@ export default function FilesInput(props: InputProps): ReactElement {
 
       // if all good, add file to formik state
       helpers.setValue([{ url, ...checkedFile[0] }])
-      console.log('Object.keys(field.value[0])...')
-      console.log(Object.keys(field.value[0]))
     } catch (error) {
       setFieldError(`${field.name}[0].url`, error.message)
       LoggerInstance.error(error.message)

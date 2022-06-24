@@ -14,7 +14,8 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.nftImage {
+/* OpSci Commons styles */
+/* .nftImage {
   position: relative;
   margin: 0;
   border-right: 1px solid var(--border-color);
@@ -41,4 +42,4 @@
 
 .nftImage .tooltip svg {
   fill: var(--font-color-text);
-}
+} */

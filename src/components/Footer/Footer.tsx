@@ -3,7 +3,7 @@ import styles from './Footer.module.css'
 import Markdown from '@shared/Markdown'
 import MarketStats from './MarketStats'
 import BuildId from './BuildId'
-// import Links from './Links'
+import Links from './Links'
 import Button from '@shared/atoms/Button'
 import External from '@images/external.svg'
 import { useMarketMetadata } from '@context/MarketMetadata'
@@ -18,7 +18,7 @@ export default function Footer(): ReactElement {
       <MarketStats />
 
       <div className={styles.grid}>
-        {/* <Links /> */}
+        <Links />
         <div className={styles.copyright}>
           © {year} <Markdown text={siteContent?.copyright} />
           <Button
