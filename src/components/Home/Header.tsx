@@ -2,17 +2,16 @@ import React, { ReactElement } from 'react'
 import styles from './Header.module.css'
 import Markdown from '@shared/Markdown'
 import Image from 'next/image'
-// import Img, { FluidObject } from 'gatsby-image'
+import headerImage from '../../@images/opsci-dash.png'
 
 export default function Header({
   title,
-  content,
-  image
-}: {
+  content
+}: // image
+{
   title: string
   content: string
-  image: string
-  //   image: FluidObject
+  // image: string
 }): ReactElement {
   return (
     <div className={styles.container}>
@@ -23,7 +22,7 @@ export default function Header({
         </div>
         <div className={styles.image}>
           {/* <Image src={image} alt={title} /> */}
-          {/* <Img fluid={image} alt={title} /> */}
+          <Image src={headerImage} alt={title} />
         </div>
       </div>
     </div>
