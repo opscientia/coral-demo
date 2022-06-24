@@ -76,7 +76,6 @@ export default function LockerPage(): ReactElement {
   ): Promise<void> {
     try {
       console.log('entered handleSubmit')
-      console.log(process.env.NEXT_PUBLIC_PROXY_API_URL)
       // TODO: Implement an authentication flow better than just requiring the user to sign first file
       // Sign first file
       const fileAsString = await values.files[0].text()
