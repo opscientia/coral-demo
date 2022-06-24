@@ -146,7 +146,7 @@ export default function HomePage(): ReactElement {
   return (
     <>
       <Intro {...introContent} />
-      <Header {...headerContent} image={headerImage} />
+      <Header {...headerContent} image={headerImage.src} />
       <div className={styles.topicsWrapper}>
         <div className={styles.topics}>
           {(topicsContent.topics as TTopic[]).map((topic, i) => (
@@ -172,7 +172,7 @@ export default function HomePage(): ReactElement {
         }
       />
 
-      <Footer content={footerContent.content} image={footerImage} />
+      <Footer content={footerContent.content} image={footerImage.src} />
     </>
 
     // <>
