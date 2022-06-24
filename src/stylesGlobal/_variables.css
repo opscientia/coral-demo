@@ -1,6 +1,4 @@
-/* Ocean V4 styles. */
-
-/* :root {
+:root {
   --brand-white: #ffffff;
   --brand-black: #141414;
   --brand-pink: #ff4092;
@@ -22,10 +20,10 @@
   --brand-alert-yellow: #eac146;
 
   --color-primary: #ff4092;
-  --color-secondary: #8b98a9; */
+  --color-secondary: #8b98a9;
 
-/* Only use these vars for most color referencing for easy light/dark mode */
-/* --font-color-text: #41474e;
+  /* Only use these vars for most color referencing for easy light/dark mode */
+  --font-color-text: #41474e;
   --font-color-heading: #141414;
   --background-body: #fcfcfc;
   --background-body-transparent: rgba(255, 255, 255, 0.8);
@@ -79,4 +77,4 @@
   --background-highlight: #201f1f;
   --border-color: #303030;
   --box-shadow-color: rgba(0, 0, 0, 0.2);
-} */
+}
