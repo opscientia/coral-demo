@@ -17,7 +17,7 @@ export default function Footer({
           <Markdown text={content} />
         </div>
         <div className={styles.image}>
-          <Image src={image} alt="funded by" />
+          {/* <Image src={image} alt="funded by" /> */}
         </div>
       </div>
     </div>

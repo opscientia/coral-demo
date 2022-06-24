@@ -22,7 +22,7 @@ export default function Header({
           <Markdown text={content} />
         </div>
         <div className={styles.image}>
-          <Image src={image} alt={title} />
+          {/* <Image src={image} alt={title} /> */}
           {/* <Img fluid={image} alt={title} /> */}
         </div>
       </div>
