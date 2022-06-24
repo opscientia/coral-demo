@@ -53,25 +53,7 @@
   margin-left: 0;
 }
 
-/* Commons */
-.title {
-  display: none;
-}
 /* Ocean */
-@media screen and (min-width: 55rem) {
-  .menu {
-    padding: var(--spacer);
-  }
-
-  .title {
-    margin: 0;
-    display: block;
-    color: var(--color-secondary);
-    font-size: var(--font-size-h4);
-    margin-right: calc(var(--spacer) / 6);
-  }
-}
-
 .navigation {
   white-space: nowrap;
   overflow-y: hidden;
