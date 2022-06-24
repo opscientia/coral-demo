@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
-// import Logo from '../../atoms/Logo'
+import Logo from '@shared/atoms/Logo'
+import LogoAssetFull from '@oceanprotocol/art/logo/logo.svg'
 import Markdown from '@shared/Markdown'
 import styles from './Intro.module.css'
 
@@ -24,6 +25,7 @@ export default function Intro({
         rel="noreferrer noopener"
       >
         {/* <Logo /> */}
+        {/* <LogoAssetFull /> */}
       </a>
     </div>
   )

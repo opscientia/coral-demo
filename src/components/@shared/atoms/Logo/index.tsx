@@ -7,14 +7,16 @@ import styles from './index.module.css'
 
 export interface LogoProps {
   noWordmark?: boolean
+  useOcean?: boolean
 }
 
-export default function Logo({ noWordmark }: LogoProps): ReactElement {
-  return noWordmark ? (
-    // <LogoAsset className={styles.logo} />
-    <LogoAssetBranding className={styles.brand} />
+export default function Logo({
+  noWordmark,
+  useOcean
+}: LogoProps): ReactElement {
+  return useOcean ? (
+    <LogoAssetFull className={styles.logo} />
   ) : (
-    // <LogoAssetFull className={styles.logo} />
     <LogoAssetBranding className={styles.brand} />
   )
 }
