@@ -39,9 +39,16 @@ export default function LockerPage(): ReactElement {
     signature: string
   ) {
     const formData = new FormData()
+    let sumFileSizes = 0
     for (const _file of _files) {
+      sumFileSizes += _file.size
       formData.append('data', _file)
       formData.append(_file.name, _file.path) // NOTE: Two files with the same name in different directories will not be distinguished with this approach
+    }
+    // 2 ** 20 * 100 == 100 MiB
+    if (sumFileSizes > 2 ** 20 * 100) {
+      console.log('Files are too large')
+      return
     }
     formData.append('address', address)
     formData.append('signature', signature)
