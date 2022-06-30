@@ -3,20 +3,6 @@
     "title": "Metadata",
     "fields": [
       {
-        "name": "nft",
-        "label": "Data NFT",
-        "type": "nft",
-        "help": "All metadata is stored on-chain in a newly deployed ERC-721 contract representing this asset, created with this name, symbol, description and image.",
-        "required": true
-      },
-      {
-        "name": "type",
-        "label": "Asset Type",
-        "type": "boxSelection",
-        "options": ["Dataset", "Algorithm"],
-        "required": true
-      },
-      {
         "name": "name",
         "label": "Title",
         "placeholder": "e.g. Shapes of Desert Plants",
@@ -43,37 +29,6 @@
         "help": "Separate tags with comma."
       },
       {
-        "name": "dockerImage",
-        "label": "Docker Image",
-        "help": "Please select an image to run your algorithm.",
-        "type": "boxSelection",
-        "options": [
-          "populated from algorithmContainerPresets in Publish/_constants"
-        ],
-        "required": true
-      },
-      {
-        "name": "dockerImageCustom",
-        "label": "Docker Image URL",
-        "placeholder": "e.g. oceanprotocol/algo_dockers or https://example.com/image_path",
-        "help": "Provide the name of a public Docker image or the full url if you have it hosted in a 3rd party repo",
-        "required": true
-      },
-      {
-        "name": "dockerImageCustomTag",
-        "label": "Docker Image Tag",
-        "placeholder": "e.g. latest",
-        "help": "Provide the tag for your Docker image.",
-        "required": true
-      },
-      {
-        "name": "dockerImageCustomEntrypoint",
-        "label": "Docker Entrypoint",
-        "placeholder": "e.g. python $ALGO",
-        "help": "Provide the entrypoint for your algorithm.",
-        "required": true
-      },
-      {
         "name": "termsAndConditions",
         "label": "Terms & Conditions",
         "type": "checkbox",
@@ -85,21 +40,6 @@
   "services": {
     "title": "Access",
     "fields": [
-      {
-        "name": "dataTokenOptions",
-        "label": "Datatoken",
-        "type": "datatoken",
-        "help": "The datatoken used for accessing this asset will be created with this name & symbol.",
-        "required": true
-      },
-      {
-        "name": "providerUrl",
-        "label": "Provider URL",
-        "type": "providerUrl",
-        "help": "Enter the URL for your custom [provider](https://github.com/oceanprotocol/provider/) or leave as is to use the default one. If you change your provider URL after adding your file, please add & validate your file again.",
-        "placeholder": "e.g. https://provider.oceanprotocol.com/",
-        "required": true
-      },
       {
         "name": "files",
         "label": "File",
@@ -116,41 +56,6 @@
         "help": "This file should reveal the data structure of your data set, e.g. by including the header and one line of a CSV file. This file URL will be publicly available after publishing. **Please make sure that the endpoint is accessible over the internet and is not protected by a firewall or by credentials.**",
         "prominentHelp": true,
         "type": "files"
-      },
-      {
-        "name": "algorithmPrivacy",
-        "label": "Algorithm Privacy",
-        "type": "checkbox",
-        "options": ["Keep my algorithm private"],
-        "help": "By default, your algorithm can be downloaded for a fixed or dynamic price in addition to running in compute jobs. Enabling this option will prevent downloading, so your algorithm can only be run as part of a compute job on a data set.",
-        "required": false
-      },
-      {
-        "name": "access",
-        "label": "Access Type",
-        "help": "Choose how you want your files to be accessible for the specified price.",
-        "type": "boxSelection",
-        "options": ["Access", "Compute"],
-        "required": true,
-        "disclaimer": "Please do not provide downloadable personal data without the consent of the data subjects.",
-        "disclaimerValues": ["Download"]
-      },
-      {
-        "name": "timeout",
-        "label": "Timeout",
-        "help": "Define how long buyers should be able to download the data set again after the initial purchase.",
-        "type": "select",
-        "options": ["Forever", "1 day", "1 week", "1 month", "1 year"],
-        "sortOptions": false,
-        "required": true
-      }
-    ]
-  },
-  "pricing": {
-    "title": "Pricing",
-    "fields": [
-      {
-        "name": "dummy content, actual content is defined under 'create' key in ../price.json"
       }
     ]
   },

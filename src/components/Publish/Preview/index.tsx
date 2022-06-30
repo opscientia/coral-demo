@@ -15,24 +15,6 @@ export default function Preview(): ReactElement {
     async function makeDdo() {
       const asset = (await transformPublishFormToDdo(values)) as AssetExtended
       // dummy BestPrice to trigger certain AssetActions
-      asset.accessDetails = {
-        type: values.pricing.type,
-        addressOrId: ZERO_ADDRESS,
-        price: values.pricing.price,
-        baseToken: {
-          address: ZERO_ADDRESS,
-          name: 'OCEAN',
-          symbol: 'OCEAN'
-        },
-        datatoken: {
-          address: ZERO_ADDRESS,
-          name: '',
-          symbol: ''
-        },
-        isPurchasable: true,
-        isOwned: false,
-        validOrderTx: ''
-      }
       setAsset(asset)
     }
     makeDdo()

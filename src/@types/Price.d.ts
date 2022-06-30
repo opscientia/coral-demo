@@ -40,25 +40,9 @@ interface OrderPriceAndFees {
  * @prop {FeeInfo} feeInfo  values of the relevant fees
  */
 interface AccessDetails {
-  type: 'dynamic' | 'fixed' | 'free' | ''
-  price: string
-  addressOrId: string
-  baseToken: TokenInfo
-  datatoken: TokenInfo
-  isPurchasable?: boolean
-  isOwned: bool
-  validOrderTx: string
-  publisherMarketOrderFee: string
+  type: 'free' | ''
 }
 
 interface PriceOptions {
-  price: number
-  amountDataToken: number
-  amountOcean: number
-  type: 'dynamic' | 'fixed' | 'free' | ''
-  weightOnDataToken: string
-  weightOnOcean: string
-  // easier to keep this as number for Yup input validation
-  swapFee: number
-  freeAgreement: boolean
+  type: 'free' | ''
 }

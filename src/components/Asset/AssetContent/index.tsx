@@ -47,17 +47,9 @@ export default function AssetContent({
 
   return (
     <>
-      <div className={styles.networkWrap}>
-        <NetworkName networkId={asset?.chainId} className={styles.network} />
-      </div>
-
       <article className={styles.grid}>
         <div>
           <div className={styles.content}>
-            <MetaMain asset={asset} nftPublisher={nftPublisher} />
-            {asset?.accessDetails?.datatoken !== null && (
-              <Bookmark did={asset?.id} />
-            )}
             {isInPurgatory === true ? (
               <Alert
                 title={content.asset.title}
@@ -75,20 +67,7 @@ export default function AssetContent({
               </>
             )}
             <MetaFull ddo={asset} />
-            <EditHistory receipts={receipts} setReceipts={setReceipts} />
-            {debug === true && <DebugOutput title="DDO" output={asset} />}
           </div>
-        </div>
-
-        <div className={styles.actions}>
-          <AssetActions asset={asset} />
-          {isOwner && isAssetNetwork && (
-            <div className={styles.ownerActions}>
-              <Link href={`/asset/${asset?.id}/edit`}>
-                <a>Edit</a>
-              </Link>
-            </div>
-          )}
         </div>
       </article>
     </>

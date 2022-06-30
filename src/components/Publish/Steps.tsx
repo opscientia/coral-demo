@@ -33,25 +33,14 @@ export function Steps({
       ...feedback,
       '1': {
         ...feedback['1'],
-        txCount: values.pricing.type === 'dynamic' ? 2 : 1,
-        description:
-          values.pricing.type === 'dynamic'
-            ? feedback['1'].description.replace(
-                'a single transaction',
-                'a single transaction, after an initial approve transaction'
-              )
-            : initialPublishFeedback['1'].description
+        description: initialPublishFeedback['1'].description
       }
     })
-  }, [values.pricing.type, feedback, setFieldValue])
+  }, [feedback, setFieldValue])
 
   // Auto-change default providerUrl on user network change
   useEffect(() => {
-    if (
-      !values?.user?.chainId ||
-      values?.services[0]?.providerUrl.custom === true
-    )
-      return
+    if (!values?.user?.chainId) return
 
     const config = getOceanConfig(values.user.chainId)
     if (config) {
@@ -62,13 +51,8 @@ export function Steps({
       })
     }
 
-    setTouched({ ...touched, services: [{ providerUrl: { url: true } }] })
-  }, [
-    values?.user?.chainId,
-    values?.services[0]?.providerUrl.custom,
-    setFieldValue,
-    setTouched
-  ])
+    setTouched({ ...touched })
+  }, [values?.user?.chainId, setFieldValue, setTouched])
 
   const { component } = wizardSteps.filter((stepContent) => {
     return stepContent.step === values.user.stepCurrent
