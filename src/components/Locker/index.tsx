@@ -12,13 +12,13 @@ import { useAccountPurgatory } from '@hooks/useAccountPurgatory'
 import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
 import { FileWithPath } from 'react-dropzone'
+import { maxUploadSize } from './_constants'
 
 const formName = 'data-locker-form'
 
 export default function LockerPage(): ReactElement {
   const { debug } = useUserPreferences()
   const { web3, accountId } = useWeb3()
-  const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   const [newFileUploaded, setNewFileUploaded] = useState(false)
   const [success, setSuccess] = useState<string>()
   const [error, setError] = useState<string>()
@@ -45,8 +45,7 @@ export default function LockerPage(): ReactElement {
       formData.append('data', _file)
       formData.append(_file.name, _file.path) // NOTE: Two files with the same name in different directories will not be distinguished with this approach
     }
-    // 2 ** 20 * 100 == 100 MiB
-    if (sumFileSizes > 2 ** 20 * 100) {
+    if (sumFileSizes > maxUploadSize) {
       console.log('Files are too large')
       return
     }
@@ -99,7 +98,7 @@ export default function LockerPage(): ReactElement {
     }
   }
 
-  return isInPurgatory && purgatoryData ? null : (
+  return (
     <>
       <h2>Data Locker</h2>
       <p>
