@@ -53,7 +53,6 @@ export default function Menu(): ReactElement {
 
       <div className={styles.actions}>
         <SearchBar />
-        <UserPreferences />
       </div>
     </nav>
   )
