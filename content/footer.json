@@ -2,18 +2,15 @@
   "links": [
     {
       "name": "Docs",
-      "url": "https://docs.oceanprotocol.com"
+      "url": "https://docs.opsci.io"
     },
     {
       "name": "GitHub",
-      "url": "https://github.com/oceanprotocol"
+      "url": "https://github.com/opscientia"
     },
     {
       "name": "Discord",
-      "url": "https://discord.gg/TnXjkR5"
+      "url": "https://discord.gg/YzBKRQm2"
     }
-  ],
-  "stats": {
-    "note": "Counted on-chain from our NFT and pool factories. Includes assets in all Ocean Market forks and [purgatory](https://github.com/oceanprotocol/list-purgatory)."
-  }
+  ]
 }
