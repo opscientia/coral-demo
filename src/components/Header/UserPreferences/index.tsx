@@ -19,9 +19,6 @@ export default function UserPreferences(): ReactElement {
     <Tooltip
       content={
         <ul className={styles.preferencesDetails}>
-          <Currency />
-          <TokenApproval />
-          <Appearance darkMode={darkMode} />
           <Debug />
         </ul>
       }
