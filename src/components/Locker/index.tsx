@@ -33,6 +33,14 @@ export default function LockerPage(): ReactElement {
       {}
   )
 
+  // Get secret message to sign from proxy server
+  async function getSecretMessage() {
+    const resp = await fetch(
+      `${process.env.NEXT_PUBLIC_PROXY_API_URL}/initializeUpload?address=${accountId}`
+    )
+    return (await resp.json()).message
+  }
+
   async function uploadFiles(
     _files: FileWithPath[],
     address: string,
@@ -76,10 +84,8 @@ export default function LockerPage(): ReactElement {
   ): Promise<void> {
     try {
       console.log('entered handleSubmit')
-      // TODO: Implement an authentication flow better than just requiring the user to sign first file
-      // Sign first file
-      const fileAsString = await values.files[0].text()
-      const fileHash = web3.utils.sha3(fileAsString)
+      const msg = await getSecretMessage()
+      const fileHash = web3.utils.sha3(msg)
       const signature = await web3.eth.sign(fileHash, accountId)
 
       console.log(`Uploading files...`)
