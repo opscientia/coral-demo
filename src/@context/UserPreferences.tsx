@@ -11,8 +11,6 @@ import { isBrowser } from '@utils/index'
 import { useMarketMetadata } from './MarketMetadata'
 
 interface UserPreferencesValue {
-  debug: boolean
-  setDebug: (value: boolean) => void
   currency: string
   setCurrency: (value: string) => void
   chainIds: number[]
@@ -54,7 +52,6 @@ function UserPreferencesProvider({
   const { appConfig } = useMarketMetadata()
   const localStorage = getLocalStorage()
   // Set default values from localStorage
-  const [debug, setDebug] = useState<boolean>(localStorage?.debug || false)
   const [currency, setCurrency] = useState<string>(
     localStorage?.currency || 'EUR'
   )
@@ -81,7 +78,6 @@ function UserPreferencesProvider({
   useEffect(() => {
     setLocalStorage({
       chainIds,
-      debug,
       currency,
       bookmarks,
       privacyPolicySlug,
@@ -90,20 +86,12 @@ function UserPreferencesProvider({
     })
   }, [
     chainIds,
-    debug,
     currency,
     bookmarks,
     privacyPolicySlug,
     showPPC,
     infiniteApproval
   ])
-
-  // Set ocean.js log levels, default: Error
-  useEffect(() => {
-    debug === true
-      ? LoggerInstance.setLevel(LogLevel.Verbose)
-      : LoggerInstance.setLevel(LogLevel.Error)
-  }, [debug])
 
   // Get locale always from user's browser
   useEffect(() => {
@@ -137,7 +125,6 @@ function UserPreferencesProvider({
     <UserPreferencesContext.Provider
       value={
         {
-          debug,
           currency,
           locale,
           chainIds,
@@ -147,7 +134,6 @@ function UserPreferencesProvider({
           infiniteApproval,
           setInfiniteApproval,
           setChainIds,
-          setDebug,
           setCurrency,
           addBookmark,
           removeBookmark,

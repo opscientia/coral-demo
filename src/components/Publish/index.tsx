@@ -7,11 +7,9 @@ import PageHeader from '@shared/Page/PageHeader'
 import Title from './Title'
 import styles from './index.module.css'
 import Actions from './Actions'
-import Debug from './Debug'
 import Navigation from './Navigation'
 import { Steps } from './Steps'
 import { FormPublishData } from './_types'
-import { useUserPreferences } from '@context/UserPreferences'
 import { validationSchema } from './_validation'
 import { useAbortController } from '@hooks/useAbortController'
 
@@ -23,7 +21,6 @@ export default function PublishPage({
 }: {
   content: { title: string; description: string; warning: string }
 }): ReactElement {
-  const { debug } = useUserPreferences()
   const { accountId, web3, chainId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   const scrollToRef = useRef()
@@ -93,7 +90,6 @@ export default function PublishPage({
             <Steps feedback={feedback} />
             <Actions scrollToRef={scrollToRef} did={did} />
           </Form>
-          {debug && <Debug />}
         </>
       )}
     </Formik>

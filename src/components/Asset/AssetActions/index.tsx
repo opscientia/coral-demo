@@ -1,11 +1,8 @@
 import React, { ReactElement, useState, useEffect } from 'react'
-import Compute from './Compute'
 import Consume from './Download'
 import { FileInfo, LoggerInstance, Datatoken } from '@oceanprotocol/lib'
 import Tabs, { TabsItem } from '@shared/atoms/Tabs'
 import { compareAsBN } from '@utils/numbers'
-import Pool from './Pool'
-import Trade from './Trade'
 import { useAsset } from '@context/Asset'
 import { useWeb3 } from '@context/Web3'
 import Web3Feedback from '@shared/Web3Feedback'
@@ -37,39 +34,6 @@ export default function AssetActions({
 
   const [isBalanceSufficient, setIsBalanceSufficient] = useState<boolean>()
   const [dtBalance, setDtBalance] = useState<string>()
-  const [fileMetadata, setFileMetadata] = useState<FileInfo>()
-  const [fileIsLoading, setFileIsLoading] = useState<boolean>(false)
-  const isCompute = Boolean(
-    asset?.services.filter((service) => service.type === 'compute')[0]
-  )
-
-  // Get and set file info
-  useEffect(() => {
-    const oceanConfig = getOceanConfig(asset?.chainId)
-    if (!oceanConfig) return
-
-    async function initFileInfo() {
-      setFileIsLoading(true)
-      const providerUrl =
-        formikState?.values?.services[0].providerUrl.url ||
-        asset?.services[0]?.serviceEndpoint
-
-      try {
-        const fileInfoResponse = formikState?.values?.services?.[0].files?.[0]
-          .url
-          ? await getFileUrlInfo(
-              formikState?.values?.services?.[0].files?.[0].url,
-              providerUrl
-            )
-          : await getFileDidInfo(asset?.id, asset?.services[0]?.id, providerUrl)
-        fileInfoResponse && setFileMetadata(fileInfoResponse[0])
-        setFileIsLoading(false)
-      } catch (error) {
-        LoggerInstance.error(error.message)
-      }
-    }
-    initFileInfo()
-  }, [asset, isMounted, newCancelToken, formikState?.values?.services])
 
   // Get and set user DT balance
   useEffect(() => {
@@ -111,31 +75,16 @@ export default function AssetActions({
     }
   }, [balance, accountId, asset?.accessDetails, dtBalance])
 
-  const UseContent = isCompute ? (
-    <Compute
-      ddo={asset}
-      accessDetails={asset?.accessDetails}
-      dtBalance={dtBalance}
-      file={fileMetadata}
-      fileIsLoading={fileIsLoading}
-    />
-  ) : (
+  const UseContent = (
     <Consume
       asset={asset}
       dtBalance={dtBalance}
       isBalanceSufficient={isBalanceSufficient}
-      file={fileMetadata}
-      fileIsLoading={fileIsLoading}
+      fileIsLoading={false}
     />
   )
 
   const tabs: TabsItem[] = [{ title: 'Use', content: UseContent }]
-
-  asset?.accessDetails?.type === 'dynamic' &&
-    tabs.push(
-      { title: 'Pool', content: <Pool /> },
-      { title: 'Trade', content: <Trade /> }
-    )
 
   return (
     <>

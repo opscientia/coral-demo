@@ -11,7 +11,6 @@ import {
   Nft,
   Asset
 } from '@oceanprotocol/lib'
-import { useUserPreferences } from '@context/UserPreferences'
 import styles from './index.module.css'
 import Web3Feedback from '@shared/Web3Feedback'
 import { useCancelToken } from '@hooks/useCancelToken'
@@ -35,7 +34,6 @@ export default function EditComputeDataset({
 }: {
   asset: AssetExtended
 }): ReactElement {
-  const { debug } = useUserPreferences()
   const { accountId, web3 } = useWeb3()
   const { fetchAsset, isAssetNetwork } = useAsset()
   const [success, setSuccess] = useState<string>()
@@ -161,11 +159,6 @@ export default function EditComputeDataset({
               networkId={asset?.chainId}
               isAssetNetwork={isAssetNetwork}
             />
-            {debug === true && (
-              <div className={styles.grid}>
-                <DebugEditCompute values={values} asset={asset} />
-              </div>
-            )}
           </>
         )
       }

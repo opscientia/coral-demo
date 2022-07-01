@@ -3,7 +3,6 @@ import { formatCurrency } from '@coingecko/cryptoformat'
 import { useUserPreferences } from '@context/UserPreferences'
 import Button from '@shared/atoms/Button'
 import AddToken from '@shared/AddToken'
-import Conversion from '@shared/Price/Conversion'
 import { useWeb3 } from '@context/Web3'
 import { getOceanConfig } from '@utils/ocean'
 import styles from './Details.module.css'
@@ -53,7 +52,6 @@ export default function Details(): ReactElement {
             {formatCurrency(Number(value), '', locale, false, {
               significantFigures: 4
             })}
-            {key === 'ocean' && <Conversion price={value} />}
           </li>
         ))}
 

@@ -17,12 +17,10 @@ function LoaderArea() {
 }
 
 export default function FileIcon({
-  file,
   className,
   small,
   isLoading
 }: {
-  file: FileInfo
   className?: string
   small?: boolean
   isLoading?: boolean
@@ -35,7 +33,7 @@ export default function FileIcon({
 
   return (
     <ul className={styleClasses}>
-      {!isLoading && file ? (
+      {/* {!isLoading && file ? (
         <>
           {file.contentType || file.contentLength ? (
             <>
@@ -52,7 +50,7 @@ export default function FileIcon({
         </>
       ) : (
         <LoaderArea />
-      )}
+      )} */}
     </ul>
   )
 }

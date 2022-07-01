@@ -1,7 +1,6 @@
 import React from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import Link from 'next/link'
-import PriceUnit from '@shared/Price/PriceUnit'
 import Loader from '@shared/atoms/Loader'
 import styles from './AssetComputeList.module.css'
 import { AssetSelectionAsset } from '@shared/FormFields/AssetSelection'
@@ -36,11 +35,6 @@ export default function AssetComputeSelection({
                     {asset.symbol} | {asset.did}
                   </Dotdotdot>
                 </div>
-                <PriceUnit
-                  price={asset.price}
-                  size="small"
-                  className={styles.price}
-                />
               </a>
             </Link>
           ))

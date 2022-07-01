@@ -1,16 +1,13 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import FileIcon from '@shared/FileIcon'
-import Price from '@shared/Price'
 import { useAsset } from '@context/Asset'
 import { useWeb3 } from '@context/Web3'
 import ButtonBuy from '@shared/ButtonBuy'
 import { secondsToString } from '@utils/ddo'
-import AlgorithmDatasetsListForCompute from './Compute/AlgorithmDatasetsListForCompute'
 import styles from './Download.module.css'
 import { FileInfo, LoggerInstance, ZERO_ADDRESS } from '@oceanprotocol/lib'
 import { order } from '@utils/order'
 import { AssetExtended } from 'src/@types/AssetExtended'
-import { buyDtFromPool } from '@utils/pool'
 import { downloadFile } from '@utils/provider'
 import { getOrderFeedback } from '@utils/feedback'
 import { getOrderPriceAndFees } from '@utils/accessDetailsAndPricing'
@@ -22,18 +19,14 @@ import { useMarketMetadata } from '@context/MarketMetadata'
 
 export default function Download({
   asset,
-  file,
   isBalanceSufficient,
   dtBalance,
-  fileIsLoading,
-  consumableFeedback
+  fileIsLoading
 }: {
   asset: AssetExtended
-  file: FileInfo
   isBalanceSufficient: boolean
   dtBalance: string
   fileIsLoading?: boolean
-  consumableFeedback?: string
 }): ReactElement {
   const { accountId, web3 } = useWeb3()
   const { getOpcFeeForToken } = useMarketMetadata()
@@ -152,10 +145,6 @@ export default function Download({
               asset.accessDetails.datatoken?.symbol
             )[0]
           )
-          const tx = await buyDtFromPool(asset.accessDetails, accountId, web3)
-          if (!tx) {
-            throw new Error()
-          }
         }
         setStatusText(
           getOrderFeedback(
@@ -197,7 +186,6 @@ export default function Download({
       priceType={asset.accessDetails?.type}
       isConsumable={asset.accessDetails?.isPurchasable}
       isBalanceSufficient={isBalanceSufficient}
-      consumableFeedback={consumableFeedback}
     />
   )
 
@@ -205,25 +193,12 @@ export default function Download({
     <aside className={styles.consume}>
       <div className={styles.info}>
         <div className={styles.filewrapper}>
-          <FileIcon file={file} isLoading={fileIsLoading} />
+          <FileIcon isLoading={fileIsLoading} />
         </div>
         <div className={styles.pricewrapper}>
-          <Price
-            accessDetails={asset.accessDetails}
-            orderPriceAndFees={orderPriceAndFees}
-            conversion
-            size="large"
-          />
           {!isInPurgatory && <PurchaseButton />}
         </div>
       </div>
-
-      {asset?.metadata?.type === 'algorithm' && (
-        <AlgorithmDatasetsListForCompute
-          algorithmDid={asset.id}
-          asset={asset}
-        />
-      )}
     </aside>
   )
 }
