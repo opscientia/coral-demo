@@ -20,25 +20,10 @@ function getTabs(accountId: string, userAccountId: string): HistoryTab[] {
       content: <PublishedList accountId={accountId} />
     },
     {
-      title: 'Pool Shares',
-      content: <PoolShares accountId={accountId} />
-    },
-    {
-      title: 'Pool Transactions',
-      content: <PoolTransactions accountId={accountId} />
-    },
-    {
       title: 'Downloads',
       content: <Downloads accountId={accountId} />
     }
   ]
-  const computeTab: HistoryTab = {
-    title: 'Compute Jobs',
-    content: <ComputeJobs />
-  }
-  if (accountId === userAccountId) {
-    defaultTabs.push(computeTab)
-  }
   return defaultTabs
 }
 
@@ -50,11 +35,9 @@ export default function HistoryPage({
   const { accountId } = useWeb3()
 
   const url = new URL(location.href)
-  const defaultTab = url.searchParams.get('defaultTab')
   const tabs = getTabs(accountIdentifier, accountId)
 
-  let defaultTabIndex = 0
-  defaultTab === 'ComputeJobs' ? (defaultTabIndex = 4) : (defaultTabIndex = 0)
+  const defaultTabIndex = 0
 
   return (
     <Tabs items={tabs} className={styles.tabs} defaultIndex={defaultTabIndex} />

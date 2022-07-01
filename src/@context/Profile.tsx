@@ -18,7 +18,6 @@ import { Asset, LoggerInstance } from '@oceanprotocol/lib'
 import { getDownloadAssets, getPublishedAssets } from '@utils/aquarius'
 import { accountTruncate } from '@utils/web3'
 import axios, { CancelToken } from 'axios'
-import get3BoxProfile from '@utils/profile'
 import web3 from 'web3'
 import { useMarketMetadata } from './MarketMetadata'
 
@@ -63,7 +62,7 @@ function ProfileProvider({
   }, [accountId])
 
   //
-  // User profile: ENS + 3Box
+  // User profile: ENS
   //
   const [profile, setProfile] = useState<Profile>()
 
@@ -90,29 +89,6 @@ function ProfileProvider({
 
     async function getInfo() {
       setProfile({ name: accountEns || accountTruncate(accountId), accountEns })
-
-      const profile3Box = await get3BoxProfile(
-        accountId,
-        cancelTokenSource.token
-      )
-      if (profile3Box) {
-        const { name, emoji, description, image, links } = profile3Box
-        const newName = `${emoji || ''} ${name || accountTruncate(accountId)}`
-        const newProfile = {
-          name: newName,
-          image,
-          description,
-          links
-        }
-        setProfile((prevState) => ({
-          ...prevState,
-          ...newProfile
-        }))
-        LoggerInstance.log('[profile] Found and set 3box profile.', newProfile)
-      } else {
-        // setProfile(clearedProfile)
-        LoggerInstance.log('[profile] No 3box profile found.')
-      }
     }
     getInfo()
 

@@ -40,24 +40,14 @@ export default function AccountHeader({
 
       <div>
         <Markdown text={profile?.description} className={styles.description} />
-        {isDescriptionTextClamped() ? (
-          <span className={styles.more} onClick={toogleShowMore}>
-            <LinkExternal
-              url={`https://www.3box.io/${accountId}`}
-              text="Read more on 3box"
-            />
-          </span>
-        ) : (
-          ''
-        )}
         {profile?.links?.length > 0 && (
           <PublisherLinks className={styles.publisherLinks} />
         )}
       </div>
       <div className={styles.meta}>
-        Profile data from{' '}
         {profile?.accountEns && (
           <>
+            Profile data from{' '}
             <LinkExternal
               url={`https://app.ens.domains/name/${profile.accountEns}`}
               text="ENS"
@@ -65,10 +55,6 @@ export default function AccountHeader({
             &{' '}
           </>
         )}
-        <LinkExternal
-          url={`https://www.3box.io/${accountId}`}
-          text="3Box Hub"
-        />
       </div>
     </div>
   )

@@ -12,33 +12,5 @@ export default function Title({
 }: {
   networkId: number
 }): ReactElement {
-  const { isSupportedOceanNetwork, accountId } = useWeb3()
-  return (
-    <>
-      {content.title}{' '}
-      {networkId && (
-        <>
-          into
-          <NetworkName
-            networkId={networkId}
-            className={
-              isSupportedOceanNetwork || !accountId
-                ? styles.network
-                : `${styles.network} ${styles.error}`
-            }
-          />
-          <Tooltip
-            content={<AvailableNetworks />}
-            className={
-              isSupportedOceanNetwork || !accountId
-                ? styles.tooltip
-                : `${styles.tooltip} ${styles.error}`
-            }
-          >
-            <Info className={styles.infoIcon} />
-          </Tooltip>
-        </>
-      )}
-    </>
-  )
+  return <>{content.title} </>
 }

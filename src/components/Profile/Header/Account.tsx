@@ -19,14 +19,7 @@ export default function Account({
   return (
     <div className={styles.account}>
       <figure className={styles.imageWrap}>
-        {profile?.image ? (
-          <img
-            src={profile?.image}
-            className={styles.image}
-            width="96"
-            height="96"
-          />
-        ) : accountId ? (
+        {accountId ? (
           <Blockies accountId={accountId} className={styles.image} />
         ) : (
           <Jellyfish className={styles.image} />
@@ -43,19 +36,6 @@ export default function Account({
             {profile?.accountEns || accountId} <Copy text={accountId} />
           </code>
         )}
-        <p>
-          {accountId &&
-            chainIds.map((value) => (
-              <ExplorerLink
-                className={styles.explorer}
-                networkId={value}
-                path={`address/${accountId}`}
-                key={value}
-              >
-                <NetworkName networkId={value} />
-              </ExplorerLink>
-            ))}
-        </p>
       </div>
     </div>
   )

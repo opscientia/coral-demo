@@ -4,7 +4,6 @@ import Link from 'next/link'
 import styles from './AccountTeaser.module.css'
 import Blockies from '../atoms/Blockies'
 import { useCancelToken } from '@hooks/useCancelToken'
-import get3BoxProfile from '@utils/profile'
 import { accountTruncate } from '@utils/web3'
 
 declare type AccountTeaserProps = {
@@ -18,19 +17,6 @@ export default function AccountTeaser({
 }: AccountTeaserProps): ReactElement {
   const [profile, setProfile] = useState<Profile>()
   const newCancelToken = useCancelToken()
-
-  useEffect(() => {
-    if (!accountTeaserVM) return
-    async function getProfileData() {
-      const profile = await get3BoxProfile(
-        accountTeaserVM.address,
-        newCancelToken()
-      )
-      if (!profile) return
-      setProfile(profile)
-    }
-    getProfileData()
-  }, [accountTeaserVM, newCancelToken])
 
   return (
     <article className={styles.teaser}>

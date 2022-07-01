@@ -13,12 +13,6 @@ interface FileInfo {
 export interface FormPublishService {
   files: FileInfo[]
   links?: FileInfo[]
-  timeout: string
-  dataTokenOptions: { name: string; symbol: string }
-  access: 'Download' | 'Compute' | string
-  providerUrl: { url: string; valid: boolean; custom: boolean }
-  algorithmPrivacy?: boolean
-  computeOptions?: ServiceComputeOptions
 }
 
 export interface FormPublishData {
@@ -28,22 +22,13 @@ export interface FormPublishData {
     chainId: number
   }
   metadata: {
-    nft: NftMetadata
-    transferable: boolean
-    type: 'dataset' | 'algorithm'
     name: string
     description: string
     author: string
     termsAndConditions: boolean
     tags?: string
-    dockerImage?: string
-    dockerImageCustom?: string
-    dockerImageCustomTag?: string
-    dockerImageCustomEntrypoint?: string
-    dockerImageCustomChecksum?: string
   }
   services: FormPublishService[]
-  pricing: PriceOptions
   feedback?: PublishFeedback
 }
 
@@ -58,8 +43,6 @@ export interface PublishFeedback {
     name: string
     description: string
     status: 'success' | 'error' | 'pending' | 'active' | string
-    txCount: number
     errorMessage?: string
-    txHash?: string
   }
 }

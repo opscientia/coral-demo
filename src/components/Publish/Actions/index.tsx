@@ -56,14 +56,9 @@ export default function Actions({
   }
 
   const isContinueDisabled =
-    (values.user.stepCurrent === 1 && errors.metadata !== undefined) ||
-    (values.user.stepCurrent === 2 && errors.services !== undefined) ||
-    (values.user.stepCurrent === 3 && errors.pricing !== undefined)
+    values.user.stepCurrent === 1 && errors.metadata !== undefined
 
-  const hasSubmitError =
-    values.feedback?.[1].status === 'error' ||
-    values.feedback?.[2].status === 'error' ||
-    values.feedback?.[3].status === 'error'
+  const hasSubmitError = values.feedback?.[1].status === 'error'
 
   return (
     <footer className={styles.actions}>
