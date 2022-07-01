@@ -10,7 +10,6 @@ import {
 import { validationSchema, getInitialValues } from './_constants'
 import { MetadataEditForm } from './_types'
 import { useWeb3 } from '@context/Web3'
-import { useUserPreferences } from '@context/UserPreferences'
 import Web3Feedback from '@shared/Web3Feedback'
 import FormEditMetadata from './FormEditMetadata'
 import { mapTimeoutStringToSeconds } from '@utils/ddo'
@@ -31,7 +30,6 @@ export default function Edit({
 }: {
   asset: AssetExtended
 }): ReactElement {
-  const { debug } = useUserPreferences()
   const { fetchAsset, isAssetNetwork } = useAsset()
   const { accountId, web3 } = useWeb3()
   const newAbortController = useAbortController()
@@ -187,12 +185,6 @@ export default function Edit({
                   isAssetNetwork={isAssetNetwork}
                 />
               </aside>
-
-              {debug === true && (
-                <div className={styles.grid}>
-                  <DebugEditMetadata values={values} asset={asset} />
-                </div>
-              )}
             </article>
           </>
         )

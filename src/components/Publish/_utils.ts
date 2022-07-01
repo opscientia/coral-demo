@@ -1,15 +1,41 @@
-import {
-  DDO,
-  generateDid,
-  getHash,
-  Metadata,
-  Service
-} from '@oceanprotocol/lib'
+import { generateDid, getHash } from '@oceanprotocol/lib'
 import { mapTimeoutStringToSeconds } from '@utils/ddo'
 import { getEncryptedFiles } from '@utils/provider'
 import slugify from 'slugify'
 import { FormPublishData } from './_types'
 import { sanitizeUrl } from '@utils/url'
+
+interface Metadata {
+  created: string
+  updated: string
+  name: string
+  description: string
+  author: string
+  license: string
+  tags?: string[]
+  links?: string[]
+  additionalInformation?: any
+}
+interface DDO {
+  '@context': string[]
+  id: string
+  version: string
+  nftAddress: string
+  chainId: number
+  metadata: Metadata
+  // services: Service[]
+  event?: Event
+}
+interface Service {
+  id: string
+  files: string
+  datatokenAddress: string
+  serviceEndpoint: string
+  timeout: number
+  name?: string
+  description?: string
+  additionalInformation?: any
+}
 
 export function getFieldContent(
   fieldName: string,
@@ -75,17 +101,17 @@ export async function transformPublishFormToDdo(
       }
     ]
   }
-  const filesEncrypted =
-    !isPreview &&
-    files?.length &&
-    files[0].valid &&
-    (await getEncryptedFiles(file, providerUrl.url))
+  // const filesEncrypted =
+  //   !isPreview &&
+  //   files?.length &&
+  //   files[0].valid &&
+  //   (await getEncryptedFiles(file, providerUrl.url))
 
-  const newService: Service = {
-    id: getHash(datatokenAddress + filesEncrypted),
-    files: filesEncrypted || '',
-    datatokenAddress
-  }
+  // const newService: Service = {
+  //   id: getHash(datatokenAddress + filesEncrypted),
+  //   files: filesEncrypted || '',
+  //   datatokenAddress
+  // }
 
   const newDdo: DDO = {
     '@context': ['https://w3id.org/did/v1'],
@@ -93,8 +119,8 @@ export async function transformPublishFormToDdo(
     nftAddress,
     version: '4.1.0',
     chainId,
-    metadata: newMetadata,
-    services: [newService]
+    metadata: newMetadata
+    // services: [newService]
   }
 
   return newDdo

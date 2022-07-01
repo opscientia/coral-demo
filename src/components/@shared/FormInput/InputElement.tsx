@@ -3,14 +3,12 @@ import styles from './InputElement.module.css'
 import { InputProps } from '.'
 import FilesDragAndDrop from '../FormFields/FilesDragAndDrop'
 import FilesInput from '../FormFields/FilesInput'
-import CustomProvider from '../FormFields/Provider'
 import BoxSelection, { BoxSelectionOption } from '../FormFields/BoxSelection'
 import Datatoken from '../FormFields/Datatoken'
 import classNames from 'classnames/bind'
 import AssetSelection, {
   AssetSelectionAsset
 } from '../FormFields/AssetSelection'
-import Nft from '../FormFields/Nft'
 import InputRadio from './InputRadio'
 
 const cx = classNames.bind(styles)
@@ -110,12 +108,6 @@ export default function InputElement({
       return <FilesInput {...field} {...props} />
     case 'filesDragAndDrop':
       return <FilesDragAndDrop name={name} {...field} {...props} />
-    case 'providerUrl':
-      return <CustomProvider {...field} {...props} />
-    case 'nft':
-      return <Nft {...field} {...props} />
-    case 'datatoken':
-      return <Datatoken {...field} {...props} />
     case 'boxSelection':
       return (
         <BoxSelection

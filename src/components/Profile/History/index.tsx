@@ -1,10 +1,7 @@
 import React, { ReactElement } from 'react'
 import Tabs from '@shared/atoms/Tabs'
-import PoolShares from './PoolShares'
-import PoolTransactions from '@shared/PoolTransactions'
 import PublishedList from './PublishedList'
 import Downloads from './Downloads'
-import ComputeJobs from './ComputeJobs'
 import styles from './index.module.css'
 import { useWeb3 } from '@context/Web3'
 

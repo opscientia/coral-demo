@@ -13,9 +13,9 @@ export default function Preview(): ReactElement {
 
   useEffect(() => {
     async function makeDdo() {
-      const asset = (await transformPublishFormToDdo(values)) as AssetExtended
-      // dummy BestPrice to trigger certain AssetActions
-      setAsset(asset)
+      // const asset = (await transformPublishFormToDdo(values)) as AssetExtended
+      // // dummy BestPrice to trigger certain AssetActions
+      // setAsset(asset)
     }
     makeDdo()
   }, [values])

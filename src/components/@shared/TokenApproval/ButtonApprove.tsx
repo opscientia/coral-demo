@@ -28,22 +28,10 @@ export function ButtonApprove({
       onClick={() => approveTokens(`${2 ** 53 - 1}`)}
     >
       Approve {tokenSymbol}{' '}
-      <Tooltip
-        content={content.pool.tooltips.approveInfinite.replace(
-          'COIN',
-          tokenSymbol
-        )}
-      />
     </Button>
   ) : (
     <Button style="primary" size="small" onClick={() => approveTokens(amount)}>
       Approve {amount} {tokenSymbol}
-      <Tooltip
-        content={content.pool.tooltips.approveSpecific.replace(
-          'COIN',
-          tokenSymbol
-        )}
-      />
     </Button>
   )
 }

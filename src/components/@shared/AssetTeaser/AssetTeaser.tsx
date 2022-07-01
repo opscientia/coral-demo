@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 import Link from 'next/link'
 import Dotdotdot from 'react-dotdotdot'
-import Price from '@shared/Price'
 import removeMarkdown from 'remove-markdown'
 import Publisher from '@shared/Publisher'
 import AssetType from '@shared/AssetType'
@@ -51,7 +50,6 @@ export default function AssetTeaser({
           </div>
 
           <footer className={styles.foot}>
-            <Price accessDetails={asset.accessDetails} size="small" />
             <NetworkName networkId={asset.chainId} className={styles.network} />
           </footer>
         </a>

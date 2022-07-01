@@ -26,7 +26,6 @@ export default function AssetContent({
   const [isOwner, setIsOwner] = useState(false)
   const { accountId } = useWeb3()
   const { isInPurgatory, purgatoryData, owner, isAssetNetwork } = useAsset()
-  const { debug } = useUserPreferences()
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
 

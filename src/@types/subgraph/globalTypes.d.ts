@@ -14,13 +14,6 @@ export enum NftUpdateType {
   TOKENURI_UPDATED = 'TOKENURI_UPDATED'
 }
 
-export enum PoolTransactionType {
-  EXIT = 'EXIT',
-  JOIN = 'JOIN',
-  SETUP = 'SETUP',
-  SWAP = 'SWAP'
-}
-
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

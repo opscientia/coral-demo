@@ -7,7 +7,6 @@ import { validationSchema } from './_validation'
 import { LockerForm } from './_types'
 import { useUserPreferences } from '@context/UserPreferences'
 import { Logger, Metadata } from '@oceanprotocol/lib'
-import Debug from './Debug'
 import { useAccountPurgatory } from '@hooks/useAccountPurgatory'
 import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
@@ -17,7 +16,6 @@ import { maxUploadSize } from './_constants'
 const formName = 'data-locker-form'
 
 export default function LockerPage(): ReactElement {
-  const { debug } = useUserPreferences()
   const { web3, accountId } = useWeb3()
   const [newFileUploaded, setNewFileUploaded] = useState(false)
   const [success, setSuccess] = useState<string>()
@@ -126,7 +124,6 @@ export default function LockerPage(): ReactElement {
           return (
             <>
               <FormLocker />
-              {debug === true && <Debug values={values} />}
             </>
           )
         }}

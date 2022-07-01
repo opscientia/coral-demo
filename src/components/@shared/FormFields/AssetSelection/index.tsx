@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState } from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import slugify from 'slugify'
 import classNames from 'classnames/bind'
-import PriceUnit from '@shared/Price/PriceUnit'
 import External from '@images/external.svg'
 import InputElement from '@shared/FormInput/InputElement'
 import Loader from '@shared/atoms/Loader'
@@ -106,13 +105,6 @@ export default function AssetSelection({
                     {asset.symbol} | {asset.did}
                   </Dotdotdot>
                 </label>
-
-                <PriceUnit
-                  price={asset.price}
-                  type={asset.price === '0' ? 'free' : undefined}
-                  size="small"
-                  className={styles.price}
-                />
               </div>
             ))
         )}

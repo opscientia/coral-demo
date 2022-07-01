@@ -1,8 +1,6 @@
 import React, { ReactElement } from 'react'
 import styles from './index.module.css'
-import PriceUnit from '@shared/Price/PriceUnit'
 import Logo from '@shared/atoms/Logo'
-import Conversion from '@shared/Price/Conversion'
 
 export default function Token({
   symbol,
@@ -25,11 +23,7 @@ export default function Token({
         >
           <Logo noWordmark />
         </figure>
-        <PriceUnit price={balance} symbol={symbol} size={size} />
       </div>
-      {conversion && (
-        <Conversion price={balance} className={`${styles.conversion}`} />
-      )}
     </>
   )
 }

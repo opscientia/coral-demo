@@ -2,7 +2,6 @@ import { useUserPreferences } from '@context/UserPreferences'
 import React, { ReactElement, useEffect, useState } from 'react'
 import Table from '@shared/atoms/Table'
 import { LoggerInstance } from '@oceanprotocol/lib'
-import Price from '@shared/Price'
 import Tooltip from '@shared/atoms/Tooltip'
 import AssetTitle from '@shared/AssetList/AssetListTitle'
 import { retrieveDDOListByDIDs } from '@utils/aquarius'
@@ -32,13 +31,6 @@ const columns = [
       )
     },
     maxWidth: '10rem'
-  },
-  {
-    name: 'Price',
-    selector: function getAssetRow(row: AssetExtended) {
-      return <Price accessDetails={row.accessDetails} size="small" />
-    },
-    right: true
   }
 ]
 

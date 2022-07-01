@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react'
-import PriceUnit from '@shared/Price/PriceUnit'
 import styles from './UserLiquidity.module.css'
 
 function UserLiquidityLine({
@@ -14,7 +13,6 @@ function UserLiquidityLine({
   return (
     <div>
       <span>{title}</span>
-      <PriceUnit price={amount} symbol={symbol} size="small" />
     </div>
   )
 }
