@@ -222,9 +222,9 @@ export default function Dashboard({
       // Update filesInCurrentDir
       const currentFolder = fileMap[currentFolderId] || fileMap['root/']
       if (currentFolder.childrenCount > 0) {
-        const filesTemp = currentFolder.childrenIds.map(
-          (fileId: string) => fileMap[fileId] ?? null
-        )
+        const filesTemp = currentFolder.childrenIds
+          .map((fileId: string) => fileMap[fileId] ?? null)
+          .filter((_file: ChonkyFileData) => !!_file)
         setFilesInCurrentDir(filesTemp)
       }
 
