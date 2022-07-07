@@ -1,6 +1,5 @@
 import React, { ReactElement, useState, useEffect, useMemo } from 'react'
 import Button from '@shared/atoms/Button'
-import DataSetTeaser from './DataSetTeaser'
 import { useWeb3 } from '@context/Web3'
 import DisplayFile from './DisplayFile'
 import classNames from 'classnames/bind'
@@ -29,9 +28,9 @@ const cx = classNames.bind(styles)
 
 interface FileMetadata {
   address: string
-  filename: string
+  name: string
   cid: string
-  requestid: number
+  estuaryId: number
   path: string
 }
 
@@ -72,7 +71,7 @@ function addFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
           path,
           isDir: true,
           isDatasetRoot: false,
-          requestid: file.requestid
+          estuaryId: file.estuaryId
         }
       }
       const oldPath = path
@@ -192,9 +191,9 @@ export default function Dashboard({
       .then((resp) => resp.json())
       .then((files: FileMetadata[]) => {
         let newFiles: ChonkyFileData[] = files.map((file) => ({
-          name: file.filename,
+          name: file.name,
           id: file.path,
-          requestid: file.requestid,
+          estuaryId: file.estuaryId,
           path: file.path,
           isDatasetRoot: false
         }))
@@ -245,9 +244,9 @@ export default function Dashboard({
     }
   }, [files, fileMap, currentFolderId])
 
-  function removeFileFromDisplay(requestId: number) {
+  function removeFileFromDisplay(estuaryId: number) {
     const filesTemp = files.slice()
-    const newFiles = filesTemp.filter((file) => file.requestid !== requestId)
+    const newFiles = filesTemp.filter((file) => file.estuaryId !== estuaryId)
     setFiles(newFiles)
   }
 
@@ -265,12 +264,16 @@ export default function Dashboard({
       })
       const onlyDeletingRootDirs =
         filesToDeleteInRootDirs.length === _files.length
-      if (onlyDeletingRootDirs) {
+      if (!onlyDeletingRootDirs) {
+        console.log(
+          'Trying to delete non-root file or directory. Operation not allowed.'
+        )
+      } else {
         _files = _files.filter((_file) => _file.isDatasetRoot)
       }
       for (const _file of _files) {
         // Sign url. If URL does not include path to file, the whole dataset will be deleted
-        let strToSign = `/fileMetadata?address=${web3Context.accountId}&requestid=${_file.requestid}`
+        let strToSign = `/fileMetadata?address=${web3Context.accountId}&estuaryId=${_file.estuaryId}`
         if (!_file.isDatasetRoot) strToSign += `&path=${_file.path}`
         const hashedStr = web3Context.web3.utils.sha3(strToSign)
         const signature = await web3Context.web3.eth.sign(
@@ -289,7 +292,7 @@ export default function Dashboard({
             method: 'DELETE'
           })
           const data = await resp.json()
-          removeFileFromDisplay(_file.requestid)
+          removeFileFromDisplay(_file.estuaryId)
           setReloadFiles(!reloadFiles)
         } catch (err) {
           console.log(err)
@@ -344,7 +347,7 @@ export default function Dashboard({
     // pseudocode:
     // if file is not dir, then submit delete request (with path) for it
     // if file is dir (but not root dir), then submit separate delete request for every child file
-    // if file is root dir of dataset, then submit delete request containing requestid but not path
+    // if file is root dir of dataset, then submit delete request containing estuaryId but not path
     _files = addChildren(_files)
     _files = _files.filter((_file) => !_file.isDir || _file.isDatasetRoot) // Remove dirs, except root dir
     confirmDelete(_files)

@@ -11,9 +11,9 @@ import { useWeb3 } from '@context/Web3'
 
 interface FileMetadata {
   address: string
-  filename: string
+  name: string
   cid: string
-  requestid: number
+  estuaryId: number
 }
 
 export default function FilesInput(props: InputProps): ReactElement {
@@ -62,8 +62,8 @@ export default function FilesInput(props: InputProps): ReactElement {
             <select onChange={handleSelect}>
               <option />
               {filesMetadata.map((file) => (
-                <option key={file.requestid} value={file.cid}>
-                  {file.filename}
+                <option key={file.estuaryId} value={file.cid}>
+                  {file.name}
                 </option>
               ))}
             </select>

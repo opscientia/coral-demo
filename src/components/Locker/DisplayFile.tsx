@@ -27,7 +27,7 @@ export default function DisplayFile({
       const resp = await fetch(
         process.env.NEXT_PUBLIC_PROXY_API_URL +
           '/getDatasetDescription' +
-          `?requestid=${fileData.requestid}`
+          `?estuaryId=${fileData.estuaryId}`
       )
       return await resp.json()
     }
