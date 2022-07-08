@@ -67,9 +67,6 @@ export default function DatasetInput(props: InputProps): ReactElement {
     helpers.setValue(event.target.value)
   }
 
-  console.log(values)
-  console.log(`props.name: ${props.name}`)
-
   return (
     <>
       <div>
