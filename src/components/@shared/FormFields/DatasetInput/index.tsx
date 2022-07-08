@@ -76,17 +76,19 @@ export default function DatasetInput(props: InputProps): ReactElement {
         {datasetsMetadata && datasetsMetadata.length > 0 ? (
           <select onChange={handleSelect}>
             <option />
-            {datasetsMetadata.map((dataset) => {
-              return dataset._id === field.value ? (
-                <option key={dataset._id} value={dataset._id} selected>
-                  {dataset.title}
-                </option>
-              ) : (
-                <option key={dataset._id} value={dataset._id}>
-                  {dataset.title}
-                </option>
-              )
-            })}
+            {datasetsMetadata
+              .filter((dataset) => !dataset.published)
+              .map((dataset) => {
+                return dataset._id === field.value ? (
+                  <option key={dataset._id} value={dataset._id} selected>
+                    {dataset.title}
+                  </option>
+                ) : (
+                  <option key={dataset._id} value={dataset._id}>
+                    {dataset.title}
+                  </option>
+                )
+              })}
           </select>
         ) : (
           <p>
