@@ -273,8 +273,8 @@ export default function Dashboard({
       }
       for (const _file of _files) {
         // Sign url. If URL does not include path to file, the whole dataset will be deleted
-        let strToSign = `/metadata/files?address=${web3Context.accountId}&estuaryId=${_file.estuaryId}`
-        if (!_file.isDatasetRoot) strToSign += `&path=${_file.path}`
+        const strToSign = `/metadata/files?address=${web3Context.accountId}&estuaryId=${_file.estuaryId}`
+        // if (!_file.isDatasetRoot) strToSign += `&path=${_file.path}`
         const hashedStr = web3Context.web3.utils.sha3(strToSign)
         const signature = await web3Context.web3.eth.sign(
           hashedStr,
