@@ -37,25 +37,17 @@
       }
     ]
   },
-  "services": {
+  "datasets": {
     "title": "Access",
     "fields": [
       {
-        "name": "files",
-        "label": "File",
-        "placeholder": "e.g. https://file.com/file.json",
-        "help": "This URL will be stored encrypted after publishing. **Please make sure that the endpoint is accessible over the internet and is not protected by a firewall or by credentials.** For a compute data set, your file should match the file type required by the algorithm, and should not exceed 1 GB in file size. ",
+        "name": "datasetId",
+        "label": "Dataset",
+        "placeholder": "dataset1/",
+        "help": "Select a dataset from your Data Locker to publish to Commons. This will allow others to search for and download your dataset.",
         "prominentHelp": true,
-        "type": "files",
+        "type": "dataset",
         "required": true
-      },
-      {
-        "name": "links",
-        "label": "Sample file",
-        "placeholder": "e.g. https://file.com/samplefile.json",
-        "help": "This file should reveal the data structure of your data set, e.g. by including the header and one line of a CSV file. This file URL will be publicly available after publishing. **Please make sure that the endpoint is accessible over the internet and is not protected by a firewall or by credentials.**",
-        "prominentHelp": true,
-        "type": "files"
       }
     ]
   },

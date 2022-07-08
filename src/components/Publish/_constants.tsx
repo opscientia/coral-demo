@@ -3,7 +3,7 @@ import { allowDynamicPricing, allowFixedPricing } from '../../../app.config.js'
 import { FormPublishData, PublishFeedback, StepContent } from './_types'
 import content from '../../../content/publish/form.json'
 import MetadataFields from './Metadata'
-import ServicesFields from './Services'
+import DatasetsFields from './Datasets'
 import Preview from './Preview'
 import Submission from './Submission'
 import { ServiceComputeOptions } from '@oceanprotocol/lib'
@@ -17,8 +17,9 @@ export const wizardSteps: StepContent[] = [
   },
   {
     step: 2,
-    title: content.services.title,
-    component: <ServicesFields />
+    // title: content.services.title,
+    title: content.datasets.title,
+    component: <DatasetsFields />
   },
   {
     step: 3,
@@ -45,12 +46,7 @@ export const initialValues: FormPublishData = {
     tags: '',
     termsAndConditions: false
   },
-  services: [
-    {
-      files: [{ url: '' }],
-      links: [{ url: '' }]
-    }
-  ]
+  datasets: { datasetId: '' }
 }
 
 export const initialPublishFeedback: PublishFeedback = contentFeedback

@@ -3,18 +3,6 @@ import { NftMetadata } from '@utils/nft'
 import { ReactElement } from 'react'
 import { PriceOptions } from 'src/@types/Price'
 
-interface FileInfo {
-  url: string
-  valid?: boolean
-  contentLength?: string
-  contentType?: string
-}
-
-export interface FormPublishService {
-  files: FileInfo[]
-  links?: FileInfo[]
-}
-
 export interface FormPublishData {
   user: {
     stepCurrent: number
@@ -28,7 +16,9 @@ export interface FormPublishData {
     termsAndConditions: boolean
     tags?: string
   }
-  services: FormPublishService[]
+  datasets: {
+    datasetId: string
+  }
   feedback?: PublishFeedback
 }
 

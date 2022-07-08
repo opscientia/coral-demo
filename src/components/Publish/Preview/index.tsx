@@ -3,7 +3,6 @@ import styles from './index.module.css'
 import { FormPublishData } from '../_types'
 import { useFormikContext } from 'formik'
 import AssetContent from 'src/components/Asset/AssetContent'
-import { transformPublishFormToDdo } from '../_utils'
 import { AssetExtended } from 'src/@types/AssetExtended'
 import { ZERO_ADDRESS } from '@oceanprotocol/lib'
 

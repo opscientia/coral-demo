@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import styles from './InputElement.module.css'
 import { InputProps } from '.'
 import FilesDragAndDrop from '../FormFields/FilesDragAndDrop'
-import FilesInput from '../FormFields/FilesInput'
+import DatasetInput from '../FormFields/DatasetInput'
 import BoxSelection, { BoxSelectionOption } from '../FormFields/BoxSelection'
 import Datatoken from '../FormFields/Datatoken'
 import classNames from 'classnames/bind'
@@ -104,8 +104,8 @@ export default function InputElement({
           {...props}
         />
       )
-    case 'files':
-      return <FilesInput {...field} {...props} />
+    case 'dataset':
+      return <DatasetInput {...field} {...props} />
     case 'filesDragAndDrop':
       return <FilesDragAndDrop name={name} {...field} {...props} />
     case 'boxSelection':

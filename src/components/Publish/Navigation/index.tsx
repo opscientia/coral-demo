@@ -21,12 +21,12 @@ export default function Navigation(): ReactElement {
 
   function getSuccessClass(step: number) {
     const isSuccessMetadata = errors.metadata === undefined
-    const isSuccessServices = errors.services === undefined
-    const isSuccessPreview = isSuccessMetadata && isSuccessServices
+    const isSuccessDataset = errors.datasets === undefined
+    const isSuccessPreview = isSuccessMetadata && isSuccessDataset
 
     const isSuccess =
       (step === 1 && isSuccessMetadata) ||
-      (step === 2 && isSuccessServices) ||
+      (step === 2 && isSuccessDataset) ||
       (step === 4 && isSuccessPreview)
 
     return isSuccess ? styles.success : null

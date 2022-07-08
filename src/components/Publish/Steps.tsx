@@ -10,17 +10,8 @@ export function Steps({
 }: {
   feedback: PublishFeedback
 }): ReactElement {
-  const { chainId, accountId } = useWeb3()
   const { values, setFieldValue, touched, setTouched } =
     useFormikContext<FormPublishData>()
-
-  // auto-sync user chainId & account into form data values
-  useEffect(() => {
-    if (!chainId || !accountId) return
-
-    setFieldValue('user.chainId', chainId)
-    setFieldValue('user.accountId', accountId)
-  }, [chainId, accountId, setFieldValue])
 
   // auto-sync publish feedback into form data values
   useEffect(() => {
@@ -37,22 +28,6 @@ export function Steps({
       }
     })
   }, [feedback, setFieldValue])
-
-  // Auto-change default providerUrl on user network change
-  useEffect(() => {
-    if (!values?.user?.chainId) return
-
-    const config = getOceanConfig(values.user.chainId)
-    if (config) {
-      setFieldValue('services[0].providerUrl', {
-        url: config.providerUri,
-        valid: true,
-        custom: false
-      })
-    }
-
-    setTouched({ ...touched })
-  }, [values?.user?.chainId, setFieldValue, setTouched])
 
   const { component } = wizardSteps.filter((stepContent) => {
     return stepContent.step === values.user.stepCurrent

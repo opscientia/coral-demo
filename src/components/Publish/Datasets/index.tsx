@@ -10,7 +10,7 @@ import Alert from '@shared/atoms/Alert'
 import { useMarketMetadata } from '@context/MarketMetadata'
 import styles from '../index.module.css'
 
-export default function ServicesFields(): ReactElement {
+export default function DatasetsFields(): ReactElement {
   const { siteContent } = useMarketMetadata()
 
   // connect with Form state, use for conditional field rendering
@@ -19,14 +19,10 @@ export default function ServicesFields(): ReactElement {
   return (
     <>
       <Field
-        {...getFieldContent('files', content.services.fields)}
+        // {...getFieldContent('files', content.services.fields)}
+        {...getFieldContent('datasetId', content.datasets.fields)}
         component={Input}
-        name="services[0].files"
-      />
-      <Field
-        {...getFieldContent('links', content.services.fields)}
-        component={Input}
-        name="services[0].links"
+        name="datasets.datasetId"
       />
     </>
   )

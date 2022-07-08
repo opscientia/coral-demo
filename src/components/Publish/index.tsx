@@ -46,17 +46,33 @@ export default function PublishPage({
       }
     }))
     try {
-      // TODO: Send API call to Commons Proxy
+      // Generate signature
+      const { datasetId } = values.datasets
+      const msg = `${accountId}${datasetId}`
+      const hashedStr = web3.utils.sha3(msg)
+      const signature = await web3.eth.sign(hashedStr, accountId)
+      const url =
+        process.env.NEXT_PUBLIC_PROXY_API_URL +
+        `/metadata/datasets/publish?address=${accountId}&signature=${signature}&datasetId=${datasetId}`
 
-      console.log('[publish] successfully published dataset')
+      // Call publish/ API endpoint
+      const resp = await fetch(url, {
+        method: 'GET'
+      })
+      const data = await resp.json()
 
-      setFeedback((prevState) => ({
-        ...prevState,
-        '1': {
-          ...prevState['1'],
-          status: 'success'
-        }
-      }))
+      if (!data.error) {
+        console.log('[publish] successfully published dataset')
+        setFeedback((prevState) => ({
+          ...prevState,
+          '1': {
+            ...prevState['1'],
+            status: 'success'
+          }
+        }))
+      } else {
+        throw new Error('Failed to publish dataset')
+      }
     } catch (error) {
       console.error('[publish] error', error.message)
       setFeedback((prevState) => ({

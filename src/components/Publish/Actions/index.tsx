@@ -87,21 +87,6 @@ export default function Actions({
             >
               Continue
             </Button>
-          ) : !accountId ? (
-            <Button type="submit" style="primary" onClick={handleActivation}>
-              Connect Wallet
-            </Button>
-          ) : !isSupportedOceanNetwork ? (
-            <Tooltip content={<AvailableNetworks />}>
-              <Button
-                type="submit"
-                style="primary"
-                disabled
-                className={styles.infoButton}
-              >
-                Unsupported Network <Info className={styles.infoIcon} />
-              </Button>
-            </Tooltip>
           ) : (
             <Button
               type="submit"

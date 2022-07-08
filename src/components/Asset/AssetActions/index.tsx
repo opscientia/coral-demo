@@ -12,7 +12,7 @@ import { useCancelToken } from '@hooks/useCancelToken'
 import { useIsMounted } from '@hooks/useIsMounted'
 import styles from './index.module.css'
 import { useFormikContext } from 'formik'
-import { FormPublishData } from 'src/components/Publish/_types'
+// import { FormPublishData } from 'src/components/Publish/_types'
 import { AssetExtended } from 'src/@types/AssetExtended'
 import PoolProvider from '@context/Pool'
 
@@ -30,7 +30,7 @@ export default function AssetActions({
   // on asset details page as there is no formik context there:
   // Warning: Formik context is undefined, please verify you are calling useFormikContext()
   // as child of a <Formik> component.
-  const formikState = useFormikContext<FormPublishData>()
+  // const formikState = useFormikContext<FormPublishData>()
 
   const [isBalanceSufficient, setIsBalanceSufficient] = useState<boolean>()
   const [dtBalance, setDtBalance] = useState<string>()

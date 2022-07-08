@@ -183,7 +183,7 @@ export default function Dashboard({
   function getAndSetFiles() {
     fetch(
       process.env.NEXT_PUBLIC_PROXY_API_URL +
-        `/fileMetadata?address=${web3Context.accountId}`,
+        `/metadata/files?address=${web3Context.accountId}`,
       {
         method: 'GET'
       }
@@ -273,7 +273,7 @@ export default function Dashboard({
       }
       for (const _file of _files) {
         // Sign url. If URL does not include path to file, the whole dataset will be deleted
-        let strToSign = `/fileMetadata?address=${web3Context.accountId}&estuaryId=${_file.estuaryId}`
+        let strToSign = `/metadata/files?address=${web3Context.accountId}&estuaryId=${_file.estuaryId}`
         if (!_file.isDatasetRoot) strToSign += `&path=${_file.path}`
         const hashedStr = web3Context.web3.utils.sha3(strToSign)
         const signature = await web3Context.web3.eth.sign(

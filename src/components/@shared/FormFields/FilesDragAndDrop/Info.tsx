@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from 'react'
 import { FileInfo } from '@oceanprotocol/lib'
-import { prettySize } from '@shared/FormFields/FilesInput/utils'
+import { prettySize } from '@shared/FormFields/DatasetInput/utils'
 import cleanupContentType from '@utils/cleanupContentType'
 import styles from './Info.module.css'
 import { useField, useFormikContext } from 'formik'
