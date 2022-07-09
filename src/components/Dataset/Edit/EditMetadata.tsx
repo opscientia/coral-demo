@@ -20,7 +20,7 @@ import { useAbortController } from '@hooks/useAbortController'
 import DebugEditMetadata from './DebugEditMetadata'
 import { getOceanConfig } from '@utils/ocean'
 import EditFeedback from './EditFeedback'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import { setNftMetadata } from '@utils/nft'
 import { sanitizeUrl } from '@utils/url'
 import { getEncryptedFiles } from '@utils/provider'
@@ -30,7 +30,7 @@ export default function Edit({
 }: {
   asset: AssetExtended
 }): ReactElement {
-  const { fetchAsset, isAssetNetwork } = useAsset()
+  const { fetchDataset } = useDataset()
   const { accountId, web3 } = useWeb3()
   const newAbortController = useAbortController()
   const [success, setSuccess] = useState<string>()
@@ -164,7 +164,7 @@ export default function Edit({
             successAction={{
               name: 'View Asset',
               onClick: async () => {
-                await fetchAsset()
+                await fetchDataset()
               },
               to: `/asset/${asset.id}`
             }}
@@ -178,13 +178,6 @@ export default function Edit({
                 showPrice={asset?.accessDetails?.type === 'fixed'}
                 isComputeDataset={isComputeType}
               />
-
-              <aside>
-                <Web3Feedback
-                  networkId={asset?.chainId}
-                  isAssetNetwork={isAssetNetwork}
-                />
-              </aside>
             </article>
           </>
         )

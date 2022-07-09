@@ -25,7 +25,7 @@ import { setMinterToPublisher, setMinterToDispenser } from '@utils/dispenser'
 import { transformComputeFormToServiceComputeOptions } from '@utils/compute'
 import { useAbortController } from '@hooks/useAbortController'
 import DebugEditCompute from './DebugEditCompute'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import EditFeedback from './EditFeedback'
 import { setNftMetadata } from '@utils/nft'
 
@@ -35,7 +35,7 @@ export default function EditComputeDataset({
   asset: AssetExtended
 }): ReactElement {
   const { accountId, web3 } = useWeb3()
-  const { fetchAsset, isAssetNetwork } = useAsset()
+  const { fetchDataset } = useDataset()
   const [success, setSuccess] = useState<string>()
   const [error, setError] = useState<string>()
   const newAbortController = useAbortController()
@@ -141,7 +141,7 @@ export default function EditComputeDataset({
             successAction={{
               name: 'View Asset',
               onClick: async () => {
-                await fetchAsset()
+                await fetchDataset()
               },
               to: `/asset/${asset.id}`
             }}
@@ -155,10 +155,6 @@ export default function EditComputeDataset({
                 data={content.form.data}
               />
             </article>
-            <Web3Feedback
-              networkId={asset?.chainId}
-              isAssetNetwork={isAssetNetwork}
-            />
           </>
         )
       }

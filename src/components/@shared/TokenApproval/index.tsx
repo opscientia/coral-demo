@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import { useWeb3 } from '@context/Web3'
 import Decimal from 'decimal.js'
 import { ButtonApprove } from './ButtonApprove'
@@ -22,7 +22,7 @@ export default function TokenApproval({
   setSubmitting?: (isSubmitting: boolean) => void
   setIsTokenApproved: (isApproved: boolean) => void
 }): ReactElement {
-  const { asset, isAssetNetwork } = useAsset()
+  const { asset } = useDataset()
   const [tokenApproved, setTokenApproved] = useState(false)
   const [loading, setLoading] = useState(false)
   const { web3, accountId } = useWeb3()
@@ -30,7 +30,7 @@ export default function TokenApproval({
   const spender = asset?.accessDetails?.addressOrId
 
   const checkTokenApproval = useCallback(async () => {
-    if (!web3 || !tokenAddress || !spender || !isAssetNetwork || !amount) return
+    if (!web3 || !tokenAddress || !spender || !amount) return
 
     const allowanceValue = await allowance(
       web3,
@@ -49,7 +49,7 @@ export default function TokenApproval({
     setIsTokenApproved(
       new Decimal(allowanceValue).greaterThanOrEqualTo(new Decimal(amount))
     )
-  }, [web3, tokenAddress, spender, accountId, amount, isAssetNetwork])
+  }, [web3, tokenAddress, spender, accountId, amount])
 
   useEffect(() => {
     checkTokenApproval()

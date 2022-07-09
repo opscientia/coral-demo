@@ -7,11 +7,11 @@ import useNetworkMetadata, {
   getNetworkDataById,
   getNetworkDisplayName
 } from '@hooks/useNetworkMetadata'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 
 export default function WalletNetworkSwitcher(): ReactElement {
   const { networkId, web3Provider } = useWeb3()
-  const { asset } = useAsset()
+  const { asset } = useDataset()
   const { networksList } = useNetworkMetadata()
   const ddoNetworkData = getNetworkDataById(networksList, asset.chainId)
   const walletNetworkData = getNetworkDataById(networksList, networkId)

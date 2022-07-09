@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect } from 'react'
 import { LoggerInstance } from '@oceanprotocol/lib'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import styles from './index.module.css'
 import Tabs from '@shared/atoms/Tabs'
 import EditMetadata from './EditMetadata'
@@ -11,7 +11,7 @@ import { useWeb3 } from '@context/Web3'
 import Alert from '@shared/atoms/Alert'
 
 export default function Edit({ uri }: { uri: string }): ReactElement {
-  const { asset, error, isInPurgatory, owner, title } = useAsset()
+  const { asset, error, owner, title } = useDataset()
   const [isCompute, setIsCompute] = useState(false)
   const [pageTitle, setPageTitle] = useState<string>('')
   const { accountId } = useWeb3()
@@ -21,9 +21,8 @@ export default function Edit({ uri }: { uri: string }): ReactElement {
       setPageTitle('Edit action not available')
       return
     }
-    setPageTitle(isInPurgatory ? '' : `Edit ${title}`)
     setIsCompute(asset?.services[0]?.type === 'compute')
-  }, [asset, error, isInPurgatory, title])
+  }, [asset, error, title])
 
   const tabs = [
     {

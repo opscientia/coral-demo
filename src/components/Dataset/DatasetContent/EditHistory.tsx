@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import ExplorerLink from '@shared/ExplorerLink'
 import Time from '@shared/atoms/Time'
 import { gql, OperationContext, useQuery } from 'urql'
@@ -33,7 +33,7 @@ export default function EditHistory({
   receipts: ReceiptData[]
   setReceipts: (receipts: ReceiptData[]) => void
 }): ReactElement {
-  const { asset } = useAsset()
+  const { asset } = useDataset()
 
   function getUpdateType(type: string): string {
     switch (type) {

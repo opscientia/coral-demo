@@ -4,7 +4,7 @@ import { useField, useFormikContext } from 'formik'
 import { InputProps } from '@shared/FormInput'
 import { FormPublishData } from 'src/components/Publish/_types'
 import { LoggerInstance } from '@oceanprotocol/lib'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import { useWeb3 } from '@context/Web3'
 
 interface DatasetMetadata {
@@ -37,7 +37,6 @@ export default function DatasetInput(props: InputProps): ReactElement {
   const [isLoading, setIsLoading] = useState(false)
   const [datasetsMetadata, setDatasetsMetadata] = useState<DatasetMetadata[]>()
   const { values, setFieldError } = useFormikContext<FormPublishData>()
-  const { asset } = useAsset()
   const web3Context = useWeb3()
 
   function getAndSetDatasets() {

@@ -4,7 +4,7 @@ import Input, { InputProps } from '@shared/FormInput'
 import FormActions from './FormActions'
 import styles from './FormEdit.module.css'
 import { FormPublishData } from '../../Publish/_types'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import { MetadataEditForm } from './_types'
 
 export function checkIfTimeoutInPredefinedValues(
@@ -26,7 +26,6 @@ export default function FormEditMetadata({
   showPrice: boolean
   isComputeDataset: boolean
 }): ReactElement {
-  const { oceanConfig } = useAsset()
   const {
     validateField,
     setFieldValue
@@ -71,7 +70,7 @@ export default function FormEditMetadata({
               }
               {...field}
               component={Input}
-              prefix={field.name === 'price' && oceanConfig?.oceanTokenSymbol}
+              prefix={field.name === 'price'}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleFieldChange(e, field)
               }

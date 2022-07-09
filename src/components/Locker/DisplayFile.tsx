@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect } from 'react'
 import Modal from '@shared/atoms/Modal'
-import MetaItem from '../Asset/AssetContent/MetaItem'
+import MetaItem from '../Dataset/DatasetContent/MetaItem'
 import classNames from 'classnames/bind'
 import styles from './Dashboard.module.css'
 import { FileData as ChonkyFileData } from 'chonky'

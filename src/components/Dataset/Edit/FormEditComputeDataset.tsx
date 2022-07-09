@@ -9,7 +9,7 @@ import {
   getFilterTerm,
   queryMetadata
 } from '@utils/aquarius'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import { PublisherTrustedAlgorithm } from '@oceanprotocol/lib'
 import FormActions from './FormActions'
 import { useCancelToken } from '@hooks/useCancelToken'
@@ -26,7 +26,7 @@ export default function FormEditComputeDataset({
   title: string
 }): ReactElement {
   const { appConfig } = useMarketMetadata()
-  const { asset } = useAsset()
+  const { asset } = useDataset()
   const { values }: FormikContextType<ComputePrivacyForm> = useFormikContext()
   const [allAlgorithms, setAllAlgorithms] = useState<AssetSelectionAsset[]>()
   const newCancelToken = useCancelToken()

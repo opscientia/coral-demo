@@ -3,10 +3,9 @@ import Link from 'next/link'
 import Markdown from '@shared/Markdown'
 import MetaFull from './MetaFull'
 import MetaSecondary from './MetaSecondary'
-import AssetActions from '../AssetActions'
 import { useUserPreferences } from '@context/UserPreferences'
 import Bookmark from './Bookmark'
-import { useAsset } from '@context/Asset'
+import { useDataset } from '@context/Dataset'
 import Alert from '@shared/atoms/Alert'
 import DebugOutput from '@shared/DebugOutput'
 import MetaMain from './MetaMain'
@@ -25,7 +24,7 @@ export default function AssetContent({
 }): ReactElement {
   const [isOwner, setIsOwner] = useState(false)
   const { accountId } = useWeb3()
-  const { isInPurgatory, purgatoryData, owner, isAssetNetwork } = useAsset()
+  const { owner } = useDataset()
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
 
@@ -49,22 +48,13 @@ export default function AssetContent({
       <article className={styles.grid}>
         <div>
           <div className={styles.content}>
-            {isInPurgatory === true ? (
-              <Alert
-                title={content.asset.title}
-                badge={`Reason: ${purgatoryData?.reason}`}
-                text={content.asset.description}
-                state="error"
+            <>
+              <Markdown
+                className={styles.description}
+                text={asset?.metadata.description || ''}
               />
-            ) : (
-              <>
-                <Markdown
-                  className={styles.description}
-                  text={asset?.metadata.description || ''}
-                />
-                <MetaSecondary ddo={asset} />
-              </>
-            )}
+              <MetaSecondary ddo={asset} />
+            </>
             <MetaFull ddo={asset} />
           </div>
         </div>

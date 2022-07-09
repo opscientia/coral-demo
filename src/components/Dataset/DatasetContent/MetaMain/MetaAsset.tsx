@@ -1,5 +1,3 @@
-import { useAsset } from '@context/Asset'
-import { useWeb3 } from '@context/Web3'
 import { Asset } from '@oceanprotocol/lib'
 import AddToken from '@shared/AddToken'
 import ExplorerLink from '@shared/ExplorerLink'
@@ -15,9 +13,6 @@ export default function MetaAsset({
   asset: AssetExtended
   isBlockscoutExplorer: boolean
 }): ReactElement {
-  const { isAssetNetwork } = useAsset()
-  const { web3ProviderInfo } = useWeb3()
-
   const dataTokenSymbol = asset?.datatokens[0]?.symbol
 
   return (
@@ -37,18 +32,6 @@ export default function MetaAsset({
         >
           {`Accessed with ${dataTokenSymbol}`}
         </ExplorerLink>
-        {web3ProviderInfo?.name === 'MetaMask' && isAssetNetwork && (
-          <span className={styles.addWrap}>
-            <AddToken
-              address={asset?.services[0].datatokenAddress}
-              symbol={(asset as Asset)?.datatokens[0]?.symbol}
-              logo="https://raw.githubusercontent.com/oceanprotocol/art/main/logo/datatoken.png"
-              text={`Add ${(asset as Asset)?.datatokens[0]?.symbol} to wallet`}
-              className={styles.add}
-              minimal
-            />
-          </span>
-        )}
       </span>
     </div>
   )

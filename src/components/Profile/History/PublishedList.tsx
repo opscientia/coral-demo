@@ -5,7 +5,6 @@ import { getPublishedAssets } from '@utils/aquarius'
 import { useUserPreferences } from '@context/UserPreferences'
 import styles from './PublishedList.module.css'
 import { useCancelToken } from '@hooks/useCancelToken'
-import Filters from '../../Search/Filters'
 import { useMarketMetadata } from '@context/MarketMetadata'
 import { CancelToken } from 'axios'
 
@@ -74,13 +73,6 @@ export default function PublishedList({
 
   return accountId ? (
     <>
-      <Filters
-        serviceType={service}
-        setServiceType={setServiceType}
-        accessType={access}
-        setAccessType={setAccessType}
-        className={styles.filters}
-      />
       <AssetList
         assets={queryResult?.results}
         isLoading={isLoading}
