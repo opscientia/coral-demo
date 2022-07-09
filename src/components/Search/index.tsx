@@ -1,5 +1,6 @@
 import React, { ReactElement, useState, useEffect, useCallback } from 'react'
 import AssetList from '@shared/AssetList'
+import DatasetTeaser from '@shared/DatasetTeaser/DatasetTeaser'
 import queryString from 'query-string'
 import Sort from './sort'
 import { getResults, updateQueryStringParameter } from './utils'
@@ -23,6 +24,24 @@ export default function SearchPage({
   const [sortType, setSortType] = useState<string>()
   const [sortDirection, setSortDirection] = useState<string>()
   const newCancelToken = useCancelToken()
+
+  // Commons-specific code
+  const [datasets, setDatasets] = useState<any[]>([])
+
+  useEffect(() => {
+    // Commons-specific code
+    function getAndSetDatasets() {
+      fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL + `/metadata/datasets/published`,
+        {
+          method: 'GET'
+        }
+      )
+        .then((resp) => resp.json())
+        .then((allDatasets) => setDatasets(allDatasets))
+    }
+    getAndSetDatasets()
+  }, [])
 
   useEffect(() => {
     const parsed = queryString.parse(location.search)
@@ -87,14 +106,21 @@ export default function SearchPage({
         </div>
       </div>
       <div className={styles.results}>
-        <AssetList
+        {datasets &&
+          datasets.length > 0 &&
+          datasets.map((dataset) => (
+            <div key={dataset._id}>
+              <DatasetTeaser dataset={dataset} />
+            </div>
+          ))}
+        {/* <AssetList
           assets={queryResult?.results}
           showPagination
           isLoading={loading}
           page={queryResult?.page}
           totalPages={queryResult?.totalPages}
           onPageChange={updatePage}
-        />
+        /> */}
       </div>
     </>
   )
