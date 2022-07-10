@@ -17,8 +17,34 @@ import { AssetExtended } from 'src/@types/AssetExtended'
 import { useIsMounted } from '@hooks/useIsMounted'
 import { useMarketMetadata } from './MarketMetadata'
 
+interface Dataset {
+  _id?: string
+  title?: string
+  description?: string
+  authors?: string[]
+  uploader?: string // blockchain address
+  license?: string
+  doi?: string
+  keywords?: string[]
+  published?: boolean
+  size?: number
+  standard?: {
+    bids?: {
+      validated?: boolean
+      version?: string
+      deidentified?: boolean
+      modality?: string[]
+      tasks?: string[]
+      warnings?: string
+      errors?: string
+    }
+  }
+  miscellaneous?: any
+  chunkIds?: number[]
+}
+
 export interface DatasetProviderValue {
-  asset: AssetExtended
+  dataset: Dataset
   title: string
   owner: string
   error?: string
@@ -37,7 +63,7 @@ function DatasetProvider({
 }): ReactElement {
   const { appConfig } = useMarketMetadata()
 
-  const [asset, setAsset] = useState<AssetExtended>()
+  const [dataset, setDataset] = useState<Dataset>()
   const [title, setTitle] = useState<string>()
   const [owner, setOwner] = useState<string>()
   const [error, setError] = useState<string>()
@@ -61,26 +87,28 @@ function DatasetProvider({
         method: 'GET'
       }
     )
-    const dataset = await resp.json()
+    const datasetTemp = await resp.json()
+    console.log('datasetTemp')
+    console.log(datasetTemp)
 
-    if (!asset) {
+    if (!datasetTemp) {
       setError(
         `\`${_id}\`` +
           '\n\nWe could not find a dataset for this _id in the cache. If you just published a new dataset, wait some seconds and refresh this page.'
       )
       LoggerInstance.error(
         `[dataset] Failed getting dataset for ${_id}`,
-        dataset
+        datasetTemp
       )
     } else {
       setError(undefined)
-      setAsset((prevState) => ({
+      setDataset((prevState) => ({
         ...prevState,
-        ...dataset
+        ...datasetTemp
       }))
-      setTitle(dataset.title)
-      setOwner(dataset.uploader)
-      LoggerInstance.log('[dataset] Got dataset', dataset)
+      setTitle(datasetTemp.title)
+      setOwner(datasetTemp.uploader)
+      LoggerInstance.log('[dataset] Got dataset', datasetTemp)
     }
 
     setLoading(false)
@@ -90,16 +118,16 @@ function DatasetProvider({
   // 1. Get and set asset based on passed _id
   // -----------------------------------
   useEffect(() => {
-    if (!isMounted || !appConfig?.metadataCacheUri) return
+    if (!isMounted) return
 
     fetchDataset()
-  }, [appConfig?.metadataCacheUri, fetchDataset, isMounted])
+  }, [fetchDataset, isMounted])
 
   return (
     <DatasetContext.Provider
       value={
         {
-          asset,
+          dataset,
           _id,
           title,
           owner,

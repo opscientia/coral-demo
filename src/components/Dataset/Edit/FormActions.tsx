@@ -10,7 +10,7 @@ export default function FormActions({
 }: {
   handleClick?: () => void
 }): ReactElement {
-  const { asset } = useDataset()
+  const { dataset } = useDataset()
   const { isValid }: FormikContextType<Partial<any>> = useFormikContext()
 
   return (
@@ -18,7 +18,7 @@ export default function FormActions({
       <Button style="primary" disabled={!isValid} onClick={handleClick}>
         Submit
       </Button>
-      <Link href={`/asset/${asset?.id}`} key={asset?.id}>
+      <Link href={`/dataset/${dataset?._id}`} key={dataset?._id}>
         Cancel
       </Link>
     </footer>

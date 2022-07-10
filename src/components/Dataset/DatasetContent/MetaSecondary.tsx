@@ -5,31 +5,40 @@ import Tags from '@shared/atoms/Tags'
 import Button from '@shared/atoms/Button'
 import { Asset } from '@oceanprotocol/lib'
 
-const SampleButton = ({ url }: { url: string }) => (
-  <Button
-    href={url}
-    target="_blank"
-    rel="noreferrer"
-    download
-    style="text"
-    size="small"
-  >
-    Download Sample
-  </Button>
-)
+interface Dataset {
+  _id?: string
+  title?: string
+  description?: string
+  authors?: string[]
+  uploader?: string // blockchain address
+  license?: string
+  doi?: string
+  keywords?: string[]
+  published?: boolean
+  size?: number
+  standard?: {
+    bids?: {
+      validated?: boolean
+      version?: string
+      deidentified?: boolean
+      modality?: string[]
+      tasks?: string[]
+      warnings?: string
+      errors?: string
+    }
+  }
+  miscellaneous?: any
+  chunkIds?: number[]
+}
 
-export default function MetaSecondary({ ddo }: { ddo: Asset }): ReactElement {
+export default function MetaSecondary({
+  dataset
+}: {
+  dataset: Dataset
+}): ReactElement {
   return (
     <aside className={styles.metaSecondary}>
-      {ddo?.metadata.links?.length > 0 && (
-        <div className={styles.samples}>
-          <MetaItem
-            title="Sample Data"
-            content={<SampleButton url={ddo?.metadata.links[0]} />}
-          />
-        </div>
-      )}
-      {ddo?.metadata?.tags?.length > 0 && <Tags items={ddo?.metadata?.tags} />}
+      {dataset?.keywords?.length > 0 && <Tags items={dataset?.keywords} />}
     </aside>
   )
 }

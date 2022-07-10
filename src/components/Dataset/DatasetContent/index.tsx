@@ -9,7 +9,6 @@ import { useDataset } from '@context/Dataset'
 import Alert from '@shared/atoms/Alert'
 import DebugOutput from '@shared/DebugOutput'
 import MetaMain from './MetaMain'
-import EditHistory from './EditHistory'
 import styles from './index.module.css'
 import NetworkName from '@shared/NetworkName'
 import content from '../../../../content/purgatory.json'
@@ -17,10 +16,36 @@ import { AssetExtended } from 'src/@types/AssetExtended'
 import { useWeb3 } from '@context/Web3'
 import Web3 from 'web3'
 
-export default function AssetContent({
-  asset
+interface Dataset {
+  _id?: string
+  title?: string
+  description?: string
+  authors?: string[]
+  uploader?: string // blockchain address
+  license?: string
+  doi?: string
+  keywords?: string[]
+  published?: boolean
+  size?: number
+  standard?: {
+    bids?: {
+      validated?: boolean
+      version?: string
+      deidentified?: boolean
+      modality?: string[]
+      tasks?: string[]
+      warnings?: string
+      errors?: string
+    }
+  }
+  miscellaneous?: any
+  chunkIds?: number[]
+}
+
+export default function DatasetContent({
+  dataset
 }: {
-  asset: AssetExtended
+  dataset: Dataset
 }): ReactElement {
   const [isOwner, setIsOwner] = useState(false)
   const { accountId } = useWeb3()
@@ -41,7 +66,7 @@ export default function AssetContent({
 
     const isOwner = accountId.toLowerCase() === owner.toLowerCase()
     setIsOwner(isOwner)
-  }, [accountId, owner, asset])
+  }, [accountId, owner, dataset])
 
   return (
     <>
@@ -51,11 +76,11 @@ export default function AssetContent({
             <>
               <Markdown
                 className={styles.description}
-                text={asset?.metadata.description || ''}
+                text={dataset?.description || ''}
               />
-              <MetaSecondary ddo={asset} />
+              <MetaSecondary dataset={dataset} />
             </>
-            <MetaFull ddo={asset} />
+            <MetaFull dataset={dataset} />
           </div>
         </div>
       </article>

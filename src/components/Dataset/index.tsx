@@ -8,20 +8,20 @@ import DatasetContent from './DatasetContent'
 
 export default function DatasetDetails({ uri }: { uri: string }): ReactElement {
   const router = useRouter()
-  const { asset, title, error, loading } = useDataset()
+  const { dataset, title, error, loading } = useDataset()
   const [pageTitle, setPageTitle] = useState<string>()
 
   useEffect(() => {
-    if (!asset || error) {
-      setPageTitle('Could not retrieve asset')
+    if (!dataset || error) {
+      setPageTitle('Could not retrieve dataset')
       return
     }
     setPageTitle(title)
-  }, [asset, error, router, title, uri])
+  }, [dataset, error, router, title, uri])
 
-  return asset && pageTitle !== undefined && !loading ? (
+  return dataset && pageTitle !== undefined && !loading ? (
     <Page title={pageTitle} uri={uri}>
-      <DatasetContent asset={asset} />
+      <DatasetContent dataset={dataset} />
     </Page>
   ) : error ? (
     <Page title={pageTitle} noPageHeader uri={uri}>
