@@ -14,34 +14,9 @@ import { useWeb3 } from './Web3'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { getOceanConfig, getDevelopmentConfig } from '@utils/ocean'
 import { AssetExtended } from 'src/@types/AssetExtended'
+import { Dataset } from 'src/@types/Dataset'
 import { useIsMounted } from '@hooks/useIsMounted'
 import { useMarketMetadata } from './MarketMetadata'
-
-interface Dataset {
-  _id?: string
-  title?: string
-  description?: string
-  authors?: string[]
-  uploader?: string // blockchain address
-  license?: string
-  doi?: string
-  keywords?: string[]
-  published?: boolean
-  size?: number
-  standard?: {
-    bids?: {
-      validated?: boolean
-      version?: string
-      deidentified?: boolean
-      modality?: string[]
-      tasks?: string[]
-      warnings?: string
-      errors?: string
-    }
-  }
-  miscellaneous?: any
-  chunkIds?: number[]
-}
 
 export interface DatasetProviderValue {
   dataset: Dataset

@@ -6,36 +6,12 @@ import { FormPublishData } from 'src/components/Publish/_types'
 import { LoggerInstance } from '@oceanprotocol/lib'
 import { useDataset } from '@context/Dataset'
 import { useWeb3 } from '@context/Web3'
-
-interface DatasetMetadata {
-  _id?: any
-  title?: string
-  description?: string
-  authors?: string[]
-  uploader?: string // blockchain address
-  license?: string
-  doi?: string
-  keywords?: string[]
-  published?: boolean
-  size?: number
-  standard?: {
-    bids?: {
-      validated?: boolean
-      version?: string
-      deidentified?: boolean
-      modality?: string[]
-      tasks?: string[]
-      warnings?: string
-      errors?: string
-    }
-  }
-  chunkIds?: any[]
-}
+import { Dataset } from 'src/@types/Dataset'
 
 export default function DatasetInput(props: InputProps): ReactElement {
   const [field, meta, helpers] = useField(props.name)
   const [isLoading, setIsLoading] = useState(false)
-  const [datasetsMetadata, setDatasetsMetadata] = useState<DatasetMetadata[]>()
+  const [datasetsMetadata, setDatasetsMetadata] = useState<Dataset[]>()
   const { values, setFieldError } = useFormikContext<FormPublishData>()
   const web3Context = useWeb3()
 

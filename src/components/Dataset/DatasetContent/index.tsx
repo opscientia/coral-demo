@@ -15,32 +15,7 @@ import content from '../../../../content/purgatory.json'
 import { AssetExtended } from 'src/@types/AssetExtended'
 import { useWeb3 } from '@context/Web3'
 import Web3 from 'web3'
-
-interface Dataset {
-  _id?: string
-  title?: string
-  description?: string
-  authors?: string[]
-  uploader?: string // blockchain address
-  license?: string
-  doi?: string
-  keywords?: string[]
-  published?: boolean
-  size?: number
-  standard?: {
-    bids?: {
-      validated?: boolean
-      version?: string
-      deidentified?: boolean
-      modality?: string[]
-      tasks?: string[]
-      warnings?: string
-      errors?: string
-    }
-  }
-  miscellaneous?: any
-  chunkIds?: number[]
-}
+import { Dataset } from 'src/@types/Dataset'
 
 export default function DatasetContent({
   dataset
