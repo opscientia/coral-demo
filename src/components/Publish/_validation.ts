@@ -9,7 +9,7 @@ import { getMaxDecimalsValidation } from '@utils/numbers'
 // hint, hint: https://github.com/jquense/yup#mixedwhenkeys-string--arraystring-builder-object--value-schema-schema-schema
 
 const validationMetadata = {
-  name: Yup.string()
+  title: Yup.string()
     .min(4, (param) => `Title must be at least ${param.min} characters`)
     .required('Required'),
   description: Yup.string()
@@ -19,8 +19,8 @@ const validationMetadata = {
       (param) => `Description must have maximum ${param.max} characters`
     )
     .required('Required'),
-  author: Yup.string().required('Required'),
-  tags: Yup.string().nullable(),
+  authors: Yup.string().required('Required'),
+  keywords: Yup.string().nullable(),
   termsAndConditions: Yup.boolean()
     .required('Required')
     .isTrue('Please agree to the Terms and Conditions.')

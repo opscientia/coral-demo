@@ -10,11 +10,11 @@ export interface FormPublishData {
     chainId: number
   }
   metadata: {
-    name: string
+    title: string
     description: string
-    author: string
+    authors: string
     termsAndConditions: boolean
-    tags?: string
+    keywords?: string
   }
   datasets: {
     datasetId: string

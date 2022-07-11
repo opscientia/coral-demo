@@ -51,14 +51,27 @@ export default function PublishPage({
       const msg = `${accountId}${datasetId}`
       const hashedStr = web3.utils.sha3(msg)
       const signature = await web3.eth.sign(hashedStr, accountId)
-      const url =
-        process.env.NEXT_PUBLIC_PROXY_API_URL +
-        `/metadata/datasets/publish?address=${accountId}&signature=${signature}&datasetId=${datasetId}`
+
+      const { title, description, authors, keywords } = values.metadata
 
       // Call publish/ API endpoint
-      const resp = await fetch(url, {
-        method: 'GET'
-      })
+      const resp = await fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL + `/metadata/datasets/publish`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            address: accountId,
+            signature,
+            datasetId,
+            title,
+            description,
+            authors,
+            keywords
+          })
+        }
+      )
+
       const data = await resp.json()
 
       if (!data.error) {

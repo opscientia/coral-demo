@@ -95,7 +95,7 @@ export default function SearchPage({
 
   return (
     <>
-      <div className={styles.search}>
+      {/* <div className={styles.search}>
         <div className={styles.row}>
           <Sort
             sortType={sortType}
@@ -104,7 +104,7 @@ export default function SearchPage({
             setSortDirection={setSortDirection}
           />
         </div>
-      </div>
+      </div> */}
       <div className={styles.results}>
         {datasets &&
           datasets.length > 0 &&

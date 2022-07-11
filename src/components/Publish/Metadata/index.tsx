@@ -14,9 +14,9 @@ export default function MetadataFields(): ReactElement {
   return (
     <>
       <Field
-        {...getFieldContent('name', content.metadata.fields)}
+        {...getFieldContent('title', content.metadata.fields)}
         component={Input}
-        name="metadata.name"
+        name="metadata.title"
       />
       <Field
         {...getFieldContent('description', content.metadata.fields)}
@@ -25,14 +25,14 @@ export default function MetadataFields(): ReactElement {
         rows={7}
       />
       <Field
-        {...getFieldContent('author', content.metadata.fields)}
+        {...getFieldContent('authors', content.metadata.fields)}
         component={Input}
-        name="metadata.author"
+        name="metadata.authors"
       />
       <Field
-        {...getFieldContent('tags', content.metadata.fields)}
+        {...getFieldContent('keywords', content.metadata.fields)}
         component={Input}
-        name="metadata.tags"
+        name="metadata.keywords"
       />
       <Field
         {...getFieldContent('termsAndConditions', content.metadata.fields)}

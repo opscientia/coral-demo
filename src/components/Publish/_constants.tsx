@@ -40,10 +40,10 @@ export const initialValues: FormPublishData = {
     accountId: ''
   },
   metadata: {
-    name: '',
-    author: '',
+    title: '',
+    authors: '',
     description: '',
-    tags: '',
+    keywords: '',
     termsAndConditions: false
   },
   datasets: { datasetId: '' }
