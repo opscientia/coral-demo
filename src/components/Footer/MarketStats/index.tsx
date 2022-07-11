@@ -2,9 +2,6 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 import { OperationContext } from 'urql'
 import Tooltip from '@shared/atoms/Tooltip'
 import { fetchData, getSubgraphUri } from '@utils/subgraph'
-import useNetworkMetadata, {
-  filterNetworksByType
-} from '@hooks/useNetworkMetadata'
 import { LoggerInstance } from '@oceanprotocol/lib'
 import styles from './index.module.css'
 import { FooterStatsValues_globalStatistics as FooterStatsValuesGlobalStatistics } from 'src/@types/subgraph/FooterStatsValues'
@@ -28,7 +25,6 @@ const initialTotal: StatsTotal = {
 
 export default function MarketStats(): ReactElement {
   const { appConfig } = useMarketMetadata()
-  const { networksList } = useNetworkMetadata()
   const { currency } = useUserPreferences()
   const { prices } = usePrices()
 
@@ -41,20 +37,6 @@ export default function MarketStats(): ReactElement {
   const [totalOceanLiquidity, setTotalOceanLiquidity] = useState<StatsValue>()
   const [poolCount, setPoolCount] = useState<StatsValue>()
   const [total, setTotal] = useState(initialTotal)
-
-  //
-  // Set the main chain ids we want to display stats for
-  //
-  useEffect(() => {
-    if (!networksList || !appConfig || !appConfig?.chainIdsSupported) return
-
-    const mainChainIdsList = filterNetworksByType(
-      'mainnet',
-      appConfig.chainIdsSupported,
-      networksList
-    )
-    setMainChainIds(mainChainIdsList)
-  }, [appConfig, appConfig?.chainIdsSupported, networksList])
 
   //
   // Helper: fetch data from subgraph

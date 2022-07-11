@@ -7,28 +7,12 @@ import Network from '@images/network.svg'
 import NetworksList from './NetworksList'
 import stylesIndex from '../index.module.css'
 import styles from './index.module.css'
-import useNetworkMetadata, {
-  filterNetworksByType
-} from '@hooks/useNetworkMetadata'
 import { useUserPreferences } from '@context/UserPreferences'
 import { useMarketMetadata } from '@context/MarketMetadata'
 
 export default function Networks(): ReactElement {
   const { appConfig } = useMarketMetadata()
-  const { networksList } = useNetworkMetadata()
   const { chainIds } = useUserPreferences()
-
-  const networksMain = filterNetworksByType(
-    'mainnet',
-    appConfig.chainIdsSupported,
-    networksList
-  )
-
-  const networksTest = filterNetworksByType(
-    'testnet',
-    appConfig.chainIdsSupported,
-    networksList
-  )
 
   return (
     <Tooltip
@@ -37,9 +21,6 @@ export default function Networks(): ReactElement {
           <li>
             <Label htmlFor="chains">Networks</Label>
             <FormHelp>Switch the data source for the interface.</FormHelp>
-
-            <NetworksList title="Main" networks={networksMain} />
-            <NetworksList title="Test" networks={networksTest} />
           </li>
         </ul>
       }

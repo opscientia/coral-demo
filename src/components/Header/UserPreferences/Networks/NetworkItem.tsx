@@ -1,7 +1,6 @@
 import React, { ChangeEvent, ReactElement } from 'react'
 import { useUserPreferences } from '@context/UserPreferences'
 import { removeItemFromArray } from '@utils/index'
-import NetworkName from '@shared/NetworkName'
 import styles from './NetworkItem.module.css'
 
 export default function NetworkItem({
@@ -35,7 +34,6 @@ export default function NetworkItem({
           onChange={handleNetworkChanged}
           defaultChecked={chainIds.includes(chainId)}
         />
-        <NetworkName key={chainId} networkId={chainId} />
       </label>
     </div>
   )

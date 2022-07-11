@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react'
-import NetworkName from '@shared/NetworkName'
 import styles from './Tooltip.module.css'
 import { StatsValue } from './_types'
 import content from '../../../../content/footer.json'
@@ -21,7 +20,6 @@ export default function MarketStatsTooltip({
       <ul className={styles.statsList}>
         {mainChainIds?.map((chainId, key) => (
           <li className={styles.tooltipStats} key={key}>
-            <NetworkName networkId={chainId} className={styles.network} />
             <br />
             <abbr title="Total Value Locked">TVL</abbr>
             {' | '}

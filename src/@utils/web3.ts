@@ -1,4 +1,3 @@
-import { getNetworkDisplayName } from '@hooks/useNetworkMetadata'
 import { LoggerInstance } from '@oceanprotocol/lib'
 import Web3 from 'web3'
 import { getOceanConfig } from './ocean'
@@ -25,53 +24,6 @@ export async function addCustomNetwork(
 ): Promise<void> {
   // Always add explorer URL from ocean.js first, as it's null sometimes
   // in network data
-  const blockExplorerUrls = [
-    getOceanConfig(network.networkId).explorerUri,
-    network.explorers && network.explorers[0].url
-  ]
-
-  const newNetworkData = {
-    chainId: `0x${network.chainId.toString(16)}`,
-    chainName: getNetworkDisplayName(network, network.chainId),
-    nativeCurrency: network.nativeCurrency,
-    rpcUrls: network.rpc,
-    blockExplorerUrls
-  }
-  try {
-    await web3Provider.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: newNetworkData.chainId }]
-    })
-  } catch (switchError) {
-    if (switchError.code === 4902) {
-      await web3Provider.request(
-        {
-          method: 'wallet_addEthereumChain',
-          params: [newNetworkData]
-        },
-        (err: string, added: any) => {
-          if (err || 'error' in added) {
-            LoggerInstance.error(
-              `Couldn't add ${network.name} (0x${
-                network.chainId
-              }) network to MetaMask, error: ${err || added.error}`
-            )
-          } else {
-            LoggerInstance.log(
-              `Added ${network.name} (0x${network.chainId}) network to MetaMask`
-            )
-          }
-        }
-      )
-    } else {
-      LoggerInstance.error(
-        `Couldn't add ${network.name} (0x${network.chainId}) network to MetaMask, error: ${switchError}`
-      )
-    }
-  }
-  LoggerInstance.log(
-    `Added ${network.name} (0x${network.chainId}) network to MetaMask`
-  )
 }
 
 export async function addTokenToWallet(

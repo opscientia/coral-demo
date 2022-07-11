@@ -4,7 +4,6 @@ import Dotdotdot from 'react-dotdotdot'
 import removeMarkdown from 'remove-markdown'
 import Publisher from '@shared/Publisher'
 import AssetType from '@shared/AssetType'
-import NetworkName from '@shared/NetworkName'
 import styles from './AssetTeaser.module.css'
 import { getServiceByName } from '@utils/ddo'
 import { AssetExtended } from 'src/@types/AssetExtended'
@@ -48,10 +47,6 @@ export default function AssetTeaser({
               {removeMarkdown(description?.substring(0, 300) || '')}
             </Dotdotdot>
           </div>
-
-          <footer className={styles.foot}>
-            <NetworkName networkId={asset.chainId} className={styles.network} />
-          </footer>
         </a>
       </Link>
     </article>

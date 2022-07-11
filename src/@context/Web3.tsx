@@ -15,12 +15,6 @@ import { LoggerInstance } from '@oceanprotocol/lib'
 import { isBrowser } from '@utils/index'
 import { getEnsName } from '@utils/ens'
 import { getOceanBalance } from '@utils/ocean'
-import useNetworkMetadata, {
-  getNetworkDataById,
-  getNetworkDisplayName,
-  getNetworkType,
-  NetworkType
-} from '../@hooks/useNetworkMetadata'
 import { useMarketMetadata } from './MarketMetadata'
 
 interface Web3ProviderValue {
@@ -83,7 +77,6 @@ const refreshInterval = 20000 // 20 sec.
 const Web3Context = createContext({} as Web3ProviderValue)
 
 function Web3Provider({ children }: { children: ReactNode }): ReactElement {
-  const { networksList } = useNetworkMetadata()
   const { appConfig } = useMarketMetadata()
 
   const [web3, setWeb3] = useState<Web3>()
@@ -241,31 +234,6 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   useEffect(() => {
     getUserEnsName()
   }, [getUserEnsName])
-
-  // -----------------------------------
-  // Get and set network metadata
-  // -----------------------------------
-  useEffect(() => {
-    if (!networkId) return
-    const networkData = getNetworkDataById(networksList, networkId)
-    setNetworkData(networkData)
-    LoggerInstance.log(
-      networkData
-        ? `[web3] Network metadata found.`
-        : `[web3] No network metadata found.`,
-      networkData
-    )
-
-    // Construct network display name
-    const networkDisplayName = getNetworkDisplayName(networkData, networkId)
-    setNetworkDisplayName(networkDisplayName)
-
-    setIsTestnet(getNetworkType(networkData) !== NetworkType.Mainnet)
-
-    LoggerInstance.log(
-      `[web3] Network display name set to: ${networkDisplayName}`
-    )
-  }, [networkId, networksList])
 
   // -----------------------------------
   // Get and set latest head block
