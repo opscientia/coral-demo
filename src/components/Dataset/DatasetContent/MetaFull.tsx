@@ -10,11 +10,12 @@ export default function MetaFull({
   cids
 }: {
   dataset: Dataset
-  cids: string[]
+  cids?: string[]
 }): ReactElement {
   const [cidLinks, setCidsLinks] = useState<ReactElement[]>()
 
   useEffect(() => {
+    if (!cids) return
     setCidsLinks(
       cids.map((cid) => (
         <code key={cid}>
@@ -38,7 +39,9 @@ export default function MetaFull({
             <MetaItem title="Author" content={author} />
           </div>
         ))}
-      <MetaItem title="_id" content={<code>{dataset?._id}</code>} />
+      {dataset._id && (
+        <MetaItem title="_id" content={<code>{dataset?._id}</code>} />
+      )}
       {cids &&
         cids.length > 0 &&
         cids.map((cid) => (

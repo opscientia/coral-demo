@@ -27,7 +27,7 @@ export default function Navigation(): ReactElement {
     const isSuccess =
       (step === 1 && isSuccessMetadata) ||
       (step === 2 && isSuccessDataset) ||
-      (step === 4 && isSuccessPreview)
+      (step === 3 && isSuccessPreview)
 
     return isSuccess ? styles.success : null
   }

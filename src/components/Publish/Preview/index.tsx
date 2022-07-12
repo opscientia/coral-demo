@@ -8,8 +8,19 @@ import { ZERO_ADDRESS } from '@oceanprotocol/lib'
 import { Dataset } from 'src/@types/Dataset'
 
 export default function Preview(): ReactElement {
-  const [dataset, setDataset] = useState<Dataset>()
+  const [dataset, setDataset] = useState<Partial<Dataset>>()
   const { values } = useFormikContext<FormPublishData>()
+
+  useEffect(() => {
+    const { title, description, authors, keywords } = values.metadata
+    const datasetTemp = {
+      title,
+      description,
+      authors: authors.split(/[ ,]+/),
+      keywords: keywords.split(/[ ,]+/)
+    }
+    setDataset(datasetTemp)
+  }, [values])
 
   return (
     <div className={styles.preview}>

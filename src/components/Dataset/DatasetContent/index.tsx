@@ -21,7 +21,7 @@ export default function DatasetContent({
   cids
 }: {
   dataset: Dataset
-  cids: string[]
+  cids?: string[]
 }): ReactElement {
   const [isOwner, setIsOwner] = useState(false)
   const { accountId } = useWeb3()
