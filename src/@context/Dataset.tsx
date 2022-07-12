@@ -118,7 +118,6 @@ function DatasetProvider({
       value={
         {
           dataset,
-          _id,
           title,
           owner,
           cids,
