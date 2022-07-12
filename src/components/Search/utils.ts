@@ -155,37 +155,35 @@ export async function getResults(
     serviceType?: string
     accessType?: string
   },
-  chainIds: number[],
   cancelToken?: CancelToken
 ): Promise<any> {
-  const {
-    text,
-    owner,
-    tags,
-    categories,
-    page,
-    offset,
-    sort,
-    sortOrder,
-    serviceType,
-    accessType
-  } = params
-
-  const searchQuery = getSearchQuery(
-    chainIds,
-    text,
-    owner,
-    tags,
-    categories,
-    page,
-    offset,
-    sort,
-    sortOrder,
-    serviceType,
-    accessType
-  )
-  const queryResult = await queryMetadata(searchQuery, cancelToken)
-  return queryResult
+  if (params.text) {
+    console.log(`params.text: ${params.text}`)
+    const resp = await fetch(
+      process.env.NEXT_PUBLIC_PROXY_API_URL +
+        `/metadata/datasets/published/search?searchStr=${params.text}`,
+      {
+        method: 'GET'
+      }
+    )
+    const searchResult = await resp.json()
+    console.log('searchResult')
+    console.log(searchResult)
+    return searchResult
+  } else {
+    const resp = await fetch(
+      process.env.NEXT_PUBLIC_PROXY_API_URL + `/metadata/datasets/published`,
+      {
+        method: 'GET'
+      }
+    )
+    const searchResult = await resp.json()
+    console.log('searchResult')
+    console.log(searchResult)
+    return searchResult
+  }
+  // const queryResult = await queryMetadata(searchQuery, cancelToken)
+  // return queryResult
 }
 
 export async function addExistingParamsToUrl(
