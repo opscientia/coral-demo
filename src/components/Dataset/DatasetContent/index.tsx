@@ -17,9 +17,11 @@ import Web3 from 'web3'
 import { Dataset } from 'src/@types/Dataset'
 
 export default function DatasetContent({
-  dataset
+  dataset,
+  cids
 }: {
   dataset: Dataset
+  cids: string[]
 }): ReactElement {
   const [isOwner, setIsOwner] = useState(false)
   const { accountId } = useWeb3()
@@ -54,7 +56,7 @@ export default function DatasetContent({
               />
               <MetaSecondary dataset={dataset} />
             </>
-            <MetaFull dataset={dataset} />
+            <MetaFull dataset={dataset} cids={cids} />
           </div>
         </div>
       </article>

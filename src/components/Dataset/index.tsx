@@ -8,7 +8,7 @@ import DatasetContent from './DatasetContent'
 
 export default function DatasetDetails({ uri }: { uri: string }): ReactElement {
   const router = useRouter()
-  const { dataset, title, error, loading } = useDataset()
+  const { dataset, title, cids, error, loading } = useDataset()
   const [pageTitle, setPageTitle] = useState<string>()
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function DatasetDetails({ uri }: { uri: string }): ReactElement {
 
   return dataset && pageTitle !== undefined && !loading ? (
     <Page title={pageTitle} uri={uri}>
-      <DatasetContent dataset={dataset} />
+      <DatasetContent dataset={dataset} cids={cids} />
     </Page>
   ) : error ? (
     <Page title={pageTitle} noPageHeader uri={uri}>
