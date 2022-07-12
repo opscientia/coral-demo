@@ -21,5 +21,5 @@ export interface Dataset {
     }
   }
   miscellaneous?: any
-  chunkIds?: number[]
+  chunkIds?: string[]
 }

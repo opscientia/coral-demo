@@ -15,6 +15,7 @@ import { useCancelToken } from '@hooks/useCancelToken'
 import { getOceanConfig, getDevelopmentConfig } from '@utils/ocean'
 import { AssetExtended } from 'src/@types/AssetExtended'
 import { Dataset } from 'src/@types/Dataset'
+import { Chunk } from 'src/@types/Chunk'
 import { useIsMounted } from '@hooks/useIsMounted'
 import { useMarketMetadata } from './MarketMetadata'
 
@@ -22,6 +23,7 @@ export interface DatasetProviderValue {
   dataset: Dataset
   title: string
   owner: string
+  cids: string[]
   error?: string
   loading: boolean
   fetchDataset: () => Promise<void>
@@ -41,6 +43,7 @@ function DatasetProvider({
   const [dataset, setDataset] = useState<Dataset>()
   const [title, setTitle] = useState<string>()
   const [owner, setOwner] = useState<string>()
+  const [cids, setCids] = useState<Dataset>()
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState(false)
 
@@ -63,8 +66,6 @@ function DatasetProvider({
       }
     )
     const datasetTemp = await resp.json()
-    console.log('datasetTemp')
-    console.log(datasetTemp)
 
     if (!datasetTemp) {
       setError(
@@ -76,6 +77,7 @@ function DatasetProvider({
         datasetTemp
       )
     } else {
+      // Set dataset fields
       setError(undefined)
       setDataset((prevState) => ({
         ...prevState,
@@ -83,6 +85,19 @@ function DatasetProvider({
       }))
       setTitle(datasetTemp.title)
       setOwner(datasetTemp.uploader)
+
+      // Get cids
+      const resp = await fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL +
+          `/metadata/chunks/published?datasetId=${datasetTemp._id}`,
+        {
+          method: 'GET'
+        }
+      )
+      const chunks = await resp.json()
+      const cidsTemp = chunks?.map((chunk: Chunk) => chunk.storageIds?.cid)
+      setCids(cidsTemp)
+
       LoggerInstance.log('[dataset] Got dataset', datasetTemp)
     }
 
@@ -106,6 +121,7 @@ function DatasetProvider({
           _id,
           title,
           owner,
+          cids,
           error,
           loading,
           fetchDataset
