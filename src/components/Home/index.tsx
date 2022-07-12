@@ -159,7 +159,7 @@ export default function HomePage(): ReactElement {
         </div>
       </div>
 
-      <SectionQueryResult
+      {/* <SectionQueryResult
         title="Browse highest liquidity data services"
         query={queryAndDids?.[0]}
         queryData={queryAndDids?.[1]}
@@ -171,7 +171,7 @@ export default function HomePage(): ReactElement {
             All data sets and algorithms →
           </Button>
         }
-      />
+      /> */}
 
       {/* <Footer content={footerContent.content} image={footerImage} /> */}
       <Footer content={footerContent.content} />
