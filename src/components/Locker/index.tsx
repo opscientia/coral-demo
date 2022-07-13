@@ -58,17 +58,13 @@ export default function LockerPage(): ReactElement {
     }
     formData.append('address', address)
     formData.append('signature', signature)
-    try {
-      return await fetch(
-        `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
-        {
-          method: 'POST',
-          body: formData
-        }
-      )
-    } catch (err) {
-      console.log(err)
-    }
+    return await fetch(
+      `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
+      {
+        method: 'POST',
+        body: formData
+      }
+    )
   }
 
   async function handleSubmit(
