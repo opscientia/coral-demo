@@ -8,6 +8,7 @@ import { LockerForm } from './_types'
 import { useUserPreferences } from '@context/UserPreferences'
 import { Logger, Metadata } from '@oceanprotocol/lib'
 import { useAccountPurgatory } from '@hooks/useAccountPurgatory'
+import Alert from '@shared/atoms/Alert'
 import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
 import { FileWithPath } from 'react-dropzone'
@@ -57,22 +58,17 @@ export default function LockerPage(): ReactElement {
     }
     formData.append('address', address)
     formData.append('signature', signature)
-    let success = false
     try {
-      const resp = await fetch(
+      return await fetch(
         `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
         {
           method: 'POST',
           body: formData
         }
       )
-      const jsonResponse = await resp.json()
-      success = resp.status === 200
     } catch (err) {
-      success = false
       console.log(err)
     }
-    return success
   }
 
   async function handleSubmit(
@@ -86,9 +82,15 @@ export default function LockerPage(): ReactElement {
       const signature = await web3.eth.sign(fileHash, accountId)
 
       console.log(`Uploading files...`)
-      const success = await uploadFiles(values.files, accountId, signature)
-      console.log(`File uploaded successfully: ${success}`)
+      const resp = await uploadFiles(values.files, accountId, signature)
+      const respData = await resp.json()
+      console.log(`File uploaded successfully: ${!respData.error}`)
       setNewFileUploaded(!newFileUploaded)
+
+      if (resp.status !== 201) {
+        setError(respData.error)
+        return
+      }
 
       resetForm({
         values: { files: null } as LockerForm,
@@ -111,6 +113,7 @@ export default function LockerPage(): ReactElement {
           Interplanetary File System (IPFS).
         </a>
       </p>
+      {error && <Alert text={error} state="error" />}
       <Formik
         initialValues={initialFormValues}
         initialStatus="empty"
