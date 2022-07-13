@@ -86,6 +86,10 @@ export default function Actions({
             >
               Continue
             </Button>
+          ) : !accountId ? (
+            <Button type="submit" style="primary" onClick={handleActivation}>
+              Connect Wallet
+            </Button>
           ) : (
             <Button
               type="submit"
