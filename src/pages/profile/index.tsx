@@ -3,8 +3,6 @@ import Page from '@shared/Page'
 import ProfilePage from '../../components/Profile'
 import { accountTruncate } from '@utils/web3'
 import { useWeb3 } from '@context/Web3'
-import ProfileProvider from '@context/Profile'
-import { getEnsAddress, getEnsName } from '@utils/ens'
 import { useRouter } from 'next/router'
 import web3 from 'web3'
 
@@ -31,15 +29,6 @@ export default function PageProfile(): ReactElement {
       if (web3.utils.isAddress(pathAccount)) {
         const finalAccountId = pathAccount || accountId
         setFinalAccountId(finalAccountId)
-
-        const accountEns = await getEnsName(finalAccountId)
-        if (!accountEns) return
-        setFinalAccountEns(accountEns)
-      } else {
-        // Path has ENS name
-        setFinalAccountEns(pathAccount)
-        const resolvedAccountId = await getEnsAddress(pathAccount)
-        setFinalAccountId(resolvedAccountId)
       }
     }
     init()
@@ -60,9 +49,7 @@ export default function PageProfile(): ReactElement {
       title={accountTruncate(finalAccountId)}
       noPageHeader
     >
-      <ProfileProvider accountId={finalAccountId} accountEns={finalAccountEns}>
-        <ProfilePage accountId={finalAccountId} />
-      </ProfileProvider>
+      <ProfilePage accountId={finalAccountId} />
     </Page>
   )
 }

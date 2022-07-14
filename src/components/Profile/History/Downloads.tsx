@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react'
 import Table from '@shared/atoms/Table'
 import Time from '@shared/atoms/Time'
 import AssetTitle from '@shared/AssetList/AssetListTitle'
-import { useProfile } from '@context/Profile'
 import { useUserPreferences } from '@context/UserPreferences'
 const columns = [
   {
@@ -30,15 +29,14 @@ export default function ComputeDownloads({
 }: {
   accountId: string
 }): ReactElement {
-  const { downloads, isDownloadsLoading } = useProfile()
   const { chainIds } = useUserPreferences()
 
   return accountId ? (
     <Table
       columns={columns}
-      data={downloads}
+      data={[]}
       paginationPerPage={10}
-      isLoading={isDownloadsLoading}
+      isLoading={false}
       emptyMessage={chainIds.length === 0 ? 'No network selected' : null}
     />
   ) : (

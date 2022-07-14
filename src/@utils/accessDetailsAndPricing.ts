@@ -1,13 +1,4 @@
 import { gql, OperationResult } from 'urql'
-import { fetchData, getQueryContext } from './subgraph'
-import {
-  TokenPriceQuery,
-  TokenPriceQuery_token as TokenPrice
-} from '../@types/subgraph/TokenPriceQuery'
-import {
-  TokensPriceQuery,
-  TokensPriceQuery_tokens as TokensPrice
-} from '../@types/subgraph/TokensPriceQuery'
 import { Asset, LoggerInstance, ProviderInstance } from '@oceanprotocol/lib'
 import { AssetExtended } from 'src/@types/AssetExtended'
 import { calcInGivenOut } from './pool'
@@ -203,51 +194,4 @@ export async function getOrderPriceAndFees(
     .add(new Decimal(orderPriceAndFee.providerFee.providerFeeAmount))
     .toString()
   return orderPriceAndFee
-}
-
-export async function getAccessDetailsForAssets(
-  assets: Asset[],
-  account = ''
-): Promise<AssetExtended[]> {
-  const assetsExtended: AssetExtended[] = assets
-  const chainAssetLists: { [key: number]: string[] } = {}
-
-  try {
-    for (const asset of assets) {
-      if (chainAssetLists[asset.chainId]) {
-        chainAssetLists[asset.chainId].push(
-          asset.services[0].datatokenAddress.toLowerCase()
-        )
-      } else {
-        chainAssetLists[asset.chainId] = []
-        chainAssetLists[asset.chainId].push(
-          asset.services[0].datatokenAddress.toLowerCase()
-        )
-      }
-    }
-
-    for (const chainKey in chainAssetLists) {
-      const queryContext = getQueryContext(Number(chainKey))
-      const tokenQueryResult: OperationResult<
-        TokensPriceQuery,
-        { datatokenIds: [string]; account: string }
-      > = await fetchData(
-        tokensPriceQuery,
-        {
-          datatokenIds: chainAssetLists[chainKey],
-          account: account?.toLowerCase()
-        },
-        queryContext
-      )
-      tokenQueryResult.data?.tokens.forEach((token) => {
-        const currentAsset = assetsExtended.find(
-          (asset) =>
-            asset.services[0].datatokenAddress.toLowerCase() === token.id
-        )
-      })
-    }
-    return assetsExtended
-  } catch (error) {
-    LoggerInstance.error('Error getting access details: ', error.message)
-  }
 }

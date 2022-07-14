@@ -35,25 +35,3 @@ export const computeSettingsValidationSchema = Yup.object().shape({
   allowAllPublishedAlgorithms: Yup.boolean().nullable(),
   publisherTrustedAlgorithms: Yup.array().nullable()
 })
-
-export function getComputeSettingsInitialValues(
-  compute: ServiceComputeOptions
-): ComputePrivacyForm {
-  const { publisherTrustedAlgorithmPublishers, publisherTrustedAlgorithms } =
-    compute
-  const allowAllPublishedAlgorithms = !(
-    publisherTrustedAlgorithms?.length > 0 ||
-    publisherTrustedAlgorithmPublishers?.length > 0
-  )
-
-  const publisherTrustedAlgorithmsForForm = (
-    publisherTrustedAlgorithms || []
-  ).map((algo) => algo.did)
-
-  // TODO: should we add publisherTrustedAlgorithmPublishers to the form?
-
-  return {
-    allowAllPublishedAlgorithms,
-    publisherTrustedAlgorithms: publisherTrustedAlgorithmsForForm
-  }
-}

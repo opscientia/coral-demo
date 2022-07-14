@@ -2,7 +2,6 @@ import React, { ReactElement, useState } from 'react'
 import Search from '../components/Search'
 import Page from '@shared/Page'
 import { accountTruncate } from '@utils/web3'
-import { MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS } from '@utils/aquarius'
 import { useRouter } from 'next/router'
 import web3 from 'web3'
 
@@ -36,15 +35,14 @@ export default function PageSearch(): ReactElement {
   return (
     <Page
       title={
-        totalPagesNumber > MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS
+        totalPagesNumber > 10 ** 10
           ? `>10000 results ${
               searchValue && searchValue !== ' ' ? `for ${searchValue}` : ''
             }`
           : title
       }
       description={
-        totalPagesNumber &&
-        totalPagesNumber > MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS
+        totalPagesNumber && totalPagesNumber > 10 ** 10
           ? '**Results displayed are limited to the first 10k, please refine your search.**'
           : undefined
       }

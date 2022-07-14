@@ -9,7 +9,6 @@ import React, {
 } from 'react'
 import { Config, LoggerInstance, Purgatory } from '@oceanprotocol/lib'
 import { CancelToken } from 'axios'
-import { checkV3Asset, retrieveAsset } from '@utils/aquarius'
 import { useWeb3 } from './Web3'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { getOceanConfig, getDevelopmentConfig } from '@utils/ocean'

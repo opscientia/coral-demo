@@ -1,6 +1,5 @@
 import { useUserPreferences } from '@context/UserPreferences'
 import AccountList from '@shared/AccountList/AccountList'
-import { getTopAssetsPublishers } from '@utils/subgraph'
 import React, { ReactElement, useEffect, useState } from 'react'
 import styles from './Home.module.css'
 
@@ -21,15 +20,6 @@ export default function PublishersWithMostSales({
         const result: AccountTeaserVM[] = []
         setResult(result)
         setLoading(false)
-      } else {
-        try {
-          setLoading(true)
-          const publishers = await getTopAssetsPublishers(chainIds)
-          setResult(publishers)
-          setLoading(false)
-        } catch (error) {
-          // Logger.error(error.message)
-        }
       }
     }
     init()

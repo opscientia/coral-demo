@@ -1,7 +1,6 @@
 import React, { useState, useEffect, ReactElement } from 'react'
 import ReactPaginate from 'react-paginate'
 import styles from './index.module.css'
-import { MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS } from '@utils/aquarius'
 import Arrow from '@images/arrow.svg'
 import { PaginationProps } from './_types'
 
@@ -50,11 +49,7 @@ export default function Pagination({
 
   return totalPageNumbers && totalPageNumbers > 1 ? (
     <ReactPaginate
-      pageCount={
-        totalPageNumbers > MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS
-          ? MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS
-          : totalPageNumbers
-      }
+      pageCount={totalPageNumbers > 10 ** 10 ? 10 ** 10 : totalPageNumbers}
       // react-pagination starts counting at 0, we start at 1
       initialPage={currentPage ? currentPage - 1 : 0}
       // adapt based on media query match

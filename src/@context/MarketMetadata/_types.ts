@@ -53,8 +53,6 @@ export interface SiteContent {
 }
 
 export interface MarketMetadataProviderValue {
-  opcFees: OpcFee[]
   siteContent: SiteContent
   appConfig: AppConfig
-  getOpcFeeForToken: (tokenAddress: string, chainId: number) => string
 }

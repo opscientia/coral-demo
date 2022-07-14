@@ -1,7 +1,6 @@
 import { LoggerInstance } from '@oceanprotocol/lib'
 import React, { ReactElement, useEffect, useState, useCallback } from 'react'
 import AssetList from '@shared/AssetList'
-import { getPublishedAssets } from '@utils/aquarius'
 import { useUserPreferences } from '@context/UserPreferences'
 import styles from './PublishedList.module.css'
 import { useCancelToken } from '@hooks/useCancelToken'
@@ -22,54 +21,6 @@ export default function PublishedList({
   const [service, setServiceType] = useState<string>()
   const [access, setAccessType] = useState<string>()
   const newCancelToken = useCancelToken()
-
-  const getPublished = useCallback(
-    async (
-      accountId: string,
-      chainIds: number[],
-      page: number,
-      service: string,
-      access: string,
-      cancelToken: CancelToken
-    ) => {
-      try {
-        setIsLoading(true)
-        const result = await getPublishedAssets(
-          accountId.toLowerCase(),
-          chainIds,
-          cancelToken,
-          page,
-          service,
-          access
-        )
-        setQueryResult(result)
-      } catch (error) {
-        LoggerInstance.error(error.message)
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    []
-  )
-
-  useEffect(() => {
-    if (queryResult && queryResult.totalPages < page) setPage(1)
-  }, [page, queryResult])
-
-  useEffect(() => {
-    if (!accountId) return
-
-    getPublished(accountId, chainIds, page, service, access, newCancelToken())
-  }, [
-    accountId,
-    page,
-    appConfig?.metadataCacheUri,
-    chainIds,
-    newCancelToken,
-    getPublished,
-    service,
-    access
-  ])
 
   return accountId ? (
     <>

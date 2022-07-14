@@ -4,10 +4,8 @@ import Table from '@shared/atoms/Table'
 import { LoggerInstance } from '@oceanprotocol/lib'
 import Tooltip from '@shared/atoms/Tooltip'
 import AssetTitle from '@shared/AssetList/AssetListTitle'
-import { retrieveDDOListByDIDs } from '@utils/aquarius'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { AssetExtended } from 'src/@types/AssetExtended'
-import { getAccessDetailsForAssets } from '@utils/accessDetailsAndPricing'
 import { useWeb3 } from '@context/Web3'
 import { useMarketMetadata } from '@context/MarketMetadata'
 
@@ -43,45 +41,6 @@ export default function Bookmarks(): ReactElement {
   const [isLoading, setIsLoading] = useState<boolean>()
   const { chainIds } = useUserPreferences()
   const newCancelToken = useCancelToken()
-
-  useEffect(() => {
-    if (!appConfig?.metadataCacheUri || bookmarks === []) return
-
-    async function init() {
-      if (!bookmarks?.length) {
-        setPinned([])
-        return
-      }
-
-      setIsLoading(true)
-
-      try {
-        const result = await retrieveDDOListByDIDs(
-          bookmarks,
-          chainIds,
-          newCancelToken()
-        )
-        if (!result?.length) return
-
-        const pinnedAssets: AssetExtended[] = await getAccessDetailsForAssets(
-          result,
-          accountId
-        )
-        setPinned(pinnedAssets)
-      } catch (error) {
-        LoggerInstance.error(`Bookmarks error:`, error.message)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    init()
-  }, [
-    appConfig?.metadataCacheUri,
-    bookmarks,
-    chainIds,
-    accountId,
-    newCancelToken
-  ])
 
   return (
     <Table

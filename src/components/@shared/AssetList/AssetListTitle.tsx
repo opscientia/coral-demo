@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
-import { getAssetsNames } from '@utils/aquarius'
 import styles from './AssetListTitle.module.css'
 import axios from 'axios'
 import { Asset } from '@oceanprotocol/lib'
@@ -22,20 +21,6 @@ export default function AssetListTitle({
     if (title || !appConfig.metadataCacheUri) return
     if (asset) {
       setAssetTitle(asset.metadata.name)
-      return
-    }
-
-    const source = axios.CancelToken.source()
-
-    async function getAssetName() {
-      const title = await getAssetsNames([did], source.token)
-      setAssetTitle(title[did])
-    }
-
-    !asset && did && getAssetName()
-
-    return () => {
-      source.cancel()
     }
   }, [assetTitle, appConfig.metadataCacheUri, asset, did, title])
 
