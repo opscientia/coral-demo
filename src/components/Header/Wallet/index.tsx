@@ -10,32 +10,26 @@ export default function Wallet(): ReactElement {
 
   const loggedInView = (
     <>
-      <button onClick={logout} className="card">
-        Log Out
-      </button>
+      <button onClick={logout}>Log Out</button>
 
-      <div id="console" style={{ whiteSpace: 'pre-line' }}>
-        <p style={{ whiteSpace: 'pre-line' }}></p>
+      <div id="console">
+        <p></p>
       </div>
     </>
   )
 
-  const unloggedInView = (
-    <button onClick={connect} className="card">
-      Login
-    </button>
-  )
+  const loggedOutView = <button onClick={connect}>Login</button>
 
   return (
     <div className={styles.wallet}>
-      <Tooltip
+      {provider ? loggedInView : loggedOutView}
+      {/* <Tooltip
         // content={<Details />}
         trigger="click focus"
         disabled={!accountId}
       >
-        {provider ? loggedInView : unloggedInView}
-        {/* <Account /> */}
-      </Tooltip>
+        <Account />
+      </Tooltip> */}
     </div>
   )
 }

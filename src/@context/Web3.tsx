@@ -103,21 +103,22 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     }
     try {
       setWeb3Loading(true)
-      LoggerInstance.log('[web3] Connecting Web3...')
+      console.log('[web3] Connecting Web3...')
 
       const web3authProvider = await web3auth.connect()
       setProvider(web3authProvider)
 
       // const web3 = new Web3(provider)
       // setWeb3(web3)
-      // LoggerInstance.log('[web3] Web3 created.', web3)
+      // console.log('[web3] Web3 created.', web3)
 
-      const rpc = new RPC(provider)
-      const accountId = (await rpc.getAccounts())[0]
+      const rpc = new RPC(web3authProvider)
+      const accounts = await rpc.getAccounts()
+      const accountId = accounts[0]
       setAccountId(accountId)
-      LoggerInstance.log('[web3] account id', accountId)
+      console.log('[web3] account id', accountId)
     } catch (error) {
-      LoggerInstance.error('[web3] Error: ', error.message)
+      console.error('[web3] Error: ', error.message)
     } finally {
       setWeb3Loading(false)
     }
@@ -129,6 +130,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       return
     }
     await web3auth.logout()
+    setAccountId(undefined)
     setProvider(null)
   }
 

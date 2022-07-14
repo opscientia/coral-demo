@@ -13,7 +13,8 @@ import { useMarketMetadata } from '@context/MarketMetadata'
 import { Web3Auth } from '@web3auth/web3auth'
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from '@web3auth/base'
 
-const clientId = 'YOUR_CLIENT_ID'
+const clientId =
+  'BK_Nd-_UhuY9ZpDNVwdTieGfdOoGMJsXIRmdYYaQJK9cuNpbgxDiqTjpMEg-fJRRwE1iSYYF_Od6DSBKgs7uQO0'
 
 export default function App({
   children
@@ -39,8 +40,8 @@ export default function App({
           clientId,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: '0x1',
-            rpcTarget: 'https://rpc.ankr.com/eth' // This is the mainnet RPC we have added, please pass on your own endpoint while creating an app
+            chainId: '0x5',
+            rpcTarget: 'https://rpc.ankr.com/eth_goerli'
           }
         })
 
