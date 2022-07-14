@@ -19,7 +19,6 @@ export default function Actions({
   did: string
 }): ReactElement {
   const router = useRouter()
-  const { isSupportedOceanNetwork } = useWeb3()
   const {
     values,
     errors,
