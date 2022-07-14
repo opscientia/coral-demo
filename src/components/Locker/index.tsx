@@ -94,6 +94,7 @@ export default function LockerPage(): ReactElement {
       })
       // move user's focus to top of screen
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+      setError(undefined)
     } catch (error) {
       setError(error.message)
       console.log(error)
