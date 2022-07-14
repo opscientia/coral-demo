@@ -22,8 +22,6 @@
     "storybook:build": "cross-env NODE_ENV=test build-storybook"
   },
   "dependencies": {
-    "chonky": "^2.3.2",
-    "chonky-icon-fontawesome": "^2.3.2",
     "@coingecko/cryptoformat": "^0.5.4",
     "@loadable/component": "^5.15.2",
     "@oceanprotocol/art": "^3.2.0",
@@ -32,8 +30,13 @@
     "@tippyjs/react": "^4.2.6",
     "@urql/exchange-refocus": "^0.2.5",
     "@walletconnect/web3-provider": "^1.7.8",
+    "@web3auth/base": "^1.1.1",
+    "@web3auth/ethereum-provider": "^1.1.1",
+    "@web3auth/web3auth": "^1.1.1",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
+    "chonky": "^2.3.2",
+    "chonky-icon-fontawesome": "^2.3.2",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
     "decimal.js": "^10.3.1",

@@ -6,16 +6,24 @@ import { UserPreferencesProvider } from '@context/UserPreferences'
 import PricesProvider from '@context/Prices'
 import UrqlProvider from '@context/UrqlProvider'
 import ConsentProvider from '@context/CookieConsent'
-import App from 'src/components/App'
+// import App from 'src/components/App'
 
 import '@oceanprotocol/typographies/css/ocean-typo.css'
 import '../stylesGlobal/styles.css'
 import Decimal from 'decimal.js'
 import MarketMetadataProvider from '@context/MarketMetadata'
-
+import type { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
+
+const App = dynamic(
+  () => {
+    return import('src/components/App')
+  },
+  { ssr: false }
+)
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
   Decimal.set({ rounding: 1 })

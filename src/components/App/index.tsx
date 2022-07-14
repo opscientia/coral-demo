@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState, useEffect } from 'react'
 import Alert from '@shared/atoms/Alert'
 import Footer from '../Footer/Footer'
 import Header from '../Header'
@@ -10,6 +10,10 @@ import styles from './index.module.css'
 import { ToastContainer } from 'react-toastify'
 import contentPurgatory from '../../../content/purgatory.json'
 import { useMarketMetadata } from '@context/MarketMetadata'
+import { Web3Auth } from '@web3auth/web3auth'
+import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from '@web3auth/base'
+
+const clientId = 'YOUR_CLIENT_ID'
 
 export default function App({
   children
@@ -17,7 +21,7 @@ export default function App({
   children: ReactElement
 }): ReactElement {
   const { siteContent, appConfig } = useMarketMetadata()
-  const { accountId } = useWeb3()
+  const { accountId, web3auth, setWeb3auth, provider, setProvider } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   function openInNewTab() {
     window
@@ -27,6 +31,29 @@ export default function App({
       )
       .focus()
   }
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const web3auth = new Web3Auth({
+          clientId,
+          chainConfig: {
+            chainNamespace: CHAIN_NAMESPACES.EIP155,
+            chainId: '0x1',
+            rpcTarget: 'https://rpc.ankr.com/eth' // This is the mainnet RPC we have added, please pass on your own endpoint while creating an app
+          }
+        })
+
+        setWeb3auth(web3auth)
+
+        await web3auth.initModal()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    init()
+  }, [])
 
   return (
     <div className={styles.app}>
