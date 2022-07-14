@@ -10,7 +10,7 @@ import web3 from 'web3'
 
 export default function PageProfile(): ReactElement {
   const router = useRouter()
-  const { accountId, accountEns } = useWeb3()
+  const { accountId } = useWeb3()
   const [finalAccountId, setFinalAccountId] = useState<string>()
   const [finalAccountEns, setFinalAccountEns] = useState<string>()
 
@@ -21,7 +21,6 @@ export default function PageProfile(): ReactElement {
 
       // Path is root /profile, have web3 take over
       if (router.asPath === '/profile') {
-        setFinalAccountEns(accountEns)
         setFinalAccountId(accountId)
         return
       }
@@ -44,7 +43,7 @@ export default function PageProfile(): ReactElement {
       }
     }
     init()
-  }, [router, accountId, accountEns])
+  }, [router, accountId])
 
   // Replace pathname with ENS name if present
   useEffect(() => {

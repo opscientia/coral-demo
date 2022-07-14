@@ -21,7 +21,7 @@ export default function PublishPage({
 }: {
   content: { title: string; description: string; warning: string }
 }): ReactElement {
-  const { accountId, web3, chainId } = useWeb3()
+  const { accountId, web3 } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   const scrollToRef = useRef()
   const newAbortController = useAbortController()

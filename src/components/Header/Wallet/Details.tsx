@@ -8,53 +8,17 @@ import { getOceanConfig } from '@utils/ocean'
 import styles from './Details.module.css'
 
 export default function Details(): ReactElement {
-  const {
-    web3ProviderInfo,
-    web3Modal,
-    connect,
-    logout,
-    networkData,
-    networkId,
-    balance
-  } = useWeb3()
+  const { web3ProviderInfo, web3Modal, connect, logout } = useWeb3()
   const { locale } = useUserPreferences()
 
-  const [mainCurrency, setMainCurrency] = useState<string>()
   const [oceanTokenMetadata, setOceanTokenMetadata] = useState<{
     address: string
     symbol: string
   }>()
 
-  useEffect(() => {
-    if (!networkId) return
-
-    const symbol =
-      networkId === 2021000 ? 'GX' : networkData?.nativeCurrency.symbol
-    setMainCurrency(symbol)
-
-    const oceanConfig = getOceanConfig(networkId)
-
-    oceanConfig &&
-      setOceanTokenMetadata({
-        address: oceanConfig.oceanTokenAddress,
-        symbol: oceanConfig.oceanTokenSymbol
-      })
-  }, [networkData, networkId])
-
   return (
     <div className={styles.details}>
       <ul>
-        {Object.entries(balance).map(([key, value]) => (
-          <li className={styles.balance} key={key}>
-            <span className={styles.symbol}>
-              {key === 'eth' ? mainCurrency : oceanTokenMetadata?.symbol}
-            </span>{' '}
-            {formatCurrency(Number(value), '', locale, false, {
-              significantFigures: 4
-            })}
-          </li>
-        ))}
-
         <li className={styles.actions}>
           <div title="Connected provider" className={styles.walletInfo}>
             <span className={styles.walletLogoWrap}>

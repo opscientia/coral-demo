@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react'
 import Tooltip from '@shared/atoms/Tooltip'
-import { useWeb3 } from '@context/Web3'
 import styles from './FormTitle.module.css'
 
 const content = {
@@ -18,7 +17,6 @@ export default function FormTitle({ title }: { title: string }): ReactElement {
   // const data = useStaticQuery(query)
   // const contentTooltip =
   //   data.content.edges[0].node.childPublishJson.tooltipNetwork
-  const { networkId } = useWeb3()
 
   return <h2 className={styles.title}>{title}</h2>
 }
