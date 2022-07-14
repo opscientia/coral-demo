@@ -111,6 +111,9 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       // const web3 = new Web3(provider)
       // setWeb3(web3)
       // console.log('[web3] Web3 created.', web3)
+      const web3 = new Web3(web3authProvider)
+      setWeb3(web3)
+      console.log('[web3] Web3 created.', web3)
 
       const rpc = new RPC(web3authProvider)
       const accounts = await rpc.getAccounts()
