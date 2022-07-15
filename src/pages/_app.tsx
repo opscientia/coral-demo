@@ -4,7 +4,6 @@ import type { AppProps /*, AppContext */ } from 'next/app'
 import Web3Provider from '@context/Web3'
 import { UserPreferencesProvider } from '@context/UserPreferences'
 import PricesProvider from '@context/Prices'
-import UrqlProvider from '@context/UrqlProvider'
 import ConsentProvider from '@context/CookieConsent'
 // import App from 'src/components/App'
 
@@ -30,17 +29,15 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
   return (
     <MarketMetadataProvider>
       <Web3Provider>
-        <UrqlProvider>
-          <UserPreferencesProvider>
-            <PricesProvider>
-              <ConsentProvider>
-                <App>
-                  <Component {...pageProps} />
-                </App>
-              </ConsentProvider>
-            </PricesProvider>
-          </UserPreferencesProvider>
-        </UrqlProvider>
+        <UserPreferencesProvider>
+          <PricesProvider>
+            <ConsentProvider>
+              <App>
+                <Component {...pageProps} />
+              </App>
+            </ConsentProvider>
+          </PricesProvider>
+        </UserPreferencesProvider>
       </Web3Provider>
     </MarketMetadataProvider>
   )

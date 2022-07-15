@@ -29,15 +29,13 @@ export default function ComputeDownloads({
 }: {
   accountId: string
 }): ReactElement {
-  const { chainIds } = useUserPreferences()
-
   return accountId ? (
     <Table
       columns={columns}
       data={[]}
       paginationPerPage={10}
       isLoading={false}
-      emptyMessage={chainIds.length === 0 ? 'No network selected' : null}
+      emptyMessage={null}
     />
   ) : (
     <div>Please connect your Web3 wallet.</div>

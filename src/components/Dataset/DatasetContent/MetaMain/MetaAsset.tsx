@@ -1,5 +1,4 @@
 import { Asset } from '@oceanprotocol/lib'
-import AddToken from '@shared/AddToken'
 import ExplorerLink from '@shared/ExplorerLink'
 import Publisher from '@shared/Publisher'
 import React, { ReactElement } from 'react'

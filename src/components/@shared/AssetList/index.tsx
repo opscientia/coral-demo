@@ -4,7 +4,6 @@ import Pagination from '@shared/Pagination'
 import styles from './index.module.css'
 import classNames from 'classnames/bind'
 import Loader from '@shared/atoms/Loader'
-import { useUserPreferences } from '@context/UserPreferences'
 import { useIsMounted } from '@hooks/useIsMounted'
 // not sure why this import is required
 import { AssetExtended } from 'src/@types/AssetExtended'
@@ -42,7 +41,6 @@ export default function AssetList({
   className,
   noPublisher
 }: AssetListProps): ReactElement {
-  const { chainIds } = useUserPreferences()
   const { accountId } = useWeb3()
   const [assetsWithPrices, setAssetsWithPrices] = useState<AssetExtended[]>()
   const [loading, setLoading] = useState<boolean>(isLoading)
@@ -58,11 +56,7 @@ export default function AssetList({
     [className]: className
   })
 
-  return chainIds.length === 0 ? (
-    <div className={styleClasses}>
-      <div className={styles.empty}>No network selected</div>
-    </div>
-  ) : assetsWithPrices && !loading ? (
+  return assetsWithPrices && !loading ? (
     <>
       <div className={styleClasses}>
         {assetsWithPrices.length > 0 ? (

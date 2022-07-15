@@ -6,30 +6,23 @@ import React, {
   useState,
   useEffect
 } from 'react'
-import { LoggerInstance, LogLevel } from '@oceanprotocol/lib'
 import { isBrowser } from '@utils/index'
 import { useMarketMetadata } from './MarketMetadata'
 
 interface UserPreferencesValue {
-  currency: string
-  setCurrency: (value: string) => void
-  chainIds: number[]
   privacyPolicySlug: string
   showPPC: boolean
-  setChainIds: (chainIds: number[]) => void
   bookmarks: string[]
   addBookmark: (did: string) => void
   removeBookmark: (did: string) => void
   setPrivacyPolicySlug: (slug: string) => void
   setShowPPC: (value: boolean) => void
-  infiniteApproval: boolean
-  setInfiniteApproval: (value: boolean) => void
   locale: string
 }
 
 const UserPreferencesContext = createContext(null)
 
-const localStorageKey = 'ocean-user-preferences-v4'
+const localStorageKey = 'commons-user-preferences-v4'
 
 function getLocalStorage(): UserPreferencesValue {
   const storageParsed =
@@ -52,14 +45,8 @@ function UserPreferencesProvider({
   const { appConfig } = useMarketMetadata()
   const localStorage = getLocalStorage()
   // Set default values from localStorage
-  const [currency, setCurrency] = useState<string>(
-    localStorage?.currency || 'EUR'
-  )
   const [locale, setLocale] = useState<string>()
   const [bookmarks, setBookmarks] = useState(localStorage?.bookmarks || [])
-  const [chainIds, setChainIds] = useState(
-    localStorage?.chainIds || appConfig.chainIds
-  )
   const { defaultPrivacyPolicySlug } = appConfig
 
   const [privacyPolicySlug, setPrivacyPolicySlug] = useState<string>(
@@ -70,28 +57,14 @@ function UserPreferencesProvider({
     localStorage?.showPPC !== false
   )
 
-  const [infiniteApproval, setInfiniteApproval] = useState(
-    localStorage?.infiniteApproval || false
-  )
-
   // Write values to localStorage on change
   useEffect(() => {
     setLocalStorage({
-      chainIds,
-      currency,
       bookmarks,
       privacyPolicySlug,
-      showPPC,
-      infiniteApproval
+      showPPC
     })
-  }, [
-    chainIds,
-    currency,
-    bookmarks,
-    privacyPolicySlug,
-    showPPC,
-    infiniteApproval
-  ])
+  }, [bookmarks, privacyPolicySlug, showPPC])
 
   // Get locale always from user's browser
   useEffect(() => {
@@ -125,16 +98,10 @@ function UserPreferencesProvider({
     <UserPreferencesContext.Provider
       value={
         {
-          currency,
           locale,
-          chainIds,
           bookmarks,
           privacyPolicySlug,
           showPPC,
-          infiniteApproval,
-          setInfiniteApproval,
-          setChainIds,
-          setCurrency,
           addBookmark,
           removeBookmark,
           setPrivacyPolicySlug,

@@ -13,7 +13,6 @@ export default function PublishedList({
   accountId: string
 }): ReactElement {
   const { appConfig } = useMarketMetadata()
-  const { chainIds } = useUserPreferences()
 
   const [queryResult, setQueryResult] = useState<PagedAssets>()
   const [isLoading, setIsLoading] = useState(false)

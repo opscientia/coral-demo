@@ -26,8 +26,6 @@ export default function AccountList({
   isLoading,
   className
 }: AccountListProps): ReactElement {
-  const { chainIds } = useUserPreferences()
-
   const styleClasses = cx({
     assetList: true,
     [className]: className
@@ -44,8 +42,6 @@ export default function AccountList({
               place={index + 1}
             />
           ))
-        ) : chainIds.length === 0 ? (
-          <div className={styles.empty}>No network selected.</div>
         ) : (
           <div className={styles.empty}>No results found.</div>
         )}

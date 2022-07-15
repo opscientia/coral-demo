@@ -11,8 +11,6 @@ export default function Account({
 }: {
   accountId: string
 }): ReactElement {
-  const { chainIds } = useUserPreferences()
-
   return (
     <div className={styles.account}>
       <figure className={styles.imageWrap}>
