@@ -308,7 +308,7 @@ export default function Dashboard({
         customUI: ({ onClose }) => {
           return (
             <div>
-              <p>Delete the following files?</p>
+              <p>Delete the following dataset?</p>
               <Button
                 style="primary"
                 onClick={() => deleteFiles(_files, onClose)}
@@ -319,11 +319,7 @@ export default function Dashboard({
                 No
               </Button>
               <p />
-              {_files.map((_file) => (
-                <div key={_file.id}>
-                  <p>{_file.path}</p>
-                </div>
-              ))}
+              <p>{_files[0].path}</p>
             </div>
           )
         }
