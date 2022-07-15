@@ -67,7 +67,10 @@ function addFolders(_files: ChonkyFileData[]): ChonkyFileData[] {
       if (!folders[path]) {
         folders[path] = {
           id: path,
-          name: path.substring(0, path.length - 1),
+          name:
+            path.substring(0, path.length - 1).split('/').length > 1
+              ? path.substring(0, path.length - 1).split('/')[1]
+              : path.substring(0, path.length - 1),
           path,
           isDir: true,
           isDatasetRoot: false,
