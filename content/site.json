@@ -1,10 +1,10 @@
 {
-  "siteTitle": "Coral Knowledge Market",
+  "siteTitle": "OpSci Commons",
   "siteTagline": "An Open Access Data Commons for Scientific Discovery",
-  "siteUrl": "https://market001.delta-dao.com",
+  "siteUrl": "https:/commons.opsci.io",
   "siteIcon": "src/@images/coral.svg",
   "siteImage": "../src/@images/share-opsci.png",
-  "copyright": "All Rights Reserved. Powered by [Ocean Protocol](https://oceanprotocol.com). Built by [Opscientia](https://opsci.io).",
+  "copyright": "All Rights Reserved. Powered by [Estuary](https://estuary.tech). Built by [OpSci](https://opsci.io).",
   "menu": [
     {
       "name": "Publish",
@@ -25,12 +25,12 @@
   ],
   "warning": {
     "main": "Development build of OpSci Commons.",
-    "polygonPublish": "Only republish data sets with a pool from ETH Mainnet into Polygon/Matic if the liquidity is **less than or equal to 1000 OCEAN in the original pool**. Doing otherwise will lead to [purgatory](https://github.com/oceanprotocol/list-purgatory) for the data set in Polygon/Matic.",
+    "polygonPublish": "",
     "ctd": "Compute-to-Data is still in a testing phase, please use it only on test networks."
   },
   "announcement": {
     "main": "",
-    "polygon": "Polygon/Matic EVM support is in early stages. [Use the Polygon Bridge](https://docs.oceanprotocol.com/tutorials/polygon-bridge/) to get mOCEAN."
+    "polygon": ""
   },
-  "badge": "Powered by Ocean Protocol"
+  "badge": "Powered by Filecoin & IPFS"
 }
