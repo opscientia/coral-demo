@@ -1,6 +1,6 @@
 {
   "siteTitle": "OpSci Commons",
-  "siteTagline": "An Open Access Data Commons for Scientific Discovery",
+  "siteTagline": "",
   "siteUrl": "https:/commons.opsci.io",
   "siteIcon": "src/@images/coral.svg",
   "siteImage": "../src/@images/share-opsci.png",
@@ -32,5 +32,5 @@
     "main": "",
     "polygon": ""
   },
-  "badge": "Powered by Filecoin & IPFS"
+  "badge": "Powered by Estuary."
 }
