@@ -73,6 +73,7 @@ export default function LockerPage(): ReactElement {
   ): Promise<void> {
     try {
       console.log('entered handleSubmit')
+      setError(undefined)
       const msg = await getSecretMessage()
       const fileHash = web3.utils.sha3(msg)
       const signature = await web3.eth.sign(fileHash, accountId)
@@ -94,7 +95,6 @@ export default function LockerPage(): ReactElement {
       })
       // move user's focus to top of screen
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-      setError(undefined)
     } catch (error) {
       setError(error.message)
       console.log(error)
