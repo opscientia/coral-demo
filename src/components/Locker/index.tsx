@@ -75,6 +75,7 @@ export default function LockerPage(): ReactElement {
   ): Promise<void> {
     try {
       console.log('entered handleSubmit')
+      setSuccess(undefined)
       setError(undefined)
       const msg = await getSecretMessage()
       const fileHash = web3.utils.sha3(msg)
@@ -86,6 +87,7 @@ export default function LockerPage(): ReactElement {
       setNewFileUploaded(!newFileUploaded)
 
       if (resp.status !== 201) {
+        setSuccess(undefined)
         setError(respData.error)
         return
       }
@@ -96,7 +98,9 @@ export default function LockerPage(): ReactElement {
       })
       // move user's focus to top of screen
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+      setSuccess('Dataset successfully uploaded!')
     } catch (error) {
+      setSuccess(undefined)
       setError(error.message)
       console.log(error)
     }
@@ -111,7 +115,9 @@ export default function LockerPage(): ReactElement {
           Interplanetary File System (IPFS).
         </a>
       </p>
-      {error && <Alert text={error} state="error" />}
+      {(error || success) && (
+        <Alert text={error || success} state={error ? 'error' : 'success'} />
+      )}
       <Formik
         initialValues={initialFormValues}
         initialStatus="empty"
@@ -124,7 +130,7 @@ export default function LockerPage(): ReactElement {
         {({ values }) => {
           return (
             <>
-              <FormLocker />
+              <FormLocker setError={setError} setSuccess={setSuccess} />
             </>
           )
         }}

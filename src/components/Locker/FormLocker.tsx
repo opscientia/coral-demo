@@ -19,7 +19,13 @@ const content = {
   ]
 }
 
-export default function FormLocker(): ReactElement {
+export default function FormLocker({
+  setError,
+  setSuccess
+}: {
+  setError: React.Dispatch<React.SetStateAction<string>>
+  setSuccess: React.Dispatch<React.SetStateAction<string>>
+}): ReactElement {
   const {
     status,
     setStatus,
@@ -57,7 +63,7 @@ export default function FormLocker(): ReactElement {
         />
       ))}
 
-      <FormActions />
+      <FormActions setError={setError} setSuccess={setSuccess} />
     </Form>
   )
 }

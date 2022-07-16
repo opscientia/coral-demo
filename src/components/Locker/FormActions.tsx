@@ -6,7 +6,13 @@ import { FormikContextType, useFormikContext } from 'formik'
 import { LockerForm } from './_types'
 import { useWeb3 } from '@context/Web3'
 
-export default function Actions(): ReactElement {
+export default function Actions({
+  setError,
+  setSuccess
+}: {
+  setError: React.Dispatch<React.SetStateAction<string>>
+  setSuccess: React.Dispatch<React.SetStateAction<string>>
+}): ReactElement {
   const {
     status,
     setStatus,
@@ -24,6 +30,8 @@ export default function Actions(): ReactElement {
     event.preventDefault()
     setFieldValue('files', null)
     setStatus('empty')
+    setError(undefined)
+    setSuccess(undefined)
   }
 
   return (
