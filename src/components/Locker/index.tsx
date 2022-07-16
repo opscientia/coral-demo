@@ -45,6 +45,7 @@ export default function LockerPage(): ReactElement {
     address: string,
     signature: string
   ) {
+    console.log('Getting file paths...')
     const formData = new FormData()
     let sumFileSizes = 0
     for (const _file of _files) {
@@ -58,6 +59,7 @@ export default function LockerPage(): ReactElement {
     }
     formData.append('address', address)
     formData.append('signature', signature)
+    console.log(`Uploading files...`)
     return await fetch(
       `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
       {
@@ -78,7 +80,6 @@ export default function LockerPage(): ReactElement {
       const fileHash = web3.utils.sha3(msg)
       const signature = await web3.eth.sign(fileHash, accountId)
 
-      console.log(`Uploading files...`)
       const resp = await uploadFiles(values.files, accountId, signature)
       const respData = await resp.json()
       console.log(`File uploaded successfully: ${!respData.error}`)
