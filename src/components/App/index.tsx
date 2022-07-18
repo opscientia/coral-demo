@@ -10,11 +10,6 @@ import styles from './index.module.css'
 import { ToastContainer } from 'react-toastify'
 import contentPurgatory from '../../../content/purgatory.json'
 import { useMarketMetadata } from '@context/MarketMetadata'
-import { Web3Auth } from '@web3auth/web3auth'
-import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from '@web3auth/base'
-
-const clientId =
-  'BK_Nd-_UhuY9ZpDNVwdTieGfdOoGMJsXIRmdYYaQJK9cuNpbgxDiqTjpMEg-fJRRwE1iSYYF_Od6DSBKgs7uQO0'
 
 export default function App({
   children
@@ -22,7 +17,7 @@ export default function App({
   children: ReactElement
 }): ReactElement {
   const { siteContent, appConfig } = useMarketMetadata()
-  const { accountId, web3auth, setWeb3auth, provider, setProvider } = useWeb3()
+  const { accountId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   function openInNewTab() {
     window
@@ -32,29 +27,6 @@ export default function App({
       )
       .focus()
   }
-
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const web3auth = new Web3Auth({
-          clientId,
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: '0x5',
-            rpcTarget: 'https://rpc.ankr.com/eth_goerli'
-          }
-        })
-
-        setWeb3auth(web3auth)
-
-        await web3auth.initModal()
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    init()
-  }, [])
 
   return (
     <div className={styles.app}>

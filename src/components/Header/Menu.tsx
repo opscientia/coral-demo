@@ -52,7 +52,7 @@ export default function Menu(): ReactElement {
 
       <div className={styles.actions}>
         <SearchBar />
-        <Wallet />
+        {/* <Wallet /> */}
       </div>
     </nav>
   )
