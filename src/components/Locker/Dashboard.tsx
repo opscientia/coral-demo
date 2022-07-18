@@ -180,8 +180,6 @@ export default function Dashboard({
   // const folderChain = useFolderChain(currentFolderId)
   const [folderChain, setFolderChain] = useState<ChonkyFileData[]>()
   const [reloadFiles, setReloadFiles] = useState(false) // Files are refetched every time this changes
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [fileToDisplay, setFileToDisplay] = useState<ChonkyFileData>()
 
   function getAndSetFiles() {
     fetch(
@@ -294,9 +292,10 @@ export default function Dashboard({
           const resp = await fetch(urlWithSig, {
             method: 'DELETE'
           })
-          const data = await resp.json()
-          removeFileFromDisplay(_file.estuaryId)
-          setReloadFiles(!reloadFiles)
+          if (resp.status === 200) {
+            removeFileFromDisplay(_file.estuaryId)
+            setReloadFiles(!reloadFiles)
+          }
         } catch (err) {
           console.log(err)
           setReloadFiles(!reloadFiles)
@@ -343,10 +342,6 @@ export default function Dashboard({
       }
       return _files
     }
-    // pseudocode:
-    // if file is not dir, then submit delete request (with path) for it
-    // if file is dir (but not root dir), then submit separate delete request for every child file
-    // if file is root dir of dataset, then submit delete request containing estuaryId but not path
     _files = addChildren(_files)
     _files = _files.filter((_file) => !_file.isDir || _file.isDatasetRoot) // Remove dirs, except root dir
     confirmDelete(_files)
@@ -366,10 +361,6 @@ export default function Dashboard({
       if (fileToOpen && FileHelper.isDirectory(fileToOpen)) {
         setCurrentFolderId(fileToOpen.id)
       }
-      if (fileToOpen.name.includes('dataset_description.json')) {
-        setFileToDisplay(fileToOpen)
-        setIsDialogOpen(true)
-      }
     }
   }
 
@@ -380,13 +371,6 @@ export default function Dashboard({
 
   return (
     <div>
-      {fileToDisplay && isDialogOpen && (
-        <DisplayFile
-          fileData={fileToDisplay}
-          isDialogOpen={isDialogOpen}
-          setIsDialogOpen={setIsDialogOpen}
-        />
-      )}
       {files && files.length > 0 ? (
         <div style={{ height: 400 }}>
           <FullFileBrowser
