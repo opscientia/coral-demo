@@ -269,6 +269,8 @@ export default function Dashboard({
         console.log(
           'Trying to delete non-root file or directory. Operation not allowed.'
         )
+        onClose()
+        return false
       } else {
         _files = _files.filter((_file) => _file.isDatasetRoot)
       }
@@ -341,6 +343,11 @@ export default function Dashboard({
         dirs.shift()
       }
       return _files
+    }
+
+    // Exit this function unless the user is trying to delete an entire dataset
+    if (_files.filter((_file) => !_file.isDatasetRoot).length > 0) {
+      return false
     }
     _files = addChildren(_files)
     _files = _files.filter((_file) => !_file.isDir || _file.isDatasetRoot) // Remove dirs, except root dir
