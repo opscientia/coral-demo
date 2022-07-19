@@ -16,8 +16,8 @@ export default function Preview(): ReactElement {
     const datasetTemp = {
       title,
       description,
-      authors: authors.split(/[ ,]+/),
-      keywords: keywords.split(/[ ,]+/)
+      authors: authors.split(','),
+      keywords: keywords.split(',')
     }
     setDataset(datasetTemp)
   }, [values])
