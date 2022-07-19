@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useEffect, useCallback } from 'react'
-import AssetList from '@shared/AssetList'
+import DatasetList from '@shared/DatasetList'
 import DatasetTeaser from '@shared/DatasetTeaser/DatasetTeaser'
 import queryString from 'query-string'
 import Sort from './sort'
@@ -8,7 +8,7 @@ import { useUserPreferences } from '@context/UserPreferences'
 import { useCancelToken } from '@hooks/useCancelToken'
 import styles from './index.module.css'
 import { useRouter } from 'next/router'
-import { Dataset } from 'src/@types/Dataset'
+import { Dataset, PagedDatasets } from 'src/@types/Dataset'
 
 export default function SearchPage({
   setTotalResults,
@@ -19,29 +19,11 @@ export default function SearchPage({
 }): ReactElement {
   const router = useRouter()
   const [parsed, setParsed] = useState<queryString.ParsedQuery<string>>()
-  const [queryResult, setQueryResult] = useState<Dataset[]>()
+  const [queryResult, setQueryResult] = useState<PagedDatasets>()
   const [loading, setLoading] = useState<boolean>()
   const [sortType, setSortType] = useState<string>()
   const [sortDirection, setSortDirection] = useState<string>()
   const newCancelToken = useCancelToken()
-
-  // // Commons-specific code
-  // const [datasets, setDatasets] = useState<any[]>([])
-
-  // useEffect(() => {
-  //   // Commons-specific code
-  //   function getAndSetDatasets() {
-  //     fetch(
-  //       process.env.NEXT_PUBLIC_PROXY_API_URL + `/metadata/datasets/published`,
-  //       {
-  //         method: 'GET'
-  //       }
-  //     )
-  //       .then((resp) => resp.json())
-  //       .then((allDatasets) => setDatasets(allDatasets))
-  //   }
-  //   getAndSetDatasets()
-  // }, [])
 
   useEffect(() => {
     const parsed = queryString.parse(location.search)
@@ -76,17 +58,17 @@ export default function SearchPage({
       const queryResult = await getResults(parsed, newCancelToken())
       setQueryResult(queryResult)
 
-      setTotalResults(queryResult?.length || 0)
-      // setTotalPagesNumber(queryResult?.totalPages || 0)
+      setTotalResults(queryResult?.results?.length || 0)
+      setTotalPagesNumber(queryResult?.totalPages || 0)
       setLoading(false)
     },
     [newCancelToken, setTotalPagesNumber, setTotalResults]
   )
-  // useEffect(() => {
-  //   if (!parsed || !queryResult) return
-  //   const { page } = parsed
-  //   if (queryResult.totalPages < Number(page)) updatePage(1)
-  // }, [parsed, queryResult, updatePage])
+  useEffect(() => {
+    if (!parsed || !queryResult) return
+    const { page } = parsed
+    if (queryResult.totalPages < Number(page)) updatePage(1)
+  }, [parsed, queryResult, updatePage])
 
   useEffect(() => {
     if (!parsed) return
@@ -106,21 +88,14 @@ export default function SearchPage({
         </div>
       </div> */}
       <div className={styles.results}>
-        {queryResult &&
-          queryResult.length > 0 &&
-          queryResult.map((dataset) => (
-            <div key={dataset._id}>
-              <DatasetTeaser dataset={dataset} />
-            </div>
-          ))}
-        {/* <AssetList
-          assets={queryResult?.results}
+        <DatasetList
+          datasets={queryResult?.results}
           showPagination
           isLoading={loading}
           page={queryResult?.page}
           totalPages={queryResult?.totalPages}
           onPageChange={updatePage}
-        /> */}
+        />
       </div>
     </>
   )

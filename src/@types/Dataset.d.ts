@@ -23,3 +23,10 @@ export interface Dataset {
   miscellaneous?: any
   chunkIds?: string[]
 }
+
+export interface PagedDatasets {
+  results: Dataset[]
+  page: number
+  totalPages: number
+  totalResults: number
+}

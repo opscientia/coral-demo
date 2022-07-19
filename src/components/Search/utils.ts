@@ -5,6 +5,17 @@ import {
   SortDirectionOptions,
   SortTermOptions
 } from '../../@types/aquarius/SearchQuery'
+import { Dataset, PagedDatasets } from 'src/@types/Dataset'
+
+const totalAllowedOnPage = 21 // max of 21 results per page
+
+function getDatasetsOnPage(datasets: Dataset[], page: string | void) {
+  const pageIndex = page ? parseInt(page) - 1 : 0
+  return datasets.slice(
+    pageIndex * totalAllowedOnPage,
+    pageIndex * totalAllowedOnPage + totalAllowedOnPage
+  )
+}
 
 export function updateQueryStringParameter(
   uri: string,
@@ -39,31 +50,47 @@ export async function getResults(
     accessType?: string
   },
   cancelToken?: CancelToken
-): Promise<any> {
-  if (params.text) {
-    console.log(`params.text: ${params.text}`)
-    const resp = await fetch(
-      process.env.NEXT_PUBLIC_PROXY_API_URL +
-        `/metadata/datasets/published/search?searchStr=${params.text}`,
-      {
-        method: 'GET'
-      }
+): Promise<PagedDatasets> {
+  try {
+    let datasets
+    if (params.text) {
+      console.log(`params.text: ${params.text}`)
+      const resp = await fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL +
+          `/metadata/datasets/published/search?searchStr=${params.text}`,
+        {
+          method: 'GET'
+        }
+      )
+      datasets = await resp.json()
+    } else {
+      const resp = await fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL + `/metadata/datasets/published`,
+        {
+          method: 'GET'
+        }
+      )
+      datasets = await resp.json()
+    }
+    const datasetsOnPage = getDatasetsOnPage(datasets, params.page)
+    const totalPages = Math.max(
+      Math.round(datasets.length / totalAllowedOnPage),
+      1
     )
-    const searchResult = await resp.json()
-    console.log('searchResult')
-    console.log(searchResult)
-    return searchResult
-  } else {
-    const resp = await fetch(
-      process.env.NEXT_PUBLIC_PROXY_API_URL + `/metadata/datasets/published`,
-      {
-        method: 'GET'
-      }
-    )
-    const searchResult = await resp.json()
-    console.log('searchResult')
-    console.log(searchResult)
-    return searchResult
+    const pagedDatasets = {
+      results: datasetsOnPage,
+      page: 1,
+      totalPages,
+      totalResults: datasets.length
+    }
+    return pagedDatasets
+  } catch (err) {
+    return {
+      results: [],
+      page: 0,
+      totalPages: 0,
+      totalResults: 0
+    }
   }
   // const queryResult = await queryMetadata(searchQuery, cancelToken)
   // return queryResult
