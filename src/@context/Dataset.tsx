@@ -14,6 +14,7 @@ import { useCancelToken } from '@hooks/useCancelToken'
 import { getOceanConfig, getDevelopmentConfig } from '@utils/ocean'
 import { AssetExtended } from 'src/@types/AssetExtended'
 import { Dataset } from 'src/@types/Dataset'
+import { Author } from 'src/@types/Author'
 import { Chunk } from 'src/@types/Chunk'
 import { useIsMounted } from '@hooks/useIsMounted'
 import { useMarketMetadata } from './MarketMetadata'
@@ -21,7 +22,8 @@ import { useMarketMetadata } from './MarketMetadata'
 export interface DatasetProviderValue {
   dataset: Dataset
   title: string
-  owner: string
+  owner?: string
+  authors?: Author[]
   cids: string[]
   error?: string
   loading: boolean
@@ -42,11 +44,45 @@ function DatasetProvider({
   const [dataset, setDataset] = useState<Dataset>()
   const [title, setTitle] = useState<string>()
   const [owner, setOwner] = useState<string>()
+  const [authors, setAuthors] = useState<string[]>()
   const [cids, setCids] = useState<Dataset>()
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState(false)
 
   const isMounted = useIsMounted()
+
+  const getDatasetAuthors = async (datasetId: string) => {
+    try {
+      const resp = await fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL +
+          `/metadata/authors?datasetId=${datasetId}`,
+        {
+          method: 'GET'
+        }
+      )
+      const authors = await resp.json()
+      return authors
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getDatasetCids = async (datasetId: string) => {
+    try {
+      const resp = await fetch(
+        process.env.NEXT_PUBLIC_PROXY_API_URL +
+          `/metadata/chunks/published?datasetId=${datasetId}`,
+        {
+          method: 'GET'
+        }
+      )
+      const chunks = await resp.json()
+      const cidsTemp = chunks?.map((chunk: Chunk) => chunk.storageIds?.cid)
+      return cidsTemp
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   // -----------------------------------
   // Helper: Get and set dataset based on passed _id
@@ -85,17 +121,11 @@ function DatasetProvider({
       setTitle(datasetTemp.title)
       setOwner(datasetTemp.uploader)
 
-      // Get cids
-      const resp = await fetch(
-        process.env.NEXT_PUBLIC_PROXY_API_URL +
-          `/metadata/chunks/published?datasetId=${datasetTemp._id}`,
-        {
-          method: 'GET'
-        }
-      )
-      const chunks = await resp.json()
-      const cidsTemp = chunks?.map((chunk: Chunk) => chunk.storageIds?.cid)
+      const cidsTemp = await getDatasetCids(datasetTemp._id)
       setCids(cidsTemp)
+
+      const authorsTemp = await getDatasetAuthors(datasetTemp._id)
+      setAuthors(authorsTemp)
 
       LoggerInstance.log('[dataset] Got dataset', datasetTemp)
     }
@@ -119,6 +149,7 @@ function DatasetProvider({
           dataset,
           title,
           owner,
+          authors,
           cids,
           error,
           loading,

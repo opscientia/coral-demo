@@ -25,7 +25,7 @@ export default function DatasetContent({
 }): ReactElement {
   const [isOwner, setIsOwner] = useState(false)
   const { accountId } = useWeb3()
-  const { owner } = useDataset()
+  const { owner, authors } = useDataset()
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
 
@@ -56,7 +56,7 @@ export default function DatasetContent({
               />
               <MetaSecondary dataset={dataset} />
             </>
-            <MetaFull dataset={dataset} cids={cids} />
+            <MetaFull dataset={dataset} cids={cids} authors={authors} />
           </div>
         </div>
       </article>

@@ -4,13 +4,16 @@ import styles from './MetaFull.module.css'
 import Publisher from '@shared/Publisher'
 import { Asset } from '@oceanprotocol/lib'
 import { Dataset } from 'src/@types/Dataset'
+import { Author } from 'src/@types/Author'
 
 export default function MetaFull({
   dataset,
-  cids
+  cids,
+  authors
 }: {
   dataset: Dataset
   cids?: string[]
+  authors?: Author[]
 }): ReactElement {
   const [cidLinks, setCidsLinks] = useState<ReactElement[]>()
 
@@ -33,10 +36,10 @@ export default function MetaFull({
 
   return dataset ? (
     <div className={styles.metaFull}>
-      {dataset?.authors?.length > 0 &&
-        dataset?.authors.map((author, index) => (
+      {authors?.length > 0 &&
+        authors.map((author, index) => (
           <div key={index}>
-            <MetaItem title="Author" content={author} />
+            <MetaItem title="Author" content={author.name} />
           </div>
         ))}
       {dataset._id && (
