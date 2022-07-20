@@ -44,7 +44,7 @@ function DatasetProvider({
   const [dataset, setDataset] = useState<Dataset>()
   const [title, setTitle] = useState<string>()
   const [owner, setOwner] = useState<string>()
-  const [authors, setAuthors] = useState<string[]>()
+  const [authors, setAuthors] = useState<Author[]>()
   const [cids, setCids] = useState<Dataset>()
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState(false)
