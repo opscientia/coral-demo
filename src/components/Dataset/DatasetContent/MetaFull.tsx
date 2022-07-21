@@ -1,4 +1,5 @@
 import React, { ReactElement, useState, useEffect } from 'react'
+import Link from 'next/link'
 import MetaItem from './MetaItem'
 import styles from './MetaFull.module.css'
 import Publisher from '@shared/Publisher'
@@ -16,6 +17,7 @@ export default function MetaFull({
   authors?: Author[]
 }): ReactElement {
   const [cidLinks, setCidsLinks] = useState<ReactElement[]>()
+  const [siblingIds, setSiblingIds] = useState<string[]>()
 
   useEffect(() => {
     if (!cids) return
@@ -34,6 +36,18 @@ export default function MetaFull({
     )
   }, [cids])
 
+  useEffect(() => {
+    if (dataset.miscellaneous?.siblingIds?.length > 0) {
+      setSiblingIds(
+        dataset.miscellaneous.siblingIds.map((siblingId: string) => (
+          <code key={siblingId}>
+            <Link href={`/dataset/${siblingId}`}>{siblingId}</Link>
+          </code>
+        ))
+      )
+    }
+  }, [dataset])
+
   return dataset ? (
     <div className={styles.metaFull}>
       {authors?.length > 0 &&
@@ -45,13 +59,13 @@ export default function MetaFull({
       {dataset._id && (
         <MetaItem title="_id" content={<code>{dataset?._id}</code>} />
       )}
-      {cids &&
-        cids.length > 0 &&
-        cids.map((cid) => (
-          <div key={cid}>
-            <MetaItem title="Download Link(s)" content={cidLinks} />
-          </div>
-        ))}
+
+      {siblingIds && siblingIds.length > 0 && (
+        <MetaItem title="Sibling Dataset(s)" content={siblingIds} />
+      )}
+      {cids && cids.length > 0 && (
+        <MetaItem title="Download Link(s)" content={cidLinks} />
+      )}
     </div>
   ) : null
 }
