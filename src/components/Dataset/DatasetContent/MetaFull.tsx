@@ -61,7 +61,7 @@ export default function MetaFull({
       )}
 
       {siblingIds && siblingIds.length > 0 && (
-        <MetaItem title="Sibling Dataset(s)" content={siblingIds} />
+        <MetaItem title="Dataset(s) in Collection" content={siblingIds} />
       )}
       {cids && cids.length > 0 && (
         <MetaItem title="Download Link(s)" content={cidLinks} />
