@@ -385,6 +385,8 @@ export default function Dashboard({
             folderChain={folderChain}
             onFileAction={handleFileAction}
             fileActions={myFileActions}
+            disableDragAndDrop={true}
+            disableDragAndDropProvider={true}
           />
         </div>
       ) : (
