@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect } from 'react'
-
 import { Formik, FormikState } from 'formik'
+import content from '../../../content/pages/locker/index.json'
 import styles from './index.module.css'
 import FormLocker from './FormLocker'
 import { validationSchema } from './_validation'
@@ -108,13 +108,9 @@ export default function LockerPage(): ReactElement {
 
   return (
     <>
-      <h2>Data Locker</h2>
-      <p>
-        NOTICE: All data uploaded here will be publicly available through the{' '}
-        <a href="https://ipfs.io/" target="_blank" rel="noreferrer">
-          Interplanetary File System (IPFS).
-        </a>
-      </p>
+      <h2>{content.title}</h2>
+      <p>{content.description}</p>
+      <p>{content.notice}</p>
       {(error || success) && (
         <Alert text={error || success} state={error ? 'error' : 'success'} />
       )}

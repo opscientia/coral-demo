@@ -1,6 +1,5 @@
 {
-  "title": "Locker",
+  "title": "Data Locker",
   "description": "Store data here before publishing.",
-  "warning": "Given the beta status, publishing on Ropsten or Rinkeby first is strongly recommended. Please familiarize yourself with [the market](https://oceanprotocol.com/technology/marketplaces), [the risks](https://blog.oceanprotocol.com/on-staking-on-data-in-ocean-market-3d8e09eb0a13), and the [Terms of Use](/terms).",
-  "tooltipNetwork": "Assets are published into the network your wallet is connected to. Switch your wallet's network to publish into another one."
+  "notice": "NOTICE: All data uploaded here will be publicly available through the Interplanetary File System (IPFS)."
 }
