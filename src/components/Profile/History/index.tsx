@@ -15,11 +15,11 @@ function getTabs(accountId: string, userAccountId: string): HistoryTab[] {
     {
       title: 'Published',
       content: <PublishedList accountId={accountId} />
-    },
-    {
-      title: 'Downloads',
-      content: <Downloads accountId={accountId} />
     }
+    // {
+    //   title: 'Downloads',
+    //   content: <Downloads accountId={accountId} />
+    // }
   ]
   return defaultTabs
 }
