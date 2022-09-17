@@ -67,15 +67,14 @@ export interface InputProps {
 }
 
 function checkError(
+  form: any,
   parsedFieldName: string[],
-  field: FieldInputProps<any>,
-  form: any
+  field: FieldInputProps<any>
 ) {
+  // @ts-ignore
   if (form?.errors === {}) {
     return false
-  }
-
-  if (
+  } else if (
     (form?.touched?.[parsedFieldName[0]]?.[parsedFieldName[1]] &&
       form?.errors?.[parsedFieldName[0]]?.[parsedFieldName[1]]) ||
     (form?.touched[field.name] &&

@@ -1,6 +1,6 @@
 import React from 'react'
+// @ts-ignore
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-
 import Alert, { AlertProps } from '@shared/atoms/Alert'
 
 export default {
@@ -8,7 +8,9 @@ export default {
   component: Alert
 } as ComponentMeta<typeof Alert>
 
-const Template: ComponentStory<typeof Alert> = (args) => <Alert {...args} />
+const Template: ComponentStory<typeof Alert> = (
+  args: JSX.IntrinsicAttributes & AlertProps
+) => <Alert {...args} />
 
 interface Props {
   args: AlertProps
