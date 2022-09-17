@@ -7,7 +7,7 @@ import {
 } from '../../@types/aquarius/SearchQuery'
 import { Dataset, PagedDatasets } from 'src/@types/Dataset'
 
-export const totalAllowedOnPage = 21 // max of 21 results per page
+export const totalAllowedOnPage = 200 // max of 200 results per page
 
 export function getDatasetsOnPage(datasets: Dataset[], page: string | void) {
   const pageIndex = page ? parseInt(page) - 1 : 0
