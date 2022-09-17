@@ -71,6 +71,7 @@ function checkError(
   field: FieldInputProps<any>,
   form: any
 ) {
+  // @ts-ignore
   if (form?.errors === {}) {
     return false
   }

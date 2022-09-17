@@ -1,4 +1,5 @@
 import React from 'react'
+// @ts-ignore
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import Badge, { BadgeProps } from '@shared/atoms/Badge'
@@ -8,7 +9,9 @@ export default {
   component: Badge
 } as ComponentMeta<typeof Badge>
 
-const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />
+const Template: ComponentStory<typeof Badge> = (
+  args: JSX.IntrinsicAttributes & BadgeProps
+) => <Badge {...args} />
 
 interface Props {
   args: BadgeProps
