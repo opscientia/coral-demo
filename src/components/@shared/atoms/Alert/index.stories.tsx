@@ -1,4 +1,6 @@
 import React from 'react'
+// @ts-ignore
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Alert, { AlertProps } from '@shared/atoms/Alert'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
