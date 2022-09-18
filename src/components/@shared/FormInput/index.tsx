@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, {
   ChangeEvent,
   FormEvent,
@@ -67,9 +68,9 @@ export interface InputProps {
 }
 
 function checkError(
+  form: any,
   parsedFieldName: string[],
-  field: FieldInputProps<any>,
-  form: any
+  field: FieldInputProps<any>
 ) {
   // @ts-ignore
   if (form?.errors === {}) {
