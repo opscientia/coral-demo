@@ -1,5 +1,4 @@
 import React from 'react'
-// @ts-ignore
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import Badge, { BadgeProps } from '@shared/atoms/Badge'

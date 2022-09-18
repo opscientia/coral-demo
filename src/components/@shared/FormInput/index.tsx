@@ -71,7 +71,7 @@ function checkError(
   parsedFieldName: string[],
   field: FieldInputProps<any>
 ) {
-  // @ts-ignore
+  // @ts-expect-error reference error
   if (form?.errors === {}) {
     return false
   } else if (
@@ -105,6 +105,7 @@ export default function Input(props: Partial<InputProps>): ReactElement {
   // handling flat and nested data at same time.
   const parsedFieldName =
     isFormikField && (isNestedField ? field?.name.split('.') : [field?.name])
+  // @ts-ignore
   const hasFormikError = checkError(form, parsedFieldName, field)
 
   const styleClasses = cx({
