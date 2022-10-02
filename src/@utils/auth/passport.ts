@@ -8,25 +8,22 @@ export const OrcidAuth = new OrcidStrategy(
     clientSecret: process.env.ORCID_CLIENT_SECRET,
     callbackURL: '/auth/orcid/redirect'
   },
-  (accessToken, refreshToken, params, profile, done) => {
+  async (accessToken, refreshToken, params, profile, done) => {
     // `profile` is empty as ORCID has no generic profile URL,
     // so populate the profile object from the params instead
     profile = { orcid: params.orcid, name: params.name }
-
-    createUser({
-      orcid: profile.orcid,
-      username: profile.name
-    }).then((currentUser: unknown) => {
-      if (currentUser) {
-        // User already exists, log their info
-        console.log('User is:' + currentUser)
-        done(null, currentUser)
-      } else {
-        findUser(profile).then((newUser: unknown) => {
-          console.log('New User Created:' + newUser)
-          done(null, newUser)
-        })
-      }
-    })
+    let currentUser = await findUser(profile.orcid)
+    if (currentUser !== null) {
+      // User already exists, log their info
+      console.log('User is:' + currentUser)
+      const { tokens } = currentUser
+      done(null, currentUser, { message: 'Auth successful', tokens })
+    } else {
+      // new user
+      currentUser = await createUser(profile.name, profile.orcid, accessToken)
+      console.log('User is:' + currentUser)
+      const { tokens } = currentUser
+      done(null, currentUser, { message: 'Auth successful', tokens })
+    }
   }
 )
