@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+const globalAny: any = global
 
-const { MONGODB_URI } = process.env
+const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI
 
 if (!MONGODB_URI) {
   throw new Error(
@@ -13,10 +14,10 @@ if (!MONGODB_URI) {
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached = global.mongoose
+let cached = globalAny.mongoose
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
+  cached = globalAny.mongoose = { conn: null, promise: null }
 }
 
 async function dbConnect() {

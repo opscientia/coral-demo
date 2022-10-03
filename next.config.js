@@ -2,6 +2,8 @@ module.exports = (phase, { defaultConfig }) => {
   /**
    * @type {import('next').NextConfig}
    */
+  env: {
+  }
   const nextConfig = {
     webpack: (config, options) => {
       config.module.rules.push(

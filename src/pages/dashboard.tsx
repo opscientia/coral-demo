@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import User from '../models/User'
 import { useRouter } from 'next/router'
 
-function Dashboard({ username: { username: any }, orcid: { orcid: any } }) {
+function Dashboard(params) {
   const router = useRouter()
 
   const logout = () => {
@@ -19,8 +19,8 @@ function Dashboard({ username: { username: any }, orcid: { orcid: any } }) {
       <Head>
         <title>Dashboard</title>
       </Head>
-      <div>Welcome {username}!</div>
-      <div>ORCID: {orcid}</div>
+      <div>Welcome {params.username}!</div>
+      <div>ORCID: {params.orcid}</div>
       <button onClick={logout}>Logout</button>
     </div>
   )
@@ -31,7 +31,7 @@ export async function getServerSideProps({ req, res }) {
     // connect db
     await dbConnect()
     // check cookie
-    const token = getCookie('token', { req, res })
+    const token = getCookie('token', { req, res }).toString()
     if (!token)
       return {
         redirect: {
@@ -39,7 +39,7 @@ export async function getServerSideProps({ req, res }) {
         }
       }
 
-    const verified = await jwt.verify(token, process.env.COOKIE_SECRET)
+    const verified: any = await jwt.verify(token, process.env.COOKIE_SECRET)
     const obj = await User.findOne({ _id: verified.id })
     if (!obj)
       return {
@@ -49,8 +49,8 @@ export async function getServerSideProps({ req, res }) {
       }
     return {
       props: {
-        email: obj.email,
-        name: obj.name
+        username: obj.username,
+        orcid: obj.orcid
       }
     }
   } catch (err) {

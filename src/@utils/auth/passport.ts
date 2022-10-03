@@ -4,8 +4,8 @@ export const OrcidAuth = new OrcidStrategy(
   {
     sandbox: true, // remove this to use the production API
     state: false, // remove this if not using sessions
-    clientID: process.env.ORCID_CLIENT_ID,
-    clientSecret: process.env.ORCID_CLIENT_SECRET,
+    clientID: process.env.NEXT_PUBLIC_ORCID_CLIENT_ID,
+    clientSecret: process.env.NEXT_PUBLIC_ORCID_CLIENT_SECRET,
     callbackURL: '/auth/orcid/redirect'
   },
   async (accessToken, refreshToken, params, profile, done) => {

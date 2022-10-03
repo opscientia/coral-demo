@@ -16,7 +16,7 @@ export async function createUser(
   if (newUser) {
     const token = jwt.sign(
       { id: newUser._id, created: Date.now().toString() },
-      process.env.COOKIE_SECRET
+      process.env.NEXT_PUBLIC_COOKIE_SECRET
     )
     newUser.tokens.push(token)
     await newUser.save()
@@ -30,7 +30,7 @@ export async function findUser(userOrcid: string): Promise<any> {
     // already have this user
     const token = jwt.sign(
       { id: foundUser._id, created: Date.now().toString() },
-      process.env.COOKIE_SECRET
+      process.env.NEXT_PUBLIC_COOKIE_SECRET
     )
     foundUser.tokens.push(token)
     return foundUser
