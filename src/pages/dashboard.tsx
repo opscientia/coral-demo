@@ -32,15 +32,23 @@ function Dashboard({ username, orcid }): ReactElement {
 export async function getServerSideProps({ req, res }) {
   try {
     // connect db
+    console.log("i'm in dashboard")
     await connect()
     // check cookie
     const token = getCookie('token', { req, res }).toString()
+    console.log(token)
+
     if (!token) {
       console.error('token missing, login again')
     }
 
-    const verified: any = await jwt.verify(token, process.env.JWT_SECRET)
+    const verified: any = await jwt.verify(
+      token,
+      process.env.NEXT_PUBLIC_JWT_SECRET
+    )
+    console.log('verfied' + verified)
     const obj = await User.findOne({ _id: verified.id })
+    console.log('obj' + obj)
     if (!obj)
       return {
         redirect: {
@@ -54,6 +62,7 @@ export async function getServerSideProps({ req, res }) {
       }
     }
   } catch (err) {
+    console.log('err in dashboard' + err)
     deleteCookie('token', { req, res })
     return {
       redirect: {

@@ -1,6 +1,5 @@
-import { checkCookies, getCookie, getCookies } from 'cookies-next'
-import Head from 'next/head'
-import Image from 'next/image'
+import { getCookie } from 'cookies-next'
+
 import Link from 'next/link'
 import React, { ReactElement } from 'react'
 import Page from '@shared/Page'
