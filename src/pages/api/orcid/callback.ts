@@ -20,5 +20,5 @@ export default async function (req, res, next) {
       res
     })
     res.redirect('/dashboard')
-  })(req, res, next)
+  })
 }

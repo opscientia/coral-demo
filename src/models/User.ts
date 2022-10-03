@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
 
+export interface User {
+  username: string
+  orcid: string
+  accessToken: string
+  tokens: [string]
+  createdAt: Date
+}
 const userSchema = new mongoose.Schema({
   username: String,
   orcid: String,
@@ -7,7 +14,5 @@ const userSchema = new mongoose.Schema({
   tokens: [String],
   createdAt: Date
 })
-
-const User = mongoose.model('user', userSchema)
-
-export default User
+export default (mongoose.models.User as mongoose.Model<User>) ||
+  mongoose.model('User', userSchema)

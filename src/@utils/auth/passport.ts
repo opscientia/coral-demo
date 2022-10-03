@@ -6,7 +6,7 @@ export const OrcidAuth = new OrcidStrategy(
     state: false, // remove this if not using sessions
     clientID: process.env.NEXT_PUBLIC_ORCID_CLIENT_ID,
     clientSecret: process.env.NEXT_PUBLIC_ORCID_CLIENT_SECRET,
-    callbackURL: '/auth/orcid/redirect'
+    callbackURL: '/orcid/callback'
   },
   async (accessToken, refreshToken, params, profile, done) => {
     // `profile` is empty as ORCID has no generic profile URL,

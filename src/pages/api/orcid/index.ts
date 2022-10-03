@@ -6,5 +6,5 @@ export default async function (req, res, next) {
   passport.authenticate('orcid', {
     scope: ['/authenticate'],
     session: false
-  })(req, res, next)
+  })
 }

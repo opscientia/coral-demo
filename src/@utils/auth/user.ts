@@ -25,7 +25,7 @@ export async function createUser(
 }
 
 export async function findUser(userOrcid: string): Promise<any> {
-  const foundUser = await User.findOne({ orcid: userOrcid })
+  const foundUser: any = await User.findOne({ orcid: userOrcid })
   if (foundUser !== null) {
     // already have this user
     const token = jwt.sign(
