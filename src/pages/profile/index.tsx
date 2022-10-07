@@ -9,8 +9,9 @@ import { getCookie, deleteCookie } from 'cookies-next'
 import User from '../../models/User'
 import connect from '../../lib/database'
 import jwt from 'jsonwebtoken'
+import getUserRecords from 'src/lib/getUserRecords'
 
-export default function PageProfile({ orcid }): ReactElement {
+export default function PageProfile({ orcid, records }): ReactElement {
   const router = useRouter()
   const { accountId } = useWeb3()
   const [finalAccountId, setFinalAccountId] = useState<string>()
@@ -46,7 +47,7 @@ export default function PageProfile({ orcid }): ReactElement {
     // make sure we only replace path once
     if (newProfilePath !== router.asPath) router.replace(newProfilePath)
   }, [router, finalAccountEns, accountId])
-
+  console.log('userRecords' + records)
   return (
     <Page
       uri={router.route}
@@ -65,7 +66,7 @@ export async function getServerSideProps({ req, res }) {
     // check cookie
     const token = getCookie('token', { req, res }).toString()
     console.log(token)
-
+    const userRecords = await getUserRecords()
     if (!token) {
       console.error('token missing, login again')
     }
@@ -85,7 +86,8 @@ export async function getServerSideProps({ req, res }) {
       }
     return {
       props: {
-        orcid: obj.orcid
+        orcid: obj.orcid,
+        records: userRecords
       }
     }
   } catch (err) {
