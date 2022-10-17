@@ -5,8 +5,12 @@ import { accountTruncate } from '@utils/web3'
 import { useWeb3 } from '@context/Web3'
 import { useRouter } from 'next/router'
 import web3 from 'web3'
+import { getCookie, deleteCookie } from 'cookies-next'
+import User from '../../models/User'
+import connect from '../../lib/database'
+import jwt from 'jsonwebtoken'
 
-export default function PageProfile(): ReactElement {
+export default function PageProfile({ orcid }): ReactElement {
   const router = useRouter()
   const { accountId } = useWeb3()
   const [finalAccountId, setFinalAccountId] = useState<string>()
@@ -49,7 +53,48 @@ export default function PageProfile(): ReactElement {
       title={accountTruncate(finalAccountId)}
       noPageHeader
     >
-      <ProfilePage accountId={finalAccountId} />
+      <ProfilePage accountId={finalAccountId} orcid={orcid} />
     </Page>
   )
+}
+
+export async function getServerSideProps({ req, res }) {
+  try {
+    // connect db
+    await connect()
+    // check cookie
+    const token = getCookie('token', { req, res }).toString()
+    console.log(token)
+
+    if (!token) {
+      console.error('token missing, login again')
+    }
+
+    const verified: any = await jwt.verify(
+      token,
+      process.env.NEXT_PUBLIC_JWT_SECRET
+    )
+    console.log('verfied' + verified)
+    const obj = await User.findOne({ _id: verified.id })
+    console.log('obj' + obj)
+    if (!obj)
+      return {
+        props: {
+          orcid: ''
+        }
+      }
+    return {
+      props: {
+        orcid: obj.orcid
+      }
+    }
+  } catch (err) {
+    console.log('err in dashboard' + err)
+    deleteCookie('token', { req, res })
+    return {
+      redirect: {
+        destination: '/login'
+      }
+    }
+  }
 }

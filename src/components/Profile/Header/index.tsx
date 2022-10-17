@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react'
 import Markdown from '@shared/Markdown'
 import Account from './Account'
 import styles from './index.module.css'
+import OrcidHeader from './OrcidHeader'
 
 const isDescriptionTextClamped = () => {
   const el = document.getElementById('description')
@@ -17,9 +18,11 @@ const LinkExternal = ({ url, text }: { url: string; text: string }) => {
 }
 
 export default function AccountHeader({
-  accountId
+  accountId,
+  orcid
 }: {
   accountId: string
+  orcid: string
 }): ReactElement {
   const [isShowMore, setIsShowMore] = useState(false)
 
@@ -31,6 +34,7 @@ export default function AccountHeader({
     <div className={styles.grid}>
       <div>
         <Account accountId={accountId} />
+        <OrcidHeader orcid={orcid} />
       </div>
       <div className={styles.meta}></div>
     </div>
