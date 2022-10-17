@@ -27,6 +27,7 @@
         "label": "License",
         "placeholder": "e.g. CC0 Public Domain",
         "help": "A dataset license should clearly describe how to properly and responsibly use a dataset. See https://paperswithcode.com/datasets/license",
+        "required": true,
         "type": "radio",
         "options": [
           "CC0 Public Domain",
