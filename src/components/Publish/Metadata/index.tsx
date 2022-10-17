@@ -30,6 +30,16 @@ export default function MetadataFields(): ReactElement {
         name="metadata.authors"
       />
       <Field
+        {...getFieldContent('license', content.metadata.fields)}
+        component={Input}
+        name="metadata.license"
+      />
+      <Field
+        {...getFieldContent('doi', content.metadata.fields)}
+        component={Input}
+        name="metadata.doi"
+      />
+      <Field
         {...getFieldContent('keywords', content.metadata.fields)}
         component={Input}
         name="metadata.keywords"
