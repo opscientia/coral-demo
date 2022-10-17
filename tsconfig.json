@@ -10,7 +10,7 @@
     "emitDecoratorMetadata": true,
     "noEmit": true,
     "sourceMap": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "paths": {
       "@shared/*": ["./src/components/@shared/*"],
       "@hooks/*": ["./src/@hooks/*"],
