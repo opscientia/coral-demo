@@ -23,6 +23,34 @@
         "required": true
       },
       {
+        "name": "license",
+        "label": "License",
+        "placeholder": "e.g. CC0 Public Domain",
+        "help": "A dataset license should clearly describe how to properly and responsibly use a dataset. See https://paperswithcode.com/datasets/license",
+        "required": true,
+        "type": "radio",
+        "options": [
+          "CC0 Public Domain",
+          "CC BY",
+          "CC BY-SA",
+          "CC BY-NC",
+          "CC BY-NC-SA",
+          "CC BY-ND",
+          "CC BY-NC-ND",
+          "MIT",
+          "GPL",
+          "Apache License, Version 2.0",
+          "BSD-3-Clause",
+          "Unknown"
+        ]
+      },
+      {
+        "name": "doi",
+        "label": "DOI",
+        "placeholder": "e.g. https://doi.org/10.1109/5.771073",
+        "help": "A link of your Digital Object Identifier, see https://www.doi.org/hb.html"
+      },
+      {
         "name": "keywords",
         "label": "Keywords",
         "placeholder": "e.g. logistics, ai",
