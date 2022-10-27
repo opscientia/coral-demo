@@ -48,6 +48,8 @@ const Strategy = new OrcidStrategy(
           },
           process.env.NEXT_PUBLIC_JWT_SECRET
         )
+        obj.tokens.pop();
+        console.log("popped")
         obj.tokens.push(token)
         await obj.save()
         done(null, obj, { message: 'Auth successful', token })
