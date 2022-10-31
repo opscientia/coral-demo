@@ -53,6 +53,7 @@
     "myetherwallet-blockies": "^0.1.1",
     "next": "^12.1.6",
     "passport": "^0.6.0",
+    "passport-oauth2-refresh": "^2.1.0",
     "passport-orcid": "^0.0.4",
     "query-string": "^7.1.1",
     "react": "^18.1.0",
