@@ -13,7 +13,7 @@ import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
 import { FileWithPath } from 'react-dropzone'
 import { maxUploadSize } from './_constants'
-const { uploadFile, cancelUpload, isLoading, progress } = useChunkedUploader()
+import useChunkedUploader from 'react-chunked-uploader'
 
 const formName = 'data-locker-form'
 
@@ -32,6 +32,7 @@ export default function LockerPage(): ReactElement {
         .initialValues as LockerForm)) ||
       {}
   )
+  const { uploadFile, cancelUpload, isLoading, progress } = useChunkedUploader()
 
   // Get secret message to sign from proxy server
   async function getSecretMessage() {
@@ -49,27 +50,33 @@ export default function LockerPage(): ReactElement {
     console.log('Getting file paths...')
     const formData = new FormData()
     let sumFileSizes = 0
+    formData.append('address', address)
+    formData.append('signature', signature)
     for (const _file of _files) {
       sumFileSizes += _file.size
       formData.append('data', _file)
       formData.append(_file.name, _file.path) // NOTE: Two files with the same name in different directories will not be distinguished with this approach
+    }
+    if (sumFileSizes > maxUploadSize) {
+      console.log('Files are too large')
+      return
+    }
+
+    for (const _file of _files) {
       try {
+        console.log('chunking file now')
         const result = await uploadFile({
-          _file,
+          file: _file,
           url: `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
-          chunkSize: 1000000 // 1MB
+          data: formData,
+          chunkSize: 10000 // 1MB
         })
         return result
       } catch (error) {
         console.error(error)
       }
     }
-    if (sumFileSizes > maxUploadSize) {
-      console.log('Files are too large')
-      return
-    }
-    formData.append('address', address)
-    formData.append('signature', signature)
+
     console.log(`Uploading files...`)
 
     return await fetch(
