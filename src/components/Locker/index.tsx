@@ -13,6 +13,7 @@ import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
 import { FileWithPath } from 'react-dropzone'
 import { maxUploadSize } from './_constants'
+const { uploadFile, cancelUpload, isLoading, progress } = useChunkedUploader()
 
 const formName = 'data-locker-form'
 
@@ -52,6 +53,16 @@ export default function LockerPage(): ReactElement {
       sumFileSizes += _file.size
       formData.append('data', _file)
       formData.append(_file.name, _file.path) // NOTE: Two files with the same name in different directories will not be distinguished with this approach
+      try {
+        const result = await uploadFile({
+          _file,
+          url: `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
+          chunkSize: 1000000 // 1MB
+        })
+        return result
+      } catch (error) {
+        console.error(error)
+      }
     }
     if (sumFileSizes > maxUploadSize) {
       console.log('Files are too large')
@@ -60,6 +71,7 @@ export default function LockerPage(): ReactElement {
     formData.append('address', address)
     formData.append('signature', signature)
     console.log(`Uploading files...`)
+
     return await fetch(
       `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
       {
