@@ -25,11 +25,11 @@ export default function MetaFull({
       cids.map((cid) => (
         <code key={cid}>
           <a
-            href={`https://ipfs.io/ipfs/${cid}`}
+            href={`https://api.estuary.tech/gw/ipfs/${cid}`}
             target="_blank"
             rel="noreferrer"
           >
-            {`https://ipfs.io/ipfs/${cid}`}
+            {`https://api.estuary.tech/gw/ipfs/${cid}`}
           </a>
         </code>
       ))
