@@ -58,17 +58,21 @@ export default function LockerPage(): ReactElement {
       console.log('Files are too large')
       return
     }
-    //ClientChunkUpload(_files, sumFileSizes)
+    try {
+      ClientChunkUpload(_files, sumFileSizes)
+    } catch (error) {
+      console.error(error)
+    }
     formData.append('address', address)
     formData.append('signature', signature)
     console.log(`Uploading files...`)
-    return await fetch(
-      `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
-      {
-        method: 'POST',
-        body: formData
-      }
-    )
+    // return await fetch(
+    //   `${process.env.NEXT_PUBLIC_PROXY_API_URL}/uploadToEstuary`,
+    //   {
+    //     method: 'POST',
+    //     body: formData
+    //   }
+    // )
   }
 
   async function handleSubmit(

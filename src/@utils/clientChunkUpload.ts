@@ -1,6 +1,8 @@
 import { chunkUploadSize } from 'src/components/Locker/_constants'
 
 export default function ClientChunkUpload(largeFiles, DirSize) {
+  console.log('chunk upload entered')
+  console.log(largeFiles[0])
   const myHeaders = new Headers()
   const formdata = new FormData()
   let chunkId
@@ -10,9 +12,9 @@ export default function ClientChunkUpload(largeFiles, DirSize) {
     myHeaders.append('file-chunk-id', chunkId)
     myHeaders.append('file-chunk-size', chunkUploadSize.toString())
     myHeaders.append('Content-Range', `bytes */${chunkUploadSize}`)
-    formdata.append('file', largeFiles.file[i], chunkId)
-    formdata.append(largeFiles.file[i], largeFiles.file[i].path)
-    fetch(process.env.NEXT_PUBLIC_PROXY_API_URL + `/handleChunks`, {
+    formdata.append('file', largeFiles[i], chunkId)
+    formdata.append(largeFiles[i], largeFiles[i].path)
+    fetch(`${process.env.NEXT_PUBLIC_PROXY_API_URL}/handleChunks`, {
       method: 'POST',
       headers: myHeaders,
       body: formdata,
