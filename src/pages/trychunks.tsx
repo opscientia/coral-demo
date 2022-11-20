@@ -26,10 +26,7 @@ export default function TryChunks() {
     }
 
     xhr.open('POST', 'https://upload.estuary.tech/content/add')
-    xhr.setRequestHeader(
-      'Authorization',
-      'Bearer ESTecf3a207-263b-4ef7-8a07-4388a773ce25ARY'
-    )
+    xhr.setRequestHeader('Authorization', 'Bearer <BEARER_TOKEN>')
     xhr.send(formData)
   }
 
@@ -43,7 +40,7 @@ export default function TryChunks() {
       destination={{
         url: 'https://upload.estuary.tech/content/add',
         headers: {
-          Authorization: 'Bearer ESTecf3a207-263b-4ef7-8a07-4388a773ce25ARY'
+          Authorization: 'Bearer <BEARER_TOKEN'
         }
       }}
     >
