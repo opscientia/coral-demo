@@ -13,6 +13,7 @@ import { useWeb3 } from '@context/Web3'
 import Dashboard from './Dashboard'
 import { FileWithPath } from 'react-dropzone'
 import { maxUploadSize } from './_constants'
+import ClientChunkUpload from '@utils/clientChunkUpload'
 
 const formName = 'data-locker-form'
 
@@ -57,6 +58,7 @@ export default function LockerPage(): ReactElement {
       console.log('Files are too large')
       return
     }
+    //ClientChunkUpload(_files, sumFileSizes)
     formData.append('address', address)
     formData.append('signature', signature)
     console.log(`Uploading files...`)
