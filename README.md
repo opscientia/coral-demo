@@ -1,3 +1,19 @@
+# OpSci Commons Frontend
+
+This repo manages the frontend and Login-with-ORCID sessions of Commons
+
+### Build instructions
+
+git clone https://github.com/opscientia/verse
+cd verse
+npm i --legacy-peer-deps
+npm run build
+set up .env.local ( Please ask the team for environemnt variables )
+npm run dev
+
+
+-----
+
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
 <h1 align="center">Ocean Marketplace</h1>
