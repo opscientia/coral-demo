@@ -3,13 +3,14 @@
 This repo manages the frontend and Login-with-ORCID sessions of Commons
 
 ### Build instructions
-
-git clone https://github.com/opscientia/verse
+```
+git clone https://github.com/opscientia/commons
 cd verse
 npm i --legacy-peer-deps
 npm run build
 set up .env.local ( Please ask the team for environemnt variables )
 npm run dev
+```
 
 
 -----
