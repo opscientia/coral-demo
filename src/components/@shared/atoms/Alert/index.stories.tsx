@@ -33,6 +33,6 @@ Full.args = {
   },
   badge: 'Hello',
   onDismiss: () => {
-    console.log('Alert closed!')
+    console.error('Alert closed!')
   }
 }

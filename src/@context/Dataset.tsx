@@ -63,7 +63,7 @@ function DatasetProvider({
       const authors = await resp.json()
       return authors
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 

@@ -10,7 +10,8 @@ const Strategy = new OrcidStrategy(
     state: false, // remove this if not using sessions
     clientID: process.env.NEXT_PUBLIC_ORCID_CLIENT_ID,
     clientSecret: process.env.NEXT_PUBLIC_ORCID_CLIENT_SECRET,
-    callbackURL: '/api/orcid/callback'
+    callbackURL: '/api/orcid/callback',
+    proxy: true // required to enforce https
   },
   async (accessToken, refreshToken, params, profile, done) => {
     try {
@@ -48,8 +49,8 @@ const Strategy = new OrcidStrategy(
           },
           process.env.NEXT_PUBLIC_JWT_SECRET
         )
-        obj.tokens.pop();
-        console.log("popped")
+        obj.tokens.pop()
+        console.log('popped')
         obj.tokens.push(token)
         await obj.save()
         done(null, obj, { message: 'Auth successful', token })
