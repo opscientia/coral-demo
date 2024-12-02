@@ -1,0 +1,6 @@
+{
+  "title": "Blacklist",
+  "description": "Blacklist datasets which violate licenses and privacy",
+  "warning": "By blacklisting a dataset would make it inaccessible",
+  "tooltipAvailableNetworks": "Assets are published to the network your wallet is connected to. These networks are currently supported:"
+}
